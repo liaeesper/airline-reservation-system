@@ -1,5 +1,6 @@
 package airport;
 
+
 public class Airport {
 	private String Name;
 	private char[] Code;
@@ -48,5 +49,24 @@ public class Airport {
 		this.Code = code;
 		this.Latitude = latitude;
 		this.Longitude = longitude;
+	}
+	
+	public boolean isValid() {
+		
+		// If the name isn't valid, the object isn't valid
+		if ((Name == null) || (Name == ""))
+			return false;
+		
+		// If we don't have a 3 character code, object isn't valid
+		if ((Code == null) || (Code.toString() == ""))
+			return false;
+		
+		// Verify latitude and longitude are within range
+		if ((Latitude > 90) || (Latitude < -90) ||
+			(Longitude > 180) || (Longitude < -180)) {
+			return false;
+		}
+		
+		return true;
 	}
 }
