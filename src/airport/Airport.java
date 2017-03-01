@@ -5,7 +5,6 @@ public class Airport {
 	private char[] Code;
 	private float Latitude;
 	private float Longitude;
-	private int number;
 	
 	public void setName(String name){
 		this.Name = name;
