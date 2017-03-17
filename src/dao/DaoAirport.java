@@ -76,7 +76,6 @@ public class DaoAirport {
 
 		String name;
 		String code;
-		String scode;
 		Float latitude;
 		Float longitude;
 		

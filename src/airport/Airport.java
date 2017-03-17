@@ -178,7 +178,7 @@ public class Airport {
 		// if all fields are equal, the Airports are the same
 		Airport rhs = (Airport) obj;
 		if ((rhs.Name.equals(Name)) &&
-				(rhs.Code.toString().equals(Code.toString())) &&
+				(rhs.Code.equals(Code)) &&
 				(rhs.Latitude == Latitude) &&
 				(rhs.Longitude == Longitude)) {
 			return true;
@@ -194,7 +194,7 @@ public class Airport {
 			return false;
 		
 		// If we don't have a 3 character code, object isn't valid
-		if ((Code == null) || (Code == "")|| (Code.length() != 3))
+		if ((Code == null) || (Code.length() != 3))
 			return false;
 		
 		// Verify latitude and longitude are within range
@@ -206,18 +206,6 @@ public class Airport {
 		return true;
 	}
 	
-	/**
-	 * Check for invalid 3 character airport code
-	 * 
-	 * @param code is the airport code to validate
-	 * @return false if null or not 3 characters in length, else assume valid and return true
-	 */
-	public boolean isValidCode (String code) {
-		// If we don't have a 3 character code it can't be valid valid
-		if ((code == null) || (code == "") || (code.length() != 3))
-			return false;
-		return true;
-	}
 	
 	/**
 	 * Check for invalid airport name.
@@ -228,6 +216,19 @@ public class Airport {
 	public boolean isValidName (String name) {
 		// If the name is null or empty it can't be valid
 		if ((name == null) || (name == ""))
+			return false;
+		return true;
+	}
+	
+	/**
+	 * Check for invalid 3 character airport code
+	 * 
+	 * @param code is the airport code to validate
+	 * @return false if null or not 3 characters in length, else assume valid and return true
+	 */
+	public boolean isValidCode (String code) {
+		// If we don't have a 3 character code it can't be valid valid
+		if ((code == null) || (code.length() != 3))
 			return false;
 		return true;
 	}
