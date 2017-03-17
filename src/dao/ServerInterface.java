@@ -70,7 +70,6 @@ public class ServerInterface {
 		return airports;
 	}
 	
-<<<<<<< HEAD
 	
 	/**
 	 * Lock the database for updating by the specified team. The operation will fail if the lock is held by another team.
@@ -170,50 +169,13 @@ public class ServerInterface {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-=======
-	// Lock the interface
-	// If the interface locked return true, otherwise return false
-	public boolean lock(String teamName){
-		URL url;
-		HttpURLConnection connection;
-		try { 
-			//set server location url
-			url = new URL(ServerLocation);
-			connection = (HttpURLConnection) url.openConnection(); 
-			connection.setRequestMethod("POST"); 
-			connection.setRequestProperty("User-Agent", teamName); 
-			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-			//create query from
-			String params = QueryFactory.lock(teamName);
-			connection.setDoOutput(true); 
-			DataOutputStream writer = new
-			DataOutputStream(connection.getOutputStream()); 
-			writer.writeBytes(params); 
-			writer.flush();
-			writer.close();
-			int responseCode = connection.getResponseCode(); 
-			System.out.println("\nSending 'POST' to lock database"); 
-			System.out.println(("\nResponse Code : " + responseCode));
-			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream())); 
-			String line;
-			StringBuffer response = new StringBuffer(); 
-			while ((line = in.readLine()) != null) {
-				response.append(line);
-			} 
-			in.close();
-			System.out.println(response.toString());
-		} catch (Exception Ex) {
-			Ex.printStackTrace();
->>>>>>> origin/master
 			return false;
 		}
 		return true;
 	}
-	
-<<<<<<< HEAD
-	
-=======
->>>>>>> origin/master
+
+			
+			
 	public Flights GetFlights(SearchParams searchParams){
 		return null;
 	}
