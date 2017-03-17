@@ -75,7 +75,7 @@ public class DaoAirport {
 		 */
 
 		String name;
-		char[] code = new char[3];
+		String code;
 		String scode;
 		Float latitude;
 		Float longitude;
@@ -83,10 +83,8 @@ public class DaoAirport {
 		// The airport element has attributes of Name and 3 character airport code
 		Element elementAirport = (Element) nodeAirport;
 		name = elementAirport.getAttributeNode("Name").getValue();
-		scode = elementAirport.getAttributeNode("Code").getValue();
-		code[0] = scode.charAt(0);
-		code[1] = scode.charAt(1);
-		code[2] = scode.charAt(2);
+		code = elementAirport.getAttributeNode("Code").getValue();
+
 		
 		// The latitude and longitude are child elements
 		Element elementLatLng;

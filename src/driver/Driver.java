@@ -18,6 +18,7 @@ public class Driver {
 		for (Airport airport : airports) {
 			System.out.println(airport.toString());
 		}
+		
 	}
 	
 }

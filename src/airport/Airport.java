@@ -3,7 +3,7 @@ package airport;
 public class Airport {
 	
 	private String Name;
-	private char[] Code = new char[3];
+	private String Code;
 	private float Latitude;
 	private float Longitude;
 	
@@ -14,25 +14,10 @@ public class Airport {
 			throw new IllegalArgumentException (name);
 	}
 	
-	public void setCode(char[] code){
+	public void setCode(String code){
+			
 		if (isValidCode(code))
 			this.Code = code;
-		else
-			throw new IllegalArgumentException (code.toString());
-	}
-	
-	public void setCode(String code){
-		if(code.length() == 3){
-			char tmpCode[] = new char[3];
-			tmpCode[0] = code.charAt(0);
-			tmpCode[1] = code.charAt(1);
-			tmpCode[2] = code.charAt(2);
-			
-			if (isValidCode(tmpCode))
-				this.Code = tmpCode;
-			else
-				throw new IllegalArgumentException (code);
-		}
 		else
 			throw new IllegalArgumentException (code);
 	}
@@ -70,7 +55,7 @@ public class Airport {
 		return this.Name;
 	}
 	
-	public char[] getCode(){
+	public String getCode(){
 		return this.Code;
 	}
 	
@@ -111,11 +96,11 @@ public class Airport {
 	 * @post member attributes are initialized with input parameter values
 	 * @throws IllegalArgumentException is any parameter is invalid
 	 */
-	public Airport(String name, char[] code, float latitude, float longitude){
+	public Airport(String name, String code, float latitude, float longitude){
 		if (!isValidName(name))
 			throw new IllegalArgumentException(name);
 		if (!isValidCode(code)) 
-			throw new IllegalArgumentException(code.toString());
+			throw new IllegalArgumentException(code);
 		if (!isValidLatitude(latitude))
 			throw new IllegalArgumentException(Float.toString(latitude));
 		if (!isValidLongitude(longitude))
@@ -154,10 +139,8 @@ public class Airport {
 			throw new IllegalArgumentException ("Longitude must be between -180.0 and +180.0", ex);
 		}
 		
-		Name = name;
-		Code[0] = code.charAt(0);
-		Code[1] = code.charAt(1);
-		Code[2] = code.charAt(2);
+		this.Name = name;
+		Code = code;
 		Latitude = tmpLatitude;
 		Longitude = tmpLongitude;
 	}
@@ -170,11 +153,7 @@ public class Airport {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		
-		//sb.append(Code.toString()).append(", ");
-		sb.append(Code[0]);
-		sb.append(Code[1]);
-		sb.append(Code[2]);
-		sb.append(", ");
+		sb.append(Code).append(", ");
 		sb.append("(").append(String.format("%1$.3f", Latitude)).append(", ");
 		sb.append(String.format("%1$.3f", Longitude)).append("), ");
 		sb.append(Name);
@@ -215,7 +194,7 @@ public class Airport {
 			return false;
 		
 		// If we don't have a 3 character code, object isn't valid
-		if ((Code == null) || (Code.toString() == "")|| (Code.length != 3))
+		if ((Code == null) || (Code == "")|| (Code.length() != 3))
 			return false;
 		
 		// Verify latitude and longitude are within range
@@ -233,9 +212,9 @@ public class Airport {
 	 * @param code is the airport code to validate
 	 * @return false if null or not 3 characters in length, else assume valid and return true
 	 */
-	public boolean isValidCode (char code[]) {
+	public boolean isValidCode (String code) {
 		// If we don't have a 3 character code it can't be valid valid
-		if ((code == null) || (code.toString() == "") || (code.length != 3))
+		if ((code == null) || (code == "") || (code.length() != 3))
 			return false;
 		return true;
 	}
