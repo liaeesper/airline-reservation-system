@@ -170,7 +170,11 @@ public class Airport {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append(Code.toString()).append(", ");
+		//sb.append(Code.toString()).append(", ");
+		sb.append(Code[0]);
+		sb.append(Code[1]);
+		sb.append(Code[2]);
+		sb.append(", ");
 		sb.append("(").append(String.format("%1$.3f", Latitude)).append(", ");
 		sb.append(String.format("%1$.3f", Longitude)).append("), ");
 		sb.append(Name);
