@@ -6,14 +6,14 @@ import utils.Date;
 
 public class Flight {
 	//private Flights FlightGroup; //- what is this.
-	private String DepartureAirport;
+	private Airport DepartureAirport;
 	private int FlightNumber;
 	private String PlaneType;
 	private int FlightTime;
 	private Date DepartureTime;
 	private Airport ArrivalAirport;
 	private Date ArrivalTime;
-	private int FlightLength;
+	//private int FlightLength; - same as flighttime, no?
 	private int SeatFc;
 	private int SeatC;
 	private Price PriceFc;
@@ -23,7 +23,7 @@ public class Flight {
 	//	this.FlightGroup = flightGroup;
 	//}
 	
-	public void setDepartureAirport(String departureAirport){
+	public void setDepartureAirport(Airport departureAirport){
 		this.DepartureAirport = departureAirport;
 	}
 	
@@ -51,9 +51,9 @@ public class Flight {
 		this.ArrivalTime = arrivalTime;
 	}
 	
-	public void setFlightLength(int flightLength){
-		this.FlightLength = flightLength;
-	}
+	//public void setFlightLength(int flightLength){
+	//	this.FlightLength = flightLength;
+	//}
 	
 	public void setSeatFc(int seatFc){
 		this.SeatFc = seatFc;
@@ -71,7 +71,7 @@ public class Flight {
 		this.PriceC = priceC;
 	}
 	
-	public String getDepartureAirport(){
+	public Airport getDepartureAirport(){
 		return this.DepartureAirport;
 	}
 	//public Flights getFlightGroup(){
@@ -102,9 +102,9 @@ public class Flight {
 		return this.ArrivalTime;
 	}
 	
-	public int getFlightLength(){
-		return this.FlightLength;
-	}
+	//public int getFlightLength(){
+	//	return this.FlightLength;
+	//}
 	
 	public int getSeatFc(int seatFc){
 		return this.SeatFc;
@@ -122,20 +122,21 @@ public class Flight {
 		return this.PriceC;
 	}
 	
-	// TODO : make some isvalid logic
+	// TODO : make some is valid logic
 	
 	//super long constructor we can copy/paste and break down later as needed.
-	public Flight(Flights flightGroup, int flightNumber, int planeType, int flightTime, Time departureTime, 
-			Airport arrivalAirport, Time arrivalTime, int flightLength, int seatFc, int seatC, Price priceFc,
+	public Flight(Airport departureAirport, int flightNumber, String planeType, int flightTime, Date departureTime, 
+			Airport arrivalAirport, Date arrivalTime, int seatFc, int seatC, Price priceFc,
 			Price priceC){
-		this.FlightGroup = flightGroup;
+		//this.FlightGroup = flightGroup;
+		this.DepartureAirport = departureAirport;
 		this.FlightNumber = flightNumber;
 		this.PlaneType = planeType;
 		this.FlightTime = flightTime;
 		this.DepartureTime = departureTime;
 		this.ArrivalAirport = arrivalAirport;
 		this.ArrivalTime = arrivalTime;
-		this.FlightLength = flightLength;
+		//this.FlightLength = flightLength;
 		this.SeatFc = seatFc;
 		this.SeatC = seatC;
 		this.PriceFc = priceFc;
