@@ -2,7 +2,8 @@ package flight;
 
 import airport.Airport;
 import utils.Price;
-import utils.Date;
+
+import java.util.Date;
 
 public class Flight {
 	//private Flights FlightGroup; //- what is this.
@@ -78,7 +79,7 @@ public class Flight {
 	//	return this.FlightGroup;
 	//}
 	
-	public int getFlightNumber(int flightNumber){
+	public int getFlightNumber(){
 		return this.FlightNumber;
 	}
 	
@@ -125,8 +126,16 @@ public class Flight {
 	// TODO : make some is valid logic
 	
 	//super long constructor we can copy/paste and break down later as needed.
-	public Flight(Airport departureAirport, int flightNumber, String planeType, int flightTime, Date departureTime, 
-			Airport arrivalAirport, Date arrivalTime, int seatFc, int seatC, Price priceFc,
+	public Flight(Airport departureAirport, 
+			int flightNumber, 
+			String planeType, 
+			int flightTime, 
+			Date departureTime, 
+			Airport arrivalAirport, 
+			Date arrivalTime, 
+			int seatFc, 
+			int seatC, 
+			Price priceFc,
 			Price priceC){
 		//this.FlightGroup = flightGroup;
 		this.DepartureAirport = departureAirport;

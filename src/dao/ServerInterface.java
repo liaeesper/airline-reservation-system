@@ -7,13 +7,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import airport.Airports;
 import flight.Flights;
+import flight.AllFlights;
 import plans.FlightPlans;
 import plans.Reservation;
 import plans.SearchParams;
 import utils.QueryFactory;
+import dao.XMLParser;
+import flight.Flight;
+
 
 public class ServerInterface {
 	private final String ServerLocation = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
@@ -66,7 +71,7 @@ public class ServerInterface {
 		}
 
 		xmlAirports = result.toString();
-		airports = DaoAirport.addAll(xmlAirports);
+		airports = XMLParser.addAll(xmlAirports);
 		return airports;
 	}
 	
@@ -109,7 +114,6 @@ public class ServerInterface {
 			}
 			in.close();
 			
-			System.out.println(response.toString());
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -130,7 +134,7 @@ public class ServerInterface {
 	public boolean unlock () {
 		URL url;
 		HttpURLConnection connection;
-		
+
 		try {
 			url = new URL(ServerLocation);
 			connection = (HttpURLConnection) url.openConnection();
@@ -160,7 +164,6 @@ public class ServerInterface {
 				}
 				in.close();
 
-				System.out.println(response.toString());
 			}
 		}
 		catch (IOException ex) {
@@ -175,9 +178,95 @@ public class ServerInterface {
 	}
 
 			
-			
-	public Flights GetFlights(SearchParams searchParams){
-		return null;
+	//this is an impossible function, because it returns Flights which 		
+	public AllFlights GetFlights(){
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		
+		String testdate = "2017_5_5";
+		Airports currair = PopulateAirports();
+		
+		String xmlFlights;
+		String xmlAirplanes;
+		
+		//construct empty AllFlights 
+		AllFlights allFlights = new AllFlights();
+		
+		URL urltwo;
+		HttpURLConnection connectiontwo;
+		BufferedReader readertwo;
+		String linetwo;
+		StringBuffer resulttwo = new StringBuffer();
+		/**
+		* Create an HTTP connection to the server for a GET 
+		*/
+		try{
+			urltwo = new URL(ServerLocation + QueryFactory.getAirplanes(TeamName));
+			connectiontwo = (HttpURLConnection) urltwo.openConnection();
+			connectiontwo.setRequestMethod("GET");
+			connectiontwo.setRequestProperty("User-Agent", TeamName);
+
+
+			int responseCodetwo = connectiontwo.getResponseCode();
+			if (responseCodetwo >= HttpURLConnection.HTTP_OK) {
+			InputStream inputStreamtwo = connectiontwo.getInputStream();
+			String encodingtwo = connectiontwo.getContentEncoding();
+			encodingtwo = (encodingtwo == null ? "UTF-8" : encodingtwo);
+	
+			readertwo = new BufferedReader(new InputStreamReader(inputStreamtwo));
+			while ((linetwo = readertwo.readLine()) != null) {
+				resulttwo.append(linetwo);
+			}
+			readertwo.close();
+			}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+
+		xmlAirplanes = resulttwo.toString();
+		
+		for(int i=0; i < currair.size(); i++)		
+			try {
+				/**
+				* Create an HTTP connection to the server for a GET 
+				*/
+				url = new URL(ServerLocation + QueryFactory.getsomeFlights(TeamName, currair.get(i).getCode(), testdate));
+				connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("GET");
+				connection.setRequestProperty("User-Agent", TeamName);
+				StringBuffer result = new StringBuffer();
+				/**
+				* If response code of SUCCESS read the XML string returned
+				* line by line to build the full return string
+				*/
+				int responseCode = connection.getResponseCode();
+				if (responseCode >= HttpURLConnection.HTTP_OK) {
+					InputStream inputStream = connection.getInputStream();
+					String encoding = connection.getContentEncoding();
+					encoding = (encoding == null ? "UTF-8" : encoding);
+
+					reader = new BufferedReader(new InputStreamReader(inputStream));
+					while ((line = reader.readLine()) != null) {
+						result.append(line);
+					}
+					xmlFlights = result.toString();
+					
+					allFlights.addAll(XMLParser.addAllFlights(xmlFlights, currair));
+					
+					reader.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		return allFlights;
 	}
 	
 	public FlightPlans MakeFlightPlans(SearchParams userParams){
