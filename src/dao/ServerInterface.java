@@ -175,7 +175,7 @@ public class ServerInterface {
 	}
 
 			
-	public String GetDepartingFlights(SearchParams searchParams){
+	public Flights GetDepartingFlights(SearchParams searchParams){
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
@@ -216,7 +216,8 @@ public class ServerInterface {
 		}
 		
 		xmlAirports = result.toString();
-		return xmlAirports;
+		Flights flights = null; //need to parse xmlAirports string into Flights object
+		return flights;
 	}
 	
 	public FlightPlans MakeFlightPlans(SearchParams userParams){
