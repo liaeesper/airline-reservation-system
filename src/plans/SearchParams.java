@@ -133,5 +133,20 @@ public class SearchParams {
 		this.SeatType = seatType;
 	}
 	
+	public SearchParams(Date departureDate, char[] departureAirportCode){
+		// only for the prototype
+		this.DepartureDate = departureDate;
+		this.DepartureTime = null;
+		this.DepartureAirportCode = departureAirportCode;
+		this.ArrivalDate = null;
+		this.ArrivalTime = null;
+		this.ArrivalAirportCode = null;
+		this.IsRoundTrip = false;
+		this.RDepartureDate = null;
+		this.RDepartureTime = null;
+		this.RArrivalDate = null;
+		this.RArrivalTime = null;
+		this.SeatType = '\0';
+	}
 	
 }

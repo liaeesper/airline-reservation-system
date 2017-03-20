@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 public class Airports extends ArrayList<Airport> {
 	private static final long serialVersionUID = 1L;
+	public static Airports instance =  new Airports();
 	
-	
+	private Airports(){
+		// is this necessary?
+	}
 }
 
 /*

@@ -41,7 +41,7 @@ public class DaoAirport {
 	 * @post the [possibly empty] set of Airports in the XML string are added to collection
 	 */
 	public static Airports addAll (String xmlAirports) throws NullPointerException {
-		Airports airports = new Airports();
+		Airports airports = airport.Airports.instance;//new Airports();
 		
 		// Load the XML string into a DOM tree for ease of processing
 		// then iterate over all nodes adding each airport to our collection
