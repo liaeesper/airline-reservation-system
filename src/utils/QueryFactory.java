@@ -14,10 +14,16 @@ public class QueryFactory {
 	 * Return a query string that can be passed to HTTP URL to request list of airports
 	 * 
 	 * @param teamName is the name of the team to specify the data copy on server
+	 * @param airportCode is the 3 character airport code
+	 * @param day is the date in GMT in the form of "yyyy_mm_dd
 	 * @return the query String which can be appended to URL to form HTTP GET request
 	 */
 	public static String getAirports(String teamName) {
 		return "?team=" + teamName + "&action=list&list_type=airports";
+	}
+	
+	public static String getDepartingFlights(String teamName, String airportCode, String day){
+		return "?team=" + teamName + "&action=list&list_type=departing&airport=" + airportCode + "&day=" + day; 
 	}
 	
 	/**

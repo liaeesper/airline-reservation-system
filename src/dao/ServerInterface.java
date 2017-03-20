@@ -175,9 +175,48 @@ public class ServerInterface {
 	}
 
 			
+	public String GetDepartingFlights(SearchParams searchParams){
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+		String xmlAirports;
+		
+		//Parse searchParams
+		String airportCode = new String(searchParams.getDepartureAirportCode());
+		String day = String.valueOf(searchParams.getDepartureDate().getYear()) + "_" + String.valueOf(searchParams.getDepartureDate().getMonth()) + "_" + String.valueOf(searchParams.getDepartureDate().getDay());
+		
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET 
+			 */
+			url = new URL(ServerLocation + QueryFactory.getDepartingFlights(TeamName, airportCode, day));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", TeamName);
 			
-	public Flights GetFlights(SearchParams searchParams){
-		return null;
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK){
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		xmlAirports = result.toString();
+		return xmlAirports;
 	}
 	
 	public FlightPlans MakeFlightPlans(SearchParams userParams){
