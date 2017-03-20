@@ -2,31 +2,36 @@ package flight;
 
 import airport.Airport;
 import utils.Price;
-import utils.Time;
+import utils.Date;
 
 public class Flight {
-	private Flights FlightGroup;
+	//private Flights FlightGroup; //- what is this.
+	private String DepartureAirport;
 	private int FlightNumber;
-	private int PlaneType;
+	private String PlaneType;
 	private int FlightTime;
-	private Time DepartureTime;
+	private Date DepartureTime;
 	private Airport ArrivalAirport;
-	private Time ArrivalTime;
+	private Date ArrivalTime;
 	private int FlightLength;
 	private int SeatFc;
 	private int SeatC;
 	private Price PriceFc;
 	private Price PriceC;
 	
-	public void setFlightGroup(Flights flightGroup){
-		this.FlightGroup = flightGroup;
+	//public void setFlightGroup(Flights flightGroup){
+	//	this.FlightGroup = flightGroup;
+	//}
+	
+	public void setDepartureAirport(String departureAirport){
+		this.DepartureAirport = departureAirport;
 	}
 	
 	public void setFlightNumber(int flightNumber){
 		this.FlightNumber = flightNumber;
 	}
 	
-	public void setPlaneType(int planeType){
+	public void setPlaneType(String planeType){
 		this.PlaneType = planeType;
 	}
 	
@@ -34,7 +39,7 @@ public class Flight {
 		this.FlightTime = flightTime;
 	}
 	
-	public void setDepartureTime(Time departureTime){
+	public void setDepartureTime(Date departureTime){
 		this.DepartureTime = departureTime;
 	}
 	
@@ -42,7 +47,7 @@ public class Flight {
 		this.ArrivalAirport = arrivalAirport;
 	}
 	
-	public void setArrivalTime(Time arrivalTime){
+	public void setArrivalTime(Date arrivalTime){
 		this.ArrivalTime = arrivalTime;
 	}
 	
@@ -66,16 +71,18 @@ public class Flight {
 		this.PriceC = priceC;
 	}
 	
-	
-	public Flights getFlightGroup(){
-		return this.FlightGroup;
+	public String getDepartureAirport(){
+		return this.DepartureAirport;
 	}
+	//public Flights getFlightGroup(){
+	//	return this.FlightGroup;
+	//}
 	
 	public int getFlightNumber(int flightNumber){
 		return this.FlightNumber;
 	}
 	
-	public int getPlaneType(){
+	public String getPlaneType(){
 		return this.PlaneType;
 	}
 	
@@ -83,7 +90,7 @@ public class Flight {
 		return this.FlightTime;
 	}
 	
-	public Time getDepartureTime(){
+	public Date getDepartureTime(){
 		return this.DepartureTime;
 	}
 	
@@ -91,7 +98,7 @@ public class Flight {
 		return this.ArrivalAirport;
 	}
 	
-	public Time getArrivalTime(){
+	public Date getArrivalTime(){
 		return this.ArrivalTime;
 	}
 	
@@ -114,6 +121,8 @@ public class Flight {
 	public Price getPriceC(){
 		return this.PriceC;
 	}
+	
+	// TODO : make some isvalid logic
 	
 	//super long constructor we can copy/paste and break down later as needed.
 	public Flight(Flights flightGroup, int flightNumber, int planeType, int flightTime, Time departureTime, 
