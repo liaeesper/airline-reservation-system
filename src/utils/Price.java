@@ -1,20 +1,21 @@
 package utils;
+import java.math.BigDecimal;
 
 //idk which format to use so here's code for both
 public class Price {
 	//weird that we have floats in some places and doubles in others.
 	//maybe use bigdecimal
-	private double Money;
+	private BigDecimal Money;
 	
-	public void setMoney(double money){
+	public void setMoney(BigDecimal money){
 		this.Money = money;
 	}
 	
-	public double getMoney(){
+	public BigDecimal getMoney(){
 		return this.Money;
 	}
 	
-	public Price(float money){
+	public Price(BigDecimal money){
 		this.Money = money;
 	}
 	
