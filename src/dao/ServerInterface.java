@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import airport.Airports;
 import flight.Flights;
-import flight.AllFlights;
 import plans.FlightPlans;
 import plans.Reservation;
 import plans.SearchParams;
@@ -179,92 +178,57 @@ public class ServerInterface {
 
 			
 	//this is an impossible function, because it returns Flights which 		
-	public AllFlights GetFlights(){
+	public Flights GetFlights(){
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
+		String airportname = "BOS";
 		
 		String testdate = "2017_5_5";
-		Airports currair = PopulateAirports();
 		
 		String xmlFlights;
 		String xmlAirplanes;
 		
+		Airports airportlist = PopulateAirports();
+		
 		//construct empty AllFlights 
-		AllFlights allFlights = new AllFlights();
-		
-		URL urltwo;
-		HttpURLConnection connectiontwo;
-		BufferedReader readertwo;
-		String linetwo;
-		StringBuffer resulttwo = new StringBuffer();
-		/**
-		* Create an HTTP connection to the server for a GET 
-		*/
-		try{
-			urltwo = new URL(ServerLocation + QueryFactory.getAirplanes(TeamName));
-			connectiontwo = (HttpURLConnection) urltwo.openConnection();
-			connectiontwo.setRequestMethod("GET");
-			connectiontwo.setRequestProperty("User-Agent", TeamName);
+		Flights allFlights = new Flights(null,null,null);
 
+		try {
+			/**
+			* Create an HTTP connection to the server for a GET 
+			*/
+			url = new URL(ServerLocation + QueryFactory.getsomeFlights(TeamName, airportname, testdate));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", TeamName);
+			StringBuffer result = new StringBuffer();
+			/**
+			* If response code of SUCCESS read the XML string returned
+			* line by line to build the full return string
+			*/
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
 
-			int responseCodetwo = connectiontwo.getResponseCode();
-			if (responseCodetwo >= HttpURLConnection.HTTP_OK) {
-			InputStream inputStreamtwo = connectiontwo.getInputStream();
-			String encodingtwo = connectiontwo.getContentEncoding();
-			encodingtwo = (encodingtwo == null ? "UTF-8" : encodingtwo);
-	
-			readertwo = new BufferedReader(new InputStreamReader(inputStreamtwo));
-			while ((linetwo = readertwo.readLine()) != null) {
-				resulttwo.append(linetwo);
-			}
-			readertwo.close();
-			}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-
-		xmlAirplanes = resulttwo.toString();
-		
-		for(int i=0; i < currair.size(); i++)		
-			try {
-				/**
-				* Create an HTTP connection to the server for a GET 
-				*/
-				url = new URL(ServerLocation + QueryFactory.getsomeFlights(TeamName, currair.get(i).getCode(), testdate));
-				connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("GET");
-				connection.setRequestProperty("User-Agent", TeamName);
-				StringBuffer result = new StringBuffer();
-				/**
-				* If response code of SUCCESS read the XML string returned
-				* line by line to build the full return string
-				*/
-				int responseCode = connection.getResponseCode();
-				if (responseCode >= HttpURLConnection.HTTP_OK) {
-					InputStream inputStream = connection.getInputStream();
-					String encoding = connection.getContentEncoding();
-					encoding = (encoding == null ? "UTF-8" : encoding);
-
-					reader = new BufferedReader(new InputStreamReader(inputStream));
-					while ((line = reader.readLine()) != null) {
-						result.append(line);
-					}
-					xmlFlights = result.toString();
-					
-					allFlights.addAll(XMLParser.addAllFlights(xmlFlights, currair));
-					
-					reader.close();
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
+				xmlFlights = result.toString();
+					
+				allFlights.setFlightList(XMLParser.addAllFlights(xmlFlights, airportlist, airportname));
+					
+				reader.close();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return allFlights;
 	}

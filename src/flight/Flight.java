@@ -107,15 +107,15 @@ public class Flight {
 	//	return this.FlightLength;
 	//}
 	
-	public int getSeatFc(int seatFc){
+	public int getSeatFc(){
 		return this.SeatFc;
 	}
 	
-	public int getSeatC(int seatC){
+	public int getSeatC(){
 		return this.SeatC;
 	}
 	
-	public Price getPriceFc(Price priceFc){
+	public Price getPriceFc(){
 		return this.PriceFc;
 	}
 	

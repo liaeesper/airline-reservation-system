@@ -22,7 +22,6 @@ import flight.Flight;
 import flight.Flights;
 import utils.Price;
 import utils.Time;
-import flight.AllFlights;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -113,8 +112,11 @@ public class XMLParser {
 	}
 	
 	//return a list of flights
-	public static AllFlights addAllFlights (String xmlFlights, Airports airports) throws NullPointerException {
-		AllFlights flightlist = new AllFlights();
+	public static ArrayList<Flight> addAllFlights (String xmlFlights, Airports airports, String departureairportcode) throws NullPointerException {
+		
+		ArrayList<Flight> flightlist = new ArrayList<Flight>();
+		
+		Airport DepartureAirport = airports.getAirport(departureairportcode);
 		
 		// Load the XML string into a DOM tree for ease of processing
 		// then iterate over all nodes adding each airport to our collection
@@ -123,7 +125,7 @@ public class XMLParser {
 		
 		for (int i = 0; i < nodesFlights.getLength(); i++) {
 			Element elementFlight = (Element) nodesFlights.item(i);
-			Flight flight = buildFlight (elementFlight, airports);
+			Flight flight = buildFlight (elementFlight, airports, DepartureAirport);
 			
 			flightlist.add(flight);
 		}
@@ -134,7 +136,7 @@ public class XMLParser {
 	/**
 	 * Creates an Flight object from a DOM node
 	 */
-	static private Flight buildFlight (Node nodeFlight, Airports airports) {
+	static private Flight buildFlight (Node nodeFlight, Airports airports, Airport departureairport) {
 		/**
 		 * Instantiate an empty Airport object
 		 */
@@ -152,8 +154,6 @@ public class XMLParser {
 		Price PriceFc;
 		Price PriceC;
 		Airport DepartureAirport;
-		//construct Flights for this flight's FlightGroup
-		Flights flightgroup = new Flights(null, null, null);
 		//construct date/time parser
 		DateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm z");
 		
@@ -165,29 +165,50 @@ public class XMLParser {
 		
 		// The code and time are child elements
 		Element dep;
-		dep = (Element)elementFlight.getElementsByTagName("Code").item(0);
-
-		DepartureAirport = airports.getAirport(getCharacterDataFromElement(dep));
-		try{
-			dep = (Element)elementFlight.getElementsByTagName("Time").item(0);
-			DepartureTime = sdf.parse(getCharacterDataFromElement(dep));
-	
-			Element arr;
-			arr = (Element)elementFlight.getElementsByTagName("Code").item(0);
-			ArrivalAirport = airports.getAirport(getCharacterDataFromElement(arr));
-			
-			arr = (Element)elementFlight.getElementsByTagName("Time").item(0);
-			ArrivalTime = sdf.parse(getCharacterDataFromElement(arr));
+		//Element depcode;
+		dep = (Element)elementFlight.getElementsByTagName("Departure").item(0);
+		//depcode = (Element)dep.getElementsByTagName("Code").item(0);
+		//DepartureAirport = airports.getAirport(getCharacterDataFromElement(depcode));
+		DepartureAirport = departureairport;
+		Element deptime;
+		try{	
+			deptime = (Element)dep.getElementsByTagName("Time").item(0);
+			DepartureTime = sdf.parse(getCharacterDataFromElement(deptime));
 		}
 		catch(ParseException e){
 			System.out.println(e.toString());
 		}
+		
+		Element arr;
+		Element arrcode;
+		arr = (Element)elementFlight.getElementsByTagName("Arrival").item(0);
+		arrcode = (Element)arr.getElementsByTagName("Code").item(0);
+		ArrivalAirport = airports.getAirport(getCharacterDataFromElement(arrcode));
+		Element arrtime;
+		
+		try{
+			arrtime = (Element)arr.getElementsByTagName("Time").item(0);
+			ArrivalTime = sdf.parse(getCharacterDataFromElement(arrtime));
+		}
+		catch(ParseException e){
+			System.out.println(e.toString());
+		}
+		
+		Element seat;
+		Element firstclass;
+		Element coach;
+		seat = (Element)elementFlight.getElementsByTagName("Seating").item(0);
+		firstclass = (Element)seat.getElementsByTagName("FirstClass").item(0);
+		PriceFc = new Price(Float.parseFloat(firstclass.getAttributeNode("Price").getValue().substring(1)));
+		SeatFc = Integer.parseInt(XMLParser.getCharacterDataFromElement(firstclass));
+		coach = (Element)seat.getElementsByTagName("Coach").item(0);
+		PriceC = new Price(Float.parseFloat(coach.getAttributeNode("Price").getValue().substring(1)));
+		SeatC = Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
+		
 		/**
 		 * Update the Airport object with values from XML node
 		 */
-		Price coachprice = new Price((float)5.0);
-		Price firstprice = new Price((float)(10.0));
-		flight = new Flight(DepartureAirport, FlightNumber, PlaneType, FlightTime, DepartureTime, ArrivalAirport, ArrivalTime, 0, 0, firstprice, coachprice);
+		flight = new Flight(DepartureAirport, FlightNumber, PlaneType, FlightTime, DepartureTime, ArrivalAirport, ArrivalTime, SeatFc, SeatC, PriceFc, PriceC);
 		
 		return flight;
 	}

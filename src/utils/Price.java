@@ -2,6 +2,8 @@ package utils;
 
 //idk which format to use so here's code for both
 public class Price {
+	//weird that we have floats in some places and doubles in others.
+	//maybe use bigdecimal
 	private double Money;
 	
 	public void setMoney(double money){
