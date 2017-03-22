@@ -17,7 +17,7 @@ public class UserInterface {
 			if((i+1) == airport.Airports.instance.size()){
 				System.out.print(".\n");
 			}
-			else if((i+1) % 5 == 0 && i != 0){
+			else if((i+1) % 5 == 0){
 				System.out.print(",\n");
 			}
 			else{

@@ -19,12 +19,6 @@ public class Driver {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		// Create ServerInterface object
-		ServerInterface Server = new ServerInterface();
-
-		// Try to get a list of airports. 
-		Airports airports = Server.PopulateAirports();
 
 		UserInterface userInt = new UserInterface();
 		SearchParams userParams;
@@ -33,6 +27,7 @@ public class Driver {
 
 		userInt.DisplaySearch();
 		userParams = userInt.HandleSearch();
+		Flights flightList = resSys.GetDepartingFlights(userParams);
 		userInt.DisplaySearchResultsProto(userParams);//resSys.GetFlights(userParams));
 		
 		

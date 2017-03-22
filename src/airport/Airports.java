@@ -16,7 +16,7 @@ public class Airports extends ArrayList<Airport> {
 		return null;
 	}
 
-	private Airports(){
+	public Airports(){
 		// is this necessary?
 	}
 

@@ -47,7 +47,7 @@ public class XMLParser {
 	 * @post the [possibly empty] set of Airports in the XML string are added to collection
 	 */
 	public static Airports addAll (String xmlAirports) throws NullPointerException {
-		Airports airports = new Airports();
+		Airports airports = Airports.instance;
 		
 		// Load the XML string into a DOM tree for ease of processing
 		// then iterate over all nodes adding each airport to our collection
@@ -113,9 +113,10 @@ public class XMLParser {
 	}
 	
 	//return a list of flights
-	public static ArrayList<Flight> addAllFlights (String xmlFlights, Airports airports, String departureairportcode) throws NullPointerException {
+	public static Flights addAllFlights (String xmlFlights, String departureairportcode) throws NullPointerException {
 		
 		ArrayList<Flight> flightlist = new ArrayList<Flight>();
+		Airports airports = Airports.instance;
 		
 		Airport DepartureAirport = airports.getAirport(departureairportcode);
 		
@@ -131,7 +132,7 @@ public class XMLParser {
 			flightlist.add(flight);
 		}
 		
-		return flightlist;
+		return new Flights(DepartureAirport, null, flightlist);
 	}
 	
 	/**

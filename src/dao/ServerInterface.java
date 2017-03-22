@@ -183,7 +183,7 @@ public class ServerInterface {
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
-		String xmlAirports;
+		String xmlFlights;
 		
 		//Parse searchParams
 		String airportCode = new String(searchParams.getDepartureAirportCode());
@@ -217,8 +217,8 @@ public class ServerInterface {
 			e.printStackTrace();
 		}
 		
-		xmlAirports = result.toString();
-		Flights flights = null; //need to parse xmlAirports string into Flights object
+		xmlFlights = result.toString();
+		Flights flights = XMLParser.addAllFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
 		return flights;
 	}
 	
