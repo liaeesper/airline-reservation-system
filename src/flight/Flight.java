@@ -2,31 +2,37 @@ package flight;
 
 import airport.Airport;
 import utils.Price;
-import utils.Time;
+
+import java.util.Date;
 
 public class Flight {
-	private Flights FlightGroup;
+	//private Flights FlightGroup; //- what is this.
+	private Airport DepartureAirport;
 	private int FlightNumber;
-	private int PlaneType;
+	private String PlaneType;
 	private int FlightTime;
-	private Time DepartureTime;
+	private Date DepartureTime;
 	private Airport ArrivalAirport;
-	private Time ArrivalTime;
-	private int FlightLength;
+	private Date ArrivalTime;
+	//private int FlightLength; - same as flighttime, no?
 	private int SeatFc;
 	private int SeatC;
 	private Price PriceFc;
 	private Price PriceC;
 	
-	public void setFlightGroup(Flights flightGroup){
-		this.FlightGroup = flightGroup;
+	//public void setFlightGroup(Flights flightGroup){
+	//	this.FlightGroup = flightGroup;
+	//}
+	
+	public void setDepartureAirport(Airport departureAirport){
+		this.DepartureAirport = departureAirport;
 	}
 	
 	public void setFlightNumber(int flightNumber){
 		this.FlightNumber = flightNumber;
 	}
 	
-	public void setPlaneType(int planeType){
+	public void setPlaneType(String planeType){
 		this.PlaneType = planeType;
 	}
 	
@@ -34,7 +40,7 @@ public class Flight {
 		this.FlightTime = flightTime;
 	}
 	
-	public void setDepartureTime(Time departureTime){
+	public void setDepartureTime(Date departureTime){
 		this.DepartureTime = departureTime;
 	}
 	
@@ -42,13 +48,13 @@ public class Flight {
 		this.ArrivalAirport = arrivalAirport;
 	}
 	
-	public void setArrivalTime(Time arrivalTime){
+	public void setArrivalTime(Date arrivalTime){
 		this.ArrivalTime = arrivalTime;
 	}
 	
-	public void setFlightLength(int flightLength){
-		this.FlightLength = flightLength;
-	}
+	//public void setFlightLength(int flightLength){
+	//	this.FlightLength = flightLength;
+	//}
 	
 	public void setSeatFc(int seatFc){
 		this.SeatFc = seatFc;
@@ -66,16 +72,18 @@ public class Flight {
 		this.PriceC = priceC;
 	}
 	
-	
-	public Flights getFlightGroup(){
-		return this.FlightGroup;
+	public Airport getDepartureAirport(){
+		return this.DepartureAirport;
 	}
+	//public Flights getFlightGroup(){
+	//	return this.FlightGroup;
+	//}
 	
-	public int getFlightNumber(int flightNumber){
+	public int getFlightNumber(){
 		return this.FlightNumber;
 	}
 	
-	public int getPlaneType(){
+	public String getPlaneType(){
 		return this.PlaneType;
 	}
 	
@@ -83,7 +91,7 @@ public class Flight {
 		return this.FlightTime;
 	}
 	
-	public Time getDepartureTime(){
+	public Date getDepartureTime(){
 		return this.DepartureTime;
 	}
 	
@@ -91,23 +99,23 @@ public class Flight {
 		return this.ArrivalAirport;
 	}
 	
-	public Time getArrivalTime(){
+	public Date getArrivalTime(){
 		return this.ArrivalTime;
 	}
 	
-	public int getFlightLength(){
-		return this.FlightLength;
-	}
+	//public int getFlightLength(){
+	//	return this.FlightLength;
+	//}
 	
-	public int getSeatFc(int seatFc){
+	public int getSeatFc(){
 		return this.SeatFc;
 	}
 	
-	public int getSeatC(int seatC){
+	public int getSeatC(){
 		return this.SeatC;
 	}
 	
-	public Price getPriceFc(Price priceFc){
+	public Price getPriceFc(){
 		return this.PriceFc;
 	}
 	
@@ -115,18 +123,29 @@ public class Flight {
 		return this.PriceC;
 	}
 	
+	// TODO : make some is valid logic
+	
 	//super long constructor we can copy/paste and break down later as needed.
-	public Flight(Flights flightGroup, int flightNumber, int planeType, int flightTime, Time departureTime, 
-			Airport arrivalAirport, Time arrivalTime, int flightLength, int seatFc, int seatC, Price priceFc,
+	public Flight(Airport departureAirport, 
+			int flightNumber, 
+			String planeType, 
+			int flightTime, 
+			Date departureTime, 
+			Airport arrivalAirport, 
+			Date arrivalTime, 
+			int seatFc, 
+			int seatC, 
+			Price priceFc,
 			Price priceC){
-		this.FlightGroup = flightGroup;
+		//this.FlightGroup = flightGroup;
+		this.DepartureAirport = departureAirport;
 		this.FlightNumber = flightNumber;
 		this.PlaneType = planeType;
 		this.FlightTime = flightTime;
 		this.DepartureTime = departureTime;
 		this.ArrivalAirport = arrivalAirport;
 		this.ArrivalTime = arrivalTime;
-		this.FlightLength = flightLength;
+		//this.FlightLength = flightLength;
 		this.SeatFc = seatFc;
 		this.SeatC = seatC;
 		this.PriceFc = priceFc;

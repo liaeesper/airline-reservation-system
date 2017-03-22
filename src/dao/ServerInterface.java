@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import airport.Airports;
 import flight.Flights;
@@ -14,6 +15,9 @@ import plans.FlightPlans;
 import plans.Reservation;
 import plans.SearchParams;
 import utils.QueryFactory;
+import dao.XMLParser;
+import flight.Flight;
+
 
 public class ServerInterface {
 	private final String ServerLocation = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
@@ -66,7 +70,7 @@ public class ServerInterface {
 		}
 
 		xmlAirports = result.toString();
-		airports = DaoAirport.addAll(xmlAirports);
+		airports = XMLParser.addAll(xmlAirports);
 		return airports;
 	}
 	
@@ -109,7 +113,6 @@ public class ServerInterface {
 			}
 			in.close();
 			
-			System.out.println(response.toString());
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -130,7 +133,7 @@ public class ServerInterface {
 	public boolean unlock () {
 		URL url;
 		HttpURLConnection connection;
-		
+
 		try {
 			url = new URL(ServerLocation);
 			connection = (HttpURLConnection) url.openConnection();
@@ -160,7 +163,6 @@ public class ServerInterface {
 				}
 				in.close();
 
-				System.out.println(response.toString());
 			}
 		}
 		catch (IOException ex) {
@@ -175,6 +177,7 @@ public class ServerInterface {
 	}
 
 			
+<<<<<<< HEAD
 	public Flights GetDepartingFlights(SearchParams searchParams){
 		URL url;
 		HttpURLConnection connection;
@@ -218,6 +221,11 @@ public class ServerInterface {
 		xmlAirports = result.toString();
 		Flights flights = null; //need to parse xmlAirports string into Flights object
 		return flights;
+
+
+
+
+>>>>>>> origin/Z
 	}
 	
 	public FlightPlans MakeFlightPlans(SearchParams userParams){
