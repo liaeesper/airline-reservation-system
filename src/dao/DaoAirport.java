@@ -26,8 +26,7 @@ import airport.Airports;
  *
  */
 public class DaoAirport {
-<<<<<<< HEAD
-=======
+
 	/**
 	 * Builds collection of airports from airports described in XML
 	 * 
@@ -61,6 +60,5 @@ public class DaoAirport {
 		
 		return airports;
 	}
->>>>>>> R
 
 }
