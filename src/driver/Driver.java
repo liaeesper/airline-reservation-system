@@ -28,11 +28,12 @@ public class Driver {
 		userInt.DisplaySearch();
 		userParams = userInt.HandleSearch();
 		Flights flightList = resSys.GetDepartingFlights(userParams);
-		userInt.DisplaySearchResultsProto(userParams);//resSys.GetFlights(userParams));
-
+		userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
+		
+		
 		}
 		
 		
-	}
+	
 	
 }

@@ -154,4 +154,30 @@ public class Flight {
 		this.PriceC = priceC;
 	}
 	
+	/**
+	 * Convert object to printable string of format
+	 * 
+	 * @return the object formatted as String to display
+	 */
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(FlightNumber).append(" ");
+		sb.append(" From " + DepartureAirport.getName() + " to " + ArrivalAirport.getName()).append(" ");
+		/*
+		if(searchParams.getSeatType()  == 'F'){
+			sb.append("$" + PriceFc);
+		}
+		else{
+			sb.append("$" + PriceC);
+		}
+		*/
+		sb.append("First Class $" + String.valueOf(PriceFc.getMoney()) + " Coach $" + String.valueOf(PriceC.getMoney()) + " ");
+		
+		
+		sb.append(String.valueOf(DepartureTime.getTime().getHours()) + ":" + String.valueOf(DepartureTime.getTime().getMinutes()) + " ");
+		sb.append(String.valueOf(DepartureTime.getDate().getDay()) + "/" + String.valueOf(DepartureTime.getDate().getMonth()) + "/" + String.valueOf(DepartureTime.getDate().getYear()) + "\n");
+
+		return sb.toString();
+	}	
 }

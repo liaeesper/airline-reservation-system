@@ -1,5 +1,6 @@
 package user;
 
+import flight.Flight;
 import flight.Flights;
 import airport.Airports;
 import plans.FlightPlan;
@@ -33,12 +34,22 @@ public class UserInterface {
 		
 	}
 	
-	public void DisplaySearchResultsProto(SearchParams userParams){
+	public void DisplaySearchResultsProto(Flights flightList){
 		// temp, just verifies the values were recorded		
+		/*
 		System.out.println(String.valueOf(userParams.getDepartureAirportCode()));
 		System.out.println(userParams.getDepartureDate().getMonth() + "/" 
 					+ userParams.getDepartureDate().getDay() + "/" 
 					+ userParams.getDepartureDate().getYear());
+					*/
+		int count = 1;
+		for(Flight flight: flightList.getFlightList()){
+			System.out.print(String.valueOf(count) + ". ");
+			count++;
+			System.out.print(flight.toString());
+		}
+		
+		
 	}
 	
 	public void DisplayAlternativeSeating(FlightPlan flight){
