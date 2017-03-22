@@ -23,11 +23,12 @@ import flight.Flight;
 import flight.Flights;
 import utils.Price;
 import utils.Time;
+import utils.Date;
+import utils.DateTime;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class XMLParser {
@@ -135,6 +136,8 @@ public class XMLParser {
 		return new Flights(DepartureAirport, null, flightlist);
 	}
 	
+
+	
 	/**
 	 * Creates an Flight object from a DOM node
 	 */
@@ -147,9 +150,9 @@ public class XMLParser {
 		int FlightNumber;
 		String PlaneType;
 		int FlightTime;
-		Date DepartureTime = null;
+		DateTime DepartureTime = new DateTime(null,null);
+		DateTime ArrivalTime = new DateTime(null,null);
 		Airport ArrivalAirport = null;
-		Date ArrivalTime = null;
 		//int FlightLength;
 		int SeatFc;
 		int SeatC;
@@ -157,7 +160,8 @@ public class XMLParser {
 		Price PriceC;
 		Airport DepartureAirport;
 		//construct date/time parser
-		DateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+		//DateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+
 		
 		Element elementFlight = (Element) nodeFlight;
 		PlaneType = elementFlight.getAttributeNode("Airplane").getValue();
@@ -173,13 +177,14 @@ public class XMLParser {
 		//DepartureAirport = airports.getAirport(getCharacterDataFromElement(depcode));
 		DepartureAirport = departureairport;
 		Element deptime;
-		try{	
-			deptime = (Element)dep.getElementsByTagName("Time").item(0);
-			DepartureTime = sdf.parse(getCharacterDataFromElement(deptime));
-		}
-		catch(ParseException e){
-			System.out.println(e.toString());
-		}
+
+		deptime = (Element)dep.getElementsByTagName("Time").item(0);
+		String [] departuretime = getCharacterDataFromElement(deptime).split(" ");
+		Date depardate = new Date(Integer.parseInt(departuretime[2]), utils.Date.findmonth(departuretime[1]), Integer.parseInt(departuretime[0]));
+		Time departime = new Time(Integer.parseInt(departuretime[3].substring(0,2)), Integer.parseInt(departuretime[3].substring(3,5)));
+		DepartureTime.setDate(depardate);
+		DepartureTime.setTime(departime);
+
 		
 		Element arr;
 		Element arrcode;
@@ -188,13 +193,12 @@ public class XMLParser {
 		ArrivalAirport = airports.getAirport(getCharacterDataFromElement(arrcode));
 		Element arrtime;
 		
-		try{
-			arrtime = (Element)arr.getElementsByTagName("Time").item(0);
-			ArrivalTime = sdf.parse(getCharacterDataFromElement(arrtime));
-		}
-		catch(ParseException e){
-			System.out.println(e.toString());
-		}
+		arrtime = (Element)arr.getElementsByTagName("Time").item(0);
+		String [] arrivaltime = getCharacterDataFromElement(arrtime).split(" ");
+		Date arrvdate = new Date(Integer.parseInt(arrivaltime[2]), utils.Date.findmonth(arrivaltime[1]), Integer.parseInt(arrivaltime[0]));
+		Time arrvtime = new Time(Integer.parseInt(arrivaltime[3].substring(0,2)), Integer.parseInt(arrivaltime[3].substring(3,5)));
+		ArrivalTime.setDate(arrvdate);
+		ArrivalTime.setTime(arrvtime);
 		
 		Element seat;
 		Element firstclass;

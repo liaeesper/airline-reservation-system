@@ -29,6 +29,8 @@ public class Driver {
 		userParams = userInt.HandleSearch();
 		Flights flightList = resSys.GetDepartingFlights(userParams);
 		userInt.DisplaySearchResultsProto(userParams);//resSys.GetFlights(userParams));
+
+		}
 		
 		
 	}

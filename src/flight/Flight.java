@@ -3,7 +3,9 @@ package flight;
 import airport.Airport;
 import utils.Price;
 
-import java.util.Date;
+import utils.Date;
+import utils.Time;
+import utils.DateTime;
 
 public class Flight {
 	//private Flights FlightGroup; //- what is this.
@@ -11,9 +13,9 @@ public class Flight {
 	private int FlightNumber;
 	private String PlaneType;
 	private int FlightTime;
-	private Date DepartureTime;
+	private DateTime DepartureTime;
 	private Airport ArrivalAirport;
-	private Date ArrivalTime;
+	private DateTime ArrivalTime;
 	//private int FlightLength; - same as flighttime, no?
 	private int SeatFc;
 	private int SeatC;
@@ -40,7 +42,7 @@ public class Flight {
 		this.FlightTime = flightTime;
 	}
 	
-	public void setDepartureTime(Date departureTime){
+	public void setDepartureTime(DateTime departureTime){
 		this.DepartureTime = departureTime;
 	}
 	
@@ -48,7 +50,7 @@ public class Flight {
 		this.ArrivalAirport = arrivalAirport;
 	}
 	
-	public void setArrivalTime(Date arrivalTime){
+	public void setArrivalTime(DateTime arrivalTime){
 		this.ArrivalTime = arrivalTime;
 	}
 	
@@ -91,7 +93,7 @@ public class Flight {
 		return this.FlightTime;
 	}
 	
-	public Date getDepartureTime(){
+	public DateTime getDepartureTime(){
 		return this.DepartureTime;
 	}
 	
@@ -99,7 +101,7 @@ public class Flight {
 		return this.ArrivalAirport;
 	}
 	
-	public Date getArrivalTime(){
+	public DateTime getArrivalTime(){
 		return this.ArrivalTime;
 	}
 	
@@ -130,9 +132,9 @@ public class Flight {
 			int flightNumber, 
 			String planeType, 
 			int flightTime, 
-			Date departureTime, 
+			DateTime departureTime, 
 			Airport arrivalAirport, 
-			Date arrivalTime, 
+			DateTime arrivalTime, 
 			int seatFc, 
 			int seatC, 
 			Price priceFc,
