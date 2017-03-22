@@ -179,58 +179,7 @@ public class ServerInterface {
 			
 	//this is an impossible function, because it returns Flights which 		
 	public Flights GetFlights(){
-		URL url;
-		HttpURLConnection connection;
-		BufferedReader reader;
-		String line;
-		String airportname = "BOS";
-		
-		String testdate = "2017_5_5";
-		
-		String xmlFlights;
-		String xmlAirplanes;
-		
-		Airports airportlist = PopulateAirports();
-		
-		//construct empty AllFlights 
-		Flights allFlights = new Flights(null,null,null);
-
-		try {
-			/**
-			* Create an HTTP connection to the server for a GET 
-			*/
-			url = new URL(ServerLocation + QueryFactory.getsomeFlights(TeamName, airportname, testdate));
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", TeamName);
-			StringBuffer result = new StringBuffer();
-			/**
-			* If response code of SUCCESS read the XML string returned
-			* line by line to build the full return string
-			*/
-			int responseCode = connection.getResponseCode();
-			if (responseCode >= HttpURLConnection.HTTP_OK) {
-				InputStream inputStream = connection.getInputStream();
-				String encoding = connection.getContentEncoding();
-				encoding = (encoding == null ? "UTF-8" : encoding);
-
-				reader = new BufferedReader(new InputStreamReader(inputStream));
-				while ((line = reader.readLine()) != null) {
-					result.append(line);
-				}
-				xmlFlights = result.toString();
-					
-				allFlights.setFlightList(XMLParser.addAllFlights(xmlFlights, airportlist, airportname));
-					
-				reader.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return allFlights;
+		return null;
 	}
 	
 	public FlightPlans MakeFlightPlans(SearchParams userParams){
