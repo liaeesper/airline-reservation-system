@@ -163,7 +163,33 @@ public class Flight {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append(FlightNumber).append(" ");
-		sb.append(" From " + DepartureAirport.getName() + " to " + ArrivalAirport.getName()).append(" ");
+		sb.append(DepartureAirport.getName() + " (" + DepartureAirport.getCode() + ") -> " + ArrivalAirport.getName() + " (" + ArrivalAirport.getCode() + ")\n");
+		sb.append(String.valueOf(DepartureTime.getDate().getDay()) + "/" + String.valueOf(DepartureTime.getDate().getMonth()) + "/" + String.valueOf(DepartureTime.getDate().getYear()) + " ");
+		
+		if(DepartureTime.getTime().getHours()%12 == 0){
+			sb.append("12:");
+		}
+		else{
+			sb.append(String.valueOf(DepartureTime.getTime().getHours()%12) + ":");
+		}
+		
+		
+		if(DepartureTime.getTime().getMinutes() < 10){
+			sb.append("0");
+		}
+		if(DepartureTime.getTime().getMinutes()  == 0){
+			sb.append("0");
+		}
+		
+		
+		sb.append(String.valueOf(DepartureTime.getTime().getMinutes()));
+		if(DepartureTime.getTime().getHours() >= 12){
+			sb.append("pm\n");
+		}
+		else{
+			sb.append("am\n");
+		}
+		
 		/*
 		if(searchParams.getSeatType()  == 'F'){
 			sb.append("$" + PriceFc);
@@ -172,12 +198,11 @@ public class Flight {
 			sb.append("$" + PriceC);
 		}
 		*/
-		sb.append("First Class $" + String.valueOf(PriceFc.getMoney()) + " Coach $" + String.valueOf(PriceC.getMoney()) + " ");
+		
+		sb.append("Coach $" + String.valueOf(PriceC.getMoney()) + "\nFirst Class $" + String.valueOf(PriceFc.getMoney()) + "\n");
 		
 		
-		sb.append(String.valueOf(DepartureTime.getTime().getHours()) + ":" + String.valueOf(DepartureTime.getTime().getMinutes()) + " ");
-		sb.append(String.valueOf(DepartureTime.getDate().getDay()) + "/" + String.valueOf(DepartureTime.getDate().getMonth()) + "/" + String.valueOf(DepartureTime.getDate().getYear()) + "\n");
-
+		
 		return sb.toString();
 	}	
 }

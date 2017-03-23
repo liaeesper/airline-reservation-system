@@ -44,9 +44,10 @@ public class UserInterface {
 					*/
 		int count = 1;
 		for(Flight flight: flightList.getFlightList()){
-			System.out.print(String.valueOf(count) + ". ");
+			System.out.print(String.valueOf(count) + ".\n");
 			count++;
 			System.out.print(flight.toString());
+			System.out.print("\n");
 		}
 		
 		
