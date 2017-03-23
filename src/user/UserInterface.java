@@ -9,6 +9,7 @@ import plans.Reservation;
 import plans.SearchParams;
 import utils.Date;
 import utils.Time;
+import java.util.Scanner;
 
 public class UserInterface {
 	public void DisplaySearch(){
@@ -67,8 +68,9 @@ public class UserInterface {
 	}
 	
 	public SearchParams HandleSearch(){
-		String input1 = System.console().readLine();
-		String input2 = System.console().readLine();
+		Scanner sc = new Scanner(System.in);
+		String input1 = sc.nextLine();
+		String input2 = sc.nextLine();
 		char[] departureAirportCode = new char[3];
 		Date departureDate;
 		
