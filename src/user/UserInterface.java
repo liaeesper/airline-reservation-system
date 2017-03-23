@@ -35,13 +35,10 @@ public class UserInterface {
 	}
 	
 	public void DisplaySearchResultsProto(Flights flightList){
-		// temp, just verifies the values were recorded		
-		/*
-		System.out.println(String.valueOf(userParams.getDepartureAirportCode()));
-		System.out.println(userParams.getDepartureDate().getMonth() + "/" 
-					+ userParams.getDepartureDate().getDay() + "/" 
-					+ userParams.getDepartureDate().getYear());
-					*/
+		System.out.print("\n");
+		if(flightList.getFlightList().size() == 0){
+			System.out.print("No results :(\n");
+		}
 		int count = 1;
 		for(Flight flight: flightList.getFlightList()){
 			System.out.print(String.valueOf(count) + ".\n");

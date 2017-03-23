@@ -183,6 +183,7 @@ public class Flight {
 		
 		
 		sb.append(String.valueOf(DepartureTime.getTime().getMinutes()));
+		
 		if(DepartureTime.getTime().getHours() >= 12){
 			sb.append("pm\n");
 		}
