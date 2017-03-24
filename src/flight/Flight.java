@@ -154,6 +154,9 @@ public class Flight {
 		this.PriceC = priceC;
 	}
 	
+	public Flight() {
+	}
+
 	/**
 	 * Convert object to printable string of format
 	 * 

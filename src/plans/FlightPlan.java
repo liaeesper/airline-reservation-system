@@ -12,8 +12,8 @@ public class FlightPlan {
 		this.NumberLegs = numberLegs;
 	}
 	
-	public void setPrice(Price price){
-		this.TotalPrice = price;
+	public void setTotalPrice(Price totalPrice){
+		this.TotalPrice = totalPrice;
 	}
 	
 	public void setTotalTime(int totalTime){

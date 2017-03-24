@@ -11,10 +11,14 @@ import java.util.ArrayList;
 
 import airport.Airports;
 import flight.Flights;
+import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.Reservation;
 import plans.SearchParams;
+import plans.Ticket;
+import utils.Date;
 import utils.QueryFactory;
+import utils.Time;
 import dao.XMLParser;
 import flight.Flight;
 
@@ -223,7 +227,69 @@ public class ServerInterface {
 	}
 	
 	public FlightPlans MakeFlightPlans(SearchParams userParams){
-		return null;
+		//FlightPlans flightPlans;
+		ArrayList<ArrayList<ArrayList<FlightPlan>>> grandList;
+		ArrayList<FlightPlan> flightPlansList = new ArrayList<FlightPlan>();
+		ArrayList<Flight> tempFlightList;
+		Flights tempFlights = new Flights();
+		SearchParams tempParams;
+		Flight current = new Flight(), next = new Flight();
+		Time arrivalTime, departureTime;
+		int flightDuration;
+		int aTime, dTime;
+		Date newDate;
+		Ticket[] tempTicket = {null, null, null};
+		
+		//leg 1
+		
+		tempFlights.setFlightList(GetDepartingFlights(userParams).getFlightList());
+		
+		tempFlightList = new ArrayList<Flight>(tempFlights.getFlightList());
+		
+		for(Flight flight : tempFlights.getFlightList()){
+			if(flight.getArrivalAirport().getCode().equals(userParams.getArrivalAirportCode())){
+				tempTicket[0].setForFlight(flight);
+				tempTicket[0].setSeatType(userParams.getSeatType());
+				
+				aTime = flight.getArrivalTime().getTime().getTimeInMinutes();
+				dTime = flight.getDepartureTime().getTime().getTimeInMinutes();
+				
+				if(aTime <= dTime){
+					flightDuration = ((24*60) - dTime) + aTime;
+				}
+				else{
+					flightDuration = aTime - dTime;
+				}
+				
+				if(userParams.getSeatType() == 'C'){					
+					flightPlansList.add(new FlightPlan(1, flight.getPriceC(), flightDuration, tempTicket));
+				}
+				else{
+					flightPlansList.add(new FlightPlan(1, flight.getPriceFc(), flightDuration, tempTicket));
+				}
+				
+				for(int i = 0; i < tempFlightList.size(); i++){
+					if(tempFlightList.get(i).getFlightNumber() == flight.getFlightNumber()){
+						tempFlightList.remove(i);
+						break;
+					}
+				}
+				
+			}
+			
+		}
+		
+		tempFlights.setFlightList(tempFlightList);
+		
+		
+		//leg 2
+		
+		arrivalTime = current.getArrivalTime().getTime();
+		departureTime = next.getDepartureTime().getTime();
+		
+		
+		
+		return new FlightPlans(flightPlansList);
 	}
 	
 	public boolean ReserveTicket(Reservation plan){

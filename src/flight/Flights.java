@@ -40,5 +40,8 @@ public class Flights {
 		this.DepartureDate = departureDate;
 		this.FlightList = flightList;
 	}
+
+	public Flights() {
+	}
 	
 }

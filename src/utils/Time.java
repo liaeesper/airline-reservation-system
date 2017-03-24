@@ -25,4 +25,14 @@ public class Time {
 		this.Hours = hours;
 		this.Minutes = minutes;
 	}
+	
+	public int getTimeInMinutes(){
+		int minutes = 0;
+		minutes += this.Hours;
+		minutes += this.Minutes;
+		
+		
+		return minutes;
+	}
+	
 }
