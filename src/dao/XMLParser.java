@@ -17,6 +17,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import airport.Airplane;
+import airport.Airplanes;
 import airport.Airport;
 import airport.Airports;
 import flight.Flight;
@@ -217,6 +219,62 @@ public class XMLParser {
 		flight = new Flight(DepartureAirport, FlightNumber, PlaneType, FlightTime, DepartureTime, ArrivalAirport, ArrivalTime, SeatFc, SeatC, PriceFc, PriceC);
 		
 		return flight;
+	}
+	
+	//return a list of flights
+	public static Airplanes addAllAirplanes (String xmlAirplanes) throws NullPointerException {
+		Airplanes airplanes;
+		ArrayList<Airplane> airplanelist = new ArrayList<Airplane>();
+		
+		Document docAirplanes = buildDomDoc (xmlAirplanes);
+		NodeList nodesAirplanes = docAirplanes.getElementsByTagName("Airplane");
+		
+		for (int i = 0; i < nodesAirplanes.getLength(); i++) {
+			Element elementAirplane = (Element) nodesAirplanes.item(i);
+			Airplane airplane = buildAirplane (elementAirplane);
+			
+			airplanelist.add(airplane);
+		}
+		
+		airplanes = new Airplanes(airplanelist);
+		return airplanes;
+	
+	}
+	
+	static private Airplane buildAirplane (Node nodeAirplane) {
+		/**
+		 * Instantiate an empty Airplane object
+		 */
+		Airplane airplane;
+
+		String Manufacturer;
+		String Model;
+		int FCSeats;
+		int CSeats;
+		
+		
+		//construct date/time parser
+		//DateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm z");
+
+		
+		Element elementAirplane = (Element) nodeAirplane;
+		Manufacturer = elementAirplane.getAttributeNode("Manufacturer").getValue();
+		Model = elementAirplane.getAttributeNode("Model").getValue();
+		
+		
+		Element firstclass;
+		firstclass = (Element)elementAirplane.getElementsByTagName("FirstClassSeats").item(0);
+		FCSeats = Integer.parseInt(XMLParser.getCharacterDataFromElement(firstclass));
+		
+		Element coach;
+		coach = (Element)elementAirplane.getElementsByTagName("CoachSeats").item(0);
+		CSeats = Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
+		
+	
+
+		airplane = new Airplane(Manufacturer, Model, FCSeats, CSeats);
+
+		return airplane;
 	}
 	
 	/**
