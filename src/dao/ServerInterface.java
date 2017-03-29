@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import airport.Airplanes;
 import airport.Airports;
 import flight.Flights;
 import plans.FlightPlan;
@@ -224,6 +225,52 @@ public class ServerInterface {
 		xmlFlights = result.toString();
 		Flights flights = XMLParser.addAllFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
 		return flights;
+	}
+	
+	public Airplanes PopulateAirplanes(){
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+		
+		String xmlAirplanes;
+		Airplanes airplanes;
+		
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET 
+			 */
+			url = new URL(ServerLocation + QueryFactory.getAirplanes(TeamName));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", TeamName);
+
+			/**
+			 * If response code of SUCCESS read the XML string returned
+			 * line by line to build the full return string
+			 */
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK) {
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		xmlAirplanes = result.toString();
+		airplanes = XMLParser.addAllAirplanes(xmlAirplanes);
+		return airplanes;
 	}
 	
 	public FlightPlans MakeFlightPlans(SearchParams userParams){
