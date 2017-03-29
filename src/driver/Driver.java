@@ -25,7 +25,7 @@ public class Driver {
 		ServerInterface resSys = new ServerInterface();
 		resSys.PopulateAirports();
 
-		userInt.DisplaySearch();
+		//userInt.DisplaySearch();
 		userParams = userInt.HandleSearch();
 		Flights flightList = resSys.GetDepartingFlights(userParams);
 		userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
