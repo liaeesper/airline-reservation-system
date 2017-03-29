@@ -30,8 +30,6 @@ public class Driver {
 		Flights flightList = resSys.GetDepartingFlights(userParams);
 		userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
 		
-
-		userInt.DisplaySearchResultsProto(userParams);//resSys.GetFlights(userParams));
 		}
 
 		
