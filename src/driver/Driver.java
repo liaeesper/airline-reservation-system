@@ -23,13 +23,21 @@ public class Driver {
 	public static void main(String[] args) {
 
 		UserInterface userInt = new UserInterface();
-		SearchParams userParams;
+		//SearchParams userParams;
+		SearchParams userParams = new SearchParams();
 		ServerInterface resSys = new ServerInterface();
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		resSys.PopulateAirports();
 
-		//userInt.DisplaySearch();
 		userParams = userInt.HandleSearch();
+		/*
+		userParams.setDepartureAirportCode("BOS".toCharArray());
+		userParams.setArrivalAirportCode("TPA".toCharArray());
+		userParams.setDepartureDate(new Date(5, 5, 2016));
+		Time time[] = {new Time(4, 50), new Time(18, 30)};
+		userParams.setDepartureTime(time);
+		userParams.setSeatType('C');
+		*/
 		
 		FlightPlans flightList = plansGenerator.GenerateFlightPlans(userParams);
 		userInt.DisplaySearchResults(flightList);

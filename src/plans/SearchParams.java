@@ -161,4 +161,19 @@ public class SearchParams {
 		this.SeatType = '\0';
 	}
 	
+	public SearchParams(){
+		this.DepartureDate = null;
+		this.DepartureTime = null;
+		this.DepartureAirportCode = null;
+		this.ArrivalDate = null;
+		this.ArrivalTime = null;
+		this.ArrivalAirportCode = null;
+		this.IsRoundTrip = false;
+		this.RDepartureDate = null;
+		this.RDepartureTime = null;
+		this.RArrivalDate = null;
+		this.RArrivalTime = null;
+		this.SeatType = '\0';
+	}
+	
 }
