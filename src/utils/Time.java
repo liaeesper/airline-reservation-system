@@ -4,7 +4,7 @@ import java.util.*;
 public class Time {
 	private int Hours;
 	private int Minutes;
-	private Map<String, Integer> localConversion = new HashMap<String, Integer>(){{
+	private static Map<String, Integer> localConversion = new HashMap<String, Integer>(){{
 		put("ATL", -4); //Atlanta
 		put("ANC", -8); //Alaska
 		put("AUS", -5); //Texas
@@ -59,7 +59,7 @@ public class Time {
 		put("DCA", -4); //Washington DC
 	}};
 	
-	private Map<Integer, String> timeZones = new HashMap<Integer, String>(){{
+	private static Map<Integer, String> timeZones = new HashMap<Integer, String>(){{
 		put(-4, "EST");
 		put(-5, "CDT");
 		put(-6, "MDT");
@@ -91,11 +91,11 @@ public class Time {
 	}
 	
 	public int getLocalHours(String code){
-		return this.Hours + this.localConversion.get(code);
+		return this.Hours + Time.localConversion.get(code);
 	}
 	
 	public String getTimeZone(String code){
-		return this.timeZones.get(this.localConversion.get(code));
+		return Time.timeZones.get(Time.localConversion.get(code));
 	}
 	
 }
