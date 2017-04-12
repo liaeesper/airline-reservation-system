@@ -20,15 +20,15 @@ public class Driver {
 	 */
 	public static void main(String[] args) {
 
-		UserInterface userInt = new UserInterface();
+		UserInterface userInt = UserInterface.instance;
 		SearchParams userParams;
-		ServerInterface resSys = new ServerInterface();
+		ServerInterface resSys = ServerInterface.instance;
 		resSys.PopulateAirports();
 
 		userInt.DisplaySearch();
-		userParams = userInt.HandleSearch();
-		Flights flightList = resSys.GetDepartingFlights(userParams);
-		userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
+		//userParams = userInt.HandleSearch();
+		//Flights flightList = resSys.GetDepartingFlights(userParams);
+		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
 		
 		
 		}

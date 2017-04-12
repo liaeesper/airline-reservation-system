@@ -14,6 +14,7 @@ import flight.Flights;
 import plans.FlightPlans;
 import plans.Reservation;
 import plans.SearchParams;
+import user.UserInterface;
 import utils.QueryFactory;
 import dao.XMLParser;
 import flight.Flight;
@@ -22,6 +23,8 @@ import flight.Flight;
 public class ServerInterface {
 	private final String ServerLocation = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 	private String TeamName = "TeamG";
+	public static ServerInterface instance =  new ServerInterface();
+
 	
 
 	public String getURL(){
