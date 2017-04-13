@@ -3,6 +3,7 @@ package user;
 import flight.Flight;
 import flight.Flights;
 import airport.Airports;
+import dao.FlightPlansGenerator;
 import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
@@ -119,8 +120,12 @@ public class UserInterface {
 		// convert times to GMT here
 		
 		ServerInterface resSys = ServerInterface.instance;
-		Flights flightList = resSys.GetDepartingFlights(userParams);
+		//Flights flightList = resSys.GetDepartingFlights(userParams);
 		//DisplaySearchResultsProto(flightList);
+		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
+		
+		FlightPlans flightList = plansGenerator.GenerateFlightPlans(userParams);
+		DisplaySearchResults(flightList);
 		return;
 		
 		/*

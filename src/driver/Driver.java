@@ -28,6 +28,12 @@ public class Driver {
 		resSys.PopulateAirports();
 
 		userInt.DisplaySearch();
+		
+		//FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
+		
+		//FlightPlans flightList = plansGenerator.GenerateFlightPlans(userParams);
+		//userInt.DisplaySearchResults(flightList);
+		
 		//userParams = userInt.HandleSearch();
 		//Flights flightList = resSys.GetDepartingFlights(userParams);
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
