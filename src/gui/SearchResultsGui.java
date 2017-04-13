@@ -18,6 +18,7 @@ import javax.swing.SpinnerDateModel;
 import org.jdatepicker.impl.*;
 
 import airport.Airports;
+import plans.FlightPlans;
 import plans.SearchParams;
 import user.UserInterface;
 
@@ -39,7 +40,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public SearchResultsGui () {
+	public SearchResultsGui (FlightPlans fpList) {
 		setLayout(new GridBagLayout());
 	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
 	         // the components from left-to-right, and flow to next row from top-to-bottom.

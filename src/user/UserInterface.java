@@ -12,6 +12,7 @@ import plans.SearchParams;
 import utils.Date;
 import utils.Time;
 import gui.SearchGui;
+import gui.SearchResultsGui;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -70,6 +71,8 @@ public class UserInterface {
 	}
 	
 	public void DisplaySearchResults(FlightPlans flightList){
+		SearchResultsGui searchResults = new SearchResultsGui(flightList);
+
 		int count = 1;
 		flightList.sortByLeastTime();
 		for(FlightPlan flightPlan: flightList.getFlightPlansList()){
