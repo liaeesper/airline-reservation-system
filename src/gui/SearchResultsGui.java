@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
 //import javax.swing.SwingConstants;
+import javax.swing.SpinnerNumberModel;
 
 import org.jdatepicker.impl.*;
 
@@ -33,7 +34,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	//private int count = 0;     // Counter's value
 	//JPanel panel = new JPanel();
 	
-	private Choice flightPlanNb;
+	private JSpinner flightPlanSpinner;
 	 
 	/**
 	 * 
@@ -42,6 +43,12 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 
 	// Constructor to setup GUI components and event handlers
 	public SearchResultsGui (FlightPlans fpList) {
+		if(fpList.getFlightPlansList().size() == 0){
+			// TODO
+			// failure message window
+			return;
+		}
+		
 		setLayout(new GridBagLayout());
 	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
 	         // the components from left-to-right, and flow to next row from top-to-bottom.
@@ -74,6 +81,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 2;
+		gbc.gridheight = 20;
 		
 		// display flight plan list string		
 		
@@ -85,9 +93,35 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	    display.setCaretPosition(0); // set scroll position to top
 		
 		add(scroll, gbc);
+		
+		// flight plan selection spinner 
+		
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.gridx = 0;
+		gbc.gridy = 22;
+		add(new JLabel("Select flight plan number:"), gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 22;
+		
+		flightPlanSpinner = new JSpinner( new SpinnerNumberModel(1, 1, fpList.getFlightPlansList().size(), 1) );
+		JSpinner.NumberEditor numberEditor = new JSpinner.NumberEditor(flightPlanSpinner, "");
+		flightPlanSpinner.setEditor(numberEditor);
+		//flightPlanSpinner.setValue(1);
+		add(flightPlanSpinner, gbc);
+		
+		// submit selection button
+		
+		gbc.gridx = 0;
+		gbc.gridy = 23;
+		Button submitSelectionButton = new Button("Submit selection");
+		add(submitSelectionButton, gbc);  
+						
+		submitSelectionButton.addActionListener(this);
 				
 		setTitle("Search Results");  // "super" Frame sets its title
-		setSize(1000, 400);        // "super" Frame sets its initial window size
+		setSize(1000, 600);        // "super" Frame sets its initial window size
 	 
 		addWindowListener(this);	 
 		setVisible(true);         // "super" Frame shows
