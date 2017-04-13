@@ -133,6 +133,18 @@ public class SearchParams {
 		this.SeatType = seatType;
 	}
 	
+	//super long constructor we can copy/paste and break down later as needed.
+	public SearchParams(Date departureDate, Time[] departureTime, char[] departureAirportCode,
+			char[] arrivalAirportCode, char seatType){
+		
+		this.DepartureDate = departureDate;
+		this.DepartureTime = departureTime;
+		this.DepartureAirportCode = departureAirportCode;
+		this.ArrivalAirportCode = arrivalAirportCode;
+		this.SeatType = seatType;
+	}
+	
+	
 	public SearchParams(Date departureDate, char[] departureAirportCode){
 		// only for the prototype
 		this.DepartureDate = departureDate;
@@ -150,7 +162,6 @@ public class SearchParams {
 	}
 	
 	public SearchParams(){
-		// too minimal?
 		this.DepartureDate = null;
 		this.DepartureTime = null;
 		this.DepartureAirportCode = null;
@@ -163,7 +174,6 @@ public class SearchParams {
 		this.RArrivalDate = null;
 		this.RArrivalTime = null;
 		this.SeatType = '\0';
-
 	}
 	
 }
