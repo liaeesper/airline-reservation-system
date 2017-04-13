@@ -3,16 +3,49 @@ package user;
 import flight.Flight;
 import flight.Flights;
 import airport.Airports;
+import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.Reservation;
 import plans.SearchParams;
 import utils.Date;
 import utils.Time;
+import gui.SearchGui;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 public class UserInterface {
+	public static UserInterface instance =  new UserInterface();
+
 	public void DisplaySearch(){
+		SearchGui search = new SearchGui();
+		/*
+		String content = "<html>"
+				+ "<title>Search</title>"
+				+ "<body>"
+				+ "<form action=\"searchServlet\" method=\"post\">"
+				+ "<input type=\"text\" name=\"foo\" />"
+				+ "<input type=\"text\" name=\"bar\" />"
+				+ "<input type=\"submit\">"
+				+ "</form>"
+				+ "</body>"
+				+ "</html>";
+		File file = new File("search.jsp");
+		try {
+			// opens with system default browser
+		    Files.write(file.toPath(), content.getBytes());
+		    Desktop.getDesktop().browse(file.toURI());
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		}
+		*/
+		
+		
+		/*
 		System.out.println("The valid airport codes are as follows: ");
 		for(int i = 0; i< airport.Airports.instance.size(); i++){
 			System.out.print(airport.Airports.instance.get(i).getCode());
@@ -29,6 +62,7 @@ public class UserInterface {
 		System.out.println("Please enter a departure airport and departure date.\n"
 							+"Enter a code of the form 'XXX' for the airport, click enter once,"
 							+"enter a date in the form MM/DD/YYYY, and hit enter again.");
+		*/
 	}
 	
 	public void DisplaySearchResults(FlightPlans flightList){
@@ -67,7 +101,21 @@ public class UserInterface {
 		
 	}
 	
-	public SearchParams HandleSearch(){
+	/**
+	 * HandleSearch()
+	 * takes user search parameters as input and passes them to the server interface,
+	 * then calls display flights
+	 */
+	public void HandleSearch(SearchParams userParams){
+		// TODO
+		// convert times to GMT here
+		
+		ServerInterface resSys = ServerInterface.instance;
+		Flights flightList = resSys.GetDepartingFlights(userParams);
+		//DisplaySearchResultsProto(flightList);
+		return;
+		
+		/*
 		Scanner sc = new Scanner(System.in);
 		String input1 = sc.nextLine();
 		String input2 = sc.nextLine();
@@ -85,6 +133,7 @@ public class UserInterface {
 
 		SearchParams userParams = new SearchParams(departureDate, departureAirportCode);
 		return userParams;
+		*/
 	}
 	
 	public FlightPlan HandleSelection(){
