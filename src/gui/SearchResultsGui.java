@@ -33,10 +33,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	//private int count = 0;     // Counter's value
 	//JPanel panel = new JPanel();
 	
-	private Choice airportDepList, airportArrList;
-	private UtilDateModel modelD, modelA;
-	private ButtonGroup dOrAButtonGroup, seatButtonGroup, roundTripButtonGroup;
-	private JSpinner timeSpinnerS, timeSpinnerE;
+	private Choice flightPlanNb;
 	 
 	/**
 	 * 
@@ -55,8 +52,28 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 		gbc.weightx = 0.5;
+		
+		// sort by price button
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		Button sortPriceButton = new Button("Sort by Price");
+		add(sortPriceButton, gbc);  
+				
+		sortPriceButton.addActionListener(this);
+		
+		// sort by flight time button
+		
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		Button sortTimeButton = new Button("Sort by Time");
+		add(sortTimeButton, gbc);  
+				
+		sortTimeButton.addActionListener(this);
+
+		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridwidth = 2;
 		
 		// display flight plan list string		
 		
