@@ -11,13 +11,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 //import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerDateModel;
 //import javax.swing.SwingConstants;
 
 import org.jdatepicker.impl.*;
 
 import airport.Airports;
+import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.SearchParams;
 import user.UserInterface;
@@ -53,6 +57,18 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		gbc.weightx = 0.5;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		
+		// make flight plan list string
+		int count = 1;
+		
+		
+		JTextArea display = new JTextArea ( 16, 58 );
+	    display.setEditable ( false ); // set textArea non-editable
+	    display.setText(fpList.toString());
+	    JScrollPane scroll = new JScrollPane ( display );
+	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
+		
+		add(scroll, gbc);
 				
 		setTitle("Search Results");  // "super" Frame sets its title
 		setSize(1000, 400);        // "super" Frame sets its initial window size

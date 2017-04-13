@@ -72,13 +72,14 @@ public class UserInterface {
 	
 	public void DisplaySearchResults(FlightPlans flightList){
 		SearchResultsGui searchResults = new SearchResultsGui(flightList);
-
+		/*
 		int count = 1;
 		flightList.sortByLeastTime();
 		for(FlightPlan flightPlan: flightList.getFlightPlansList()){
 			System.out.print(String.valueOf(count) + ". " + flightPlan.toString() + "\n--------------------------------------\n");
 			count++;
 		}
+		*/
 	}
 	
 	public void DisplaySearchResultsProto(Flights flightList){

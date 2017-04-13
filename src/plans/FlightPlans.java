@@ -81,4 +81,15 @@ public class FlightPlans {
 		}
 	}
 	
+	public String toString(){
+		int count = 1;
+		String flightPlansString = "";
+		sortByLeastTime();
+		for(FlightPlan flightPlan: getFlightPlansList()){
+			flightPlansString += String.valueOf(count) + ". " + flightPlan.toString() + "\n--------------------------------------\n";
+			count++;
+		}
+		return flightPlansString;
+	}
+	
 }
