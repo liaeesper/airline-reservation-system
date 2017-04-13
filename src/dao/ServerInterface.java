@@ -13,6 +13,7 @@ import airport.Airplanes;
 import airport.Airports;
 import flight.Flights;
 import plans.FlightPlans;
+import plans.FlightPlan;
 import plans.Reservation;
 import plans.SearchParams;
 import utils.QueryFactory;
@@ -223,6 +224,51 @@ public class ServerInterface {
 		return flights;
 	}
 	
+	public Flights GetArrivingFlights(SearchParams searchParams){
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+		String xmlFlights;
+		
+		//Parse searchParams
+		String airportCode = new String(searchParams.getArrivalAirportCode());
+		String day = String.valueOf(searchParams.getArrivalDate().getYear()) + "_" + String.valueOf(searchParams.getArrivalDate().getMonth()) + "_" + String.valueOf(searchParams.getArrivalDate().getDay());
+		
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET 
+			 */
+			url = new URL(ServerLocation + QueryFactory.getArrivingFlights(TeamName, airportCode, day));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", TeamName);
+			
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK){
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		xmlFlights = result.toString();
+		Flights flights = XMLParser.addAllFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
+		return flights;
+	}
+	
 	public Airplanes PopulateAirplanes(){
 		URL url;
 		HttpURLConnection connection;
@@ -274,7 +320,70 @@ public class ServerInterface {
 	}
 	
 	public boolean ReserveTicket(Reservation plan){
-		return false;
+		URL url;
+		HttpURLConnection connection;
+		FlightPlan outgoing = plan.getOutgoingFlight();
+		String xmlflights = "<Flights>";
+		String seattype;
+
+		for (int i=0; i < outgoing.getNumberLegs(); i++){
+			if ((outgoing.getLegs()[i].getSeatType() == 'C') | (outgoing.getLegs()[i].getSeatType() == 'C') ){
+				seattype = "Coach";
+			}
+			else{
+				seattype = "FirstClass";
+			}
+			xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(outgoing.getLegs()[i].getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype + "\"/>";
+			
+		}
+		if (plan.getIsRoundTrip()){
+			FlightPlan incoming = plan.getReturningFlight();
+			for (int i=0; i < outgoing.getNumberLegs(); i++){
+				if ((outgoing.getLegs()[i].getSeatType() == 'C') | (outgoing.getLegs()[i].getSeatType() == 'C') ){
+					seattype = "Coach";
+				}
+				else{
+					seattype = "FirstClass";
+				}
+				xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(incoming.getLegs()[i].getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype+ "\"/>";
+			}
+		}
+		xmlflights = xmlflights + "</Flights>";
+		try {
+			url = new URL(ServerLocation);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("User-Agent", TeamName);
+			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+			
+			String params = QueryFactory.reserveSeat(TeamName, xmlflights);
+			
+			connection.setDoOutput(true);
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes(params);
+			writer.flush();
+			writer.close();
+			
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'POST' to reserve ticket");
+			System.out.println(("\nResponse Code : " + responseCode));
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line;
+			StringBuffer response = new StringBuffer();
+			
+			while ((line = in.readLine()) != null) {
+				response.append(line);
+			}
+			in.close();
+			
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		return true;
+
 	}
 	
 	public FlightPlans ToLocal(FlightPlans rawTimePlans){

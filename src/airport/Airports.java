@@ -6,6 +6,7 @@ public class Airports extends ArrayList<Airport> {
 	private static final long serialVersionUID = 1L;
 	public static Airports instance =  new Airports();
 	
+	//return airport corresponding to airport code
 	public Airport getAirport(String code){
 
 		for (int i=0; i < this.size(); i++) {
