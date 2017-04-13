@@ -1,12 +1,15 @@
 package plans;
 
+import java.util.ArrayList;
+
 import utils.Price;
 
 public class FlightPlan {
 	private int NumberLegs;
 	private Price TotalPrice;
 	private int TotalTime;
-	private Ticket[] Legs;
+	//private Ticket[] Legs;
+	private ArrayList<Ticket> Legs;
 	
 	public void setNumberLegs(int numberLegs){
 		this.NumberLegs = numberLegs;
@@ -20,7 +23,7 @@ public class FlightPlan {
 		this.TotalTime = totalTime;
 	}
 	
-	public void setLegs(Ticket[] legs){
+	public void setLegs(ArrayList<Ticket> legs){
 		this.Legs = legs;
 	}
 	
@@ -37,13 +40,60 @@ public class FlightPlan {
 		return this.TotalTime;
 	}
 	
-	public Ticket[] getLegs(){
+	public ArrayList<Ticket> getLegs(){
 		return this.Legs;
 	}
 	
+	public String toString(){
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("Num Legs " + this.NumberLegs).append(" $");
+		sb.append(String.valueOf(this.TotalPrice.getMoney()) + " ");
+		
+		int minutes = this.TotalTime;
+		
+		if(minutes >= 60){
+			sb.append(String.valueOf(minutes / 60) + " hours ");
+			minutes = minutes % 60;
+		}
+		
+		
+		sb.append(String.valueOf(minutes) + " minutes\n");
+		
+		int lTime, dTime, aTime;
+		for(int i = 0; i < NumberLegs; i++){
+			if(i >= 1){
+				lTime = 0;
+				aTime = this.Legs.get(i-1).getForFlight().getArrivalTime().getTime().getTimeInMinutes();
+				dTime = this.Legs.get(i).getForFlight().getDepartureTime().getTime().getTimeInMinutes();
+				
+				if(dTime <= aTime){
+					lTime = ((24*60) - aTime) + dTime;
+				}
+				else{
+					lTime = dTime - aTime;
+				}
+				
+				sb.append("\nLayover Time ");
+				if(lTime >= 60){
+					sb.append(String.valueOf(lTime / 60) + " hours ");
+					lTime = lTime % 60;
+				}
+				
+				
+				sb.append(String.valueOf(lTime) + " minutes\n\n");
+				
+			}
+			
+			sb.append("Seat Type " + this.Legs.get(i).getSeatType() + "\n" + this.Legs.get(i).getForFlight().toString() + "\n");
+		}
+		
+		
+		return sb.toString();
+	}
 	
 	
-	public FlightPlan(int numberLegs, Price totalPrice, int totalTime, Ticket[] legs){
+	public FlightPlan(int numberLegs, Price totalPrice, int totalTime, ArrayList<Ticket> legs){
 		this.NumberLegs = numberLegs;
 		this.TotalPrice = totalPrice;
 		this.TotalTime = totalTime;

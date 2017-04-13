@@ -28,7 +28,7 @@ public class Time {
 	
 	public int getTimeInMinutes(){
 		int minutes = 0;
-		minutes += this.Hours;
+		minutes += 60*this.Hours;
 		minutes += this.Minutes;
 		
 		

@@ -156,6 +156,34 @@ public class Flight {
 	
 	public Flight() {
 	}
+	
+	//written because of location based issues in FlightPlansGenerator
+	public Flight(Flight f) {
+		
+		Airport departureAirport = f.DepartureAirport;
+		int flightNumber = f.FlightNumber;
+		String planeType = f.PlaneType;
+		int flightTime = f.FlightTime;
+		DateTime departureTime = f.DepartureTime;
+		Airport arrivalAirport = f.ArrivalAirport;
+		DateTime arrivalTime = f.ArrivalTime;
+		int seatFc = f.SeatFc;
+		int seatC = f.SeatC;
+		Price priceFc = f.PriceFc;
+		Price priceC = f.PriceC;
+		
+		this.DepartureAirport = departureAirport;
+		this.FlightNumber = flightNumber;
+		this.PlaneType = planeType;
+		this.FlightTime = flightTime;
+		this.DepartureTime = departureTime;
+		this.ArrivalAirport = arrivalAirport;
+		this.ArrivalTime = arrivalTime;
+		this.SeatFc = seatFc;
+		this.SeatC = seatC;
+		this.PriceFc = priceFc;
+		this.PriceC = priceC;
+	}
 
 	/**
 	 * Convert object to printable string of format
@@ -180,19 +208,42 @@ public class Flight {
 		if(DepartureTime.getTime().getMinutes() < 10){
 			sb.append("0");
 		}
-		if(DepartureTime.getTime().getMinutes()  == 0){
-			sb.append("0");
-		}
 		
 		
 		sb.append(String.valueOf(DepartureTime.getTime().getMinutes()));
 		
 		if(DepartureTime.getTime().getHours() >= 12){
+			sb.append("pm to ");
+		}
+		else{
+			sb.append("am to ");
+		}
+		
+		
+		sb.append(String.valueOf(ArrivalTime.getDate().getDay()) + "/" + String.valueOf(ArrivalTime.getDate().getMonth()) + "/" + String.valueOf(ArrivalTime.getDate().getYear()) + " ");
+		
+		if(ArrivalTime.getTime().getHours()%12 == 0){
+			sb.append("12:");
+		}
+		else{
+			sb.append(String.valueOf(ArrivalTime.getTime().getHours()%12) + ":");
+		}
+		
+		
+		if(ArrivalTime.getTime().getMinutes() < 10){
+			sb.append("0");
+		}
+		
+		
+		sb.append(String.valueOf(ArrivalTime.getTime().getMinutes()));
+		
+		if(ArrivalTime.getTime().getHours() >= 12){
 			sb.append("pm\n");
 		}
 		else{
 			sb.append("am\n");
 		}
+		
 		
 		/*
 		if(searchParams.getSeatType()  == 'F'){

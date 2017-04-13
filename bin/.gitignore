@@ -1,7 +1,3 @@
-/airport/
 /dao/
-/driver/
-/plans/
-/user/
-/utils/
 /flight/
+/user/
