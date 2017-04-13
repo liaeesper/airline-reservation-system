@@ -52,6 +52,7 @@ public class FlightPlan {
 		
 		int minutes = this.TotalTime;
 		
+		
 		if(minutes >= 60){
 			sb.append(String.valueOf(minutes / 60) + " hours ");
 			minutes = minutes % 60;
@@ -75,6 +76,8 @@ public class FlightPlan {
 				}
 				
 				sb.append("\nLayover Time ");
+				
+				
 				if(lTime >= 60){
 					sb.append(String.valueOf(lTime / 60) + " hours ");
 					lTime = lTime % 60;

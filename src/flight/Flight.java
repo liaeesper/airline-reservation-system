@@ -220,7 +220,7 @@ public class Flight {
 		}
 		
 		
-		sb.append(String.valueOf(ArrivalTime.getDate().getDay()) + "/" + String.valueOf(ArrivalTime.getDate().getMonth()) + "/" + String.valueOf(ArrivalTime.getDate().getYear()) + " ");
+		sb.append(String.valueOf(ArrivalTime.getDate().getMonth()) + "/" + String.valueOf(ArrivalTime.getDate().getDay()) + "/" + String.valueOf(ArrivalTime.getDate().getYear()) + " ");
 		
 		if(ArrivalTime.getTime().getHours()%12 == 0){
 			sb.append("12:");
@@ -243,7 +243,13 @@ public class Flight {
 		else{
 			sb.append("am\n");
 		}
-		
+		/*
+		int minutes = ArrivalTime.getTime().getTimeInMinutes() - DepartureTime.getTime().getTimeInMinutes();
+		if(ArrivalTime.getTime().getTimeInMinutes() < DepartureTime.getTime().getTimeInMinutes()){
+			minutes = (24*60 + ArrivalTime.getTime().getTimeInMinutes()) - DepartureTime.getTime().getTimeInMinutes();
+		}
+		sb.append(String.valueOf(DepartureTime.getTime().getTimeInMinutes()) + " | " + String.valueOf(ArrivalTime.getTime().getTimeInMinutes()) + " | " + String.valueOf(minutes) + "\n");
+		*/
 		
 		/*
 		if(searchParams.getSeatType()  == 'F'){
