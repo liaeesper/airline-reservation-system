@@ -58,15 +58,14 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		
-		// make flight plan list string
-		int count = 1;
+		// display flight plan list string		
 		
-		
-		JTextArea display = new JTextArea ( 16, 58 );
+		JTextArea display = new JTextArea ( 20, 58 );
 	    display.setEditable ( false ); // set textArea non-editable
 	    display.setText(fpList.toString());
 	    JScrollPane scroll = new JScrollPane ( display );
 	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
+	    display.setCaretPosition(0); // set scroll position to top
 		
 		add(scroll, gbc);
 				
