@@ -174,7 +174,7 @@ public class FlightPlansGenerator {
 		int flightDuration;
 		ArrayList<Ticket> tempTicket;
 		FlightPlan tempNewFlightPlan;
-		BigDecimal price = new BigDecimal(0.00);
+		BigDecimal price;// = new BigDecimal(0.00);
 
 		char[] tempAirportCode;
 		char[] aAirportCode = userParams.getArrivalAirportCode();
@@ -217,18 +217,20 @@ public class FlightPlansGenerator {
 			tempTicket = new ArrayList<Ticket>();
 			tempTicket.add(new Ticket(unconcluded.getLegs().get(0).getSeatType(), unconcluded.getLegs().get(0).getForFlight()));
 			
+			price = new BigDecimal(0.0);
+			
 			if(level == 1){
 				tempTicket.add(new Ticket(userParams.getSeatType(), possibleLeg));
 				tempTicket.add(new Ticket());
 				
 				if(userParams.getSeatType() == 'C'){
-					price.add(unconcluded.getLegs().get(0).getForFlight().getPriceC().getMoney());
-					price.add(possibleLeg.getPriceC().getMoney());
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceC().getMoney());
+					price = price.add(possibleLeg.getPriceC().getMoney());
 					
 				}
 				else{
-					price.add(unconcluded.getLegs().get(0).getForFlight().getPriceFc().getMoney());
-					price.add(possibleLeg.getPriceFc().getMoney());
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceFc().getMoney());
+					price = price.add(possibleLeg.getPriceFc().getMoney());
 				}	
 				
 			}
@@ -238,14 +240,14 @@ public class FlightPlansGenerator {
 				
 				if(userParams.getSeatType() == 'C'){
 					
-					price.add(unconcluded.getLegs().get(0).getForFlight().getPriceC().getMoney());
-					price.add(unconcluded.getLegs().get(1).getForFlight().getPriceC().getMoney());
-					price.add(possibleLeg.getPriceC().getMoney());
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceC().getMoney());
+					price = price.add(unconcluded.getLegs().get(1).getForFlight().getPriceC().getMoney());
+					price = price.add(possibleLeg.getPriceC().getMoney());
 				}
 				else{
-					price.add(unconcluded.getLegs().get(0).getForFlight().getPriceFc().getMoney());
-					price.add(unconcluded.getLegs().get(1).getForFlight().getPriceFc().getMoney());
-					price.add(possibleLeg.getPriceFc().getMoney());
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceFc().getMoney());
+					price = price.add(unconcluded.getLegs().get(1).getForFlight().getPriceFc().getMoney());
+					price = price.add(possibleLeg.getPriceFc().getMoney());
 				}	
 			}
 			

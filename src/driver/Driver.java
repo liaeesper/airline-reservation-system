@@ -34,7 +34,7 @@ public class Driver {
 		userParams.setDepartureAirportCode("BOS".toCharArray());
 		userParams.setArrivalAirportCode("TPA".toCharArray());
 		userParams.setDepartureDate(new Date(5, 5, 2017));
-		Time time[] = {new Time(4, 50), new Time(18, 30)};
+		Time time[] = {new Time(16, 50), new Time(22, 30)};
 		userParams.setDepartureTime(time);
 		userParams.setSeatType('C');
 		

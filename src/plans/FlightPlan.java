@@ -47,8 +47,8 @@ public class FlightPlan {
 	public String toString(){
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append("Num Legs " + this.NumberLegs).append(" $");
-		sb.append(String.valueOf(this.TotalPrice.getMoney()) + " ");
+		sb.append("Number of Legs " + this.NumberLegs).append(" |  $");
+		sb.append(String.valueOf(this.TotalPrice.getMoney()) + " | ");
 		
 		int minutes = this.TotalTime;
 		
@@ -88,7 +88,7 @@ public class FlightPlan {
 				
 			}
 			
-			sb.append("Seat Type " + this.Legs.get(i).getSeatType() + "\n" + this.Legs.get(i).getForFlight().toString() + "\n");
+			sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
 		}
 		
 		
