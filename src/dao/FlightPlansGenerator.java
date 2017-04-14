@@ -196,7 +196,7 @@ public class FlightPlansGenerator {
 
 		//layover over midnight
 		if(dTime >= 24*60){
-			tempParams.setDepartureDate(IncrementDate(tempParams.getDepartureDate()));
+			tempParams.setDepartureDate(tempParams.getDepartureDate().IncrementDate());
 			tempSResults = new ArrayList<Flight>();
 			tempSResults.addAll(searchResults.getFlightList());
 			tempSResults.addAll(serverInterface.GetDepartingFlights(tempParams).getFlightList());
@@ -295,27 +295,5 @@ public class FlightPlansGenerator {
 	}
 
 	
-	private Date IncrementDate(Date departureDate) {
-		int day = departureDate.getDay();
-		int month = departureDate.getMonth();
-		int year = departureDate.getYear();
-		
-		if(day == 31 && month == 12){
-			return new Date(1, 1, year++);
-		}
-		else if(day == 31 && (month == 1 || month == 3 || month == 5  || month == 7 || month == 8 || month == 10)){
-			return new Date(1, month++, year);
-		}
-		else if(day == 28 && month == 2){
-			return new Date(1, month++, year);
-		}
-		else if(day == 30 && (month == 4 || month == 6 || month == 9|| month == 11)){
-			return new Date(1, month++, year);
-		}
-		else{
-			return new Date(day++, month, year);
-		}
-		
-	}
 	
 }
