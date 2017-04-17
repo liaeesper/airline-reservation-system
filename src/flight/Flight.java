@@ -337,10 +337,4 @@ public class Flight {
 		return sb.toString();
 	}
 	
-	
-	
-	
-	
-	
-	
 }
