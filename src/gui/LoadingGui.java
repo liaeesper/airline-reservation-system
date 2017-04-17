@@ -17,6 +17,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 import plans.FlightPlan;
 import plans.FlightPlans;
@@ -39,14 +40,12 @@ public class LoadingGui extends JFrame implements ActionListener, WindowListener
 		gbc.gridheight = 1;
 		gbc.weightx = 0.5;
 		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
+		gbc.gridx = 1;
+		gbc.gridy = 1;
 						
 		// loading message
 		
-		add(new JLabel("Processing Request"), gbc);  
+		add(new JLabel("Processing Request", SwingConstants.CENTER), gbc);  
 										
 		setTitle("Loading");  // "super" Frame sets its title
 		setSize(500, 300);        // "super" Frame sets its initial window size
