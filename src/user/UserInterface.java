@@ -33,7 +33,7 @@ public class UserInterface {
 	
 	public void DisplaySearchResults(FlightPlans flightList){
 		int count = 1;
-		flightList.sortByLeastTime();
+		flightList.sortByMostTime();
 		for(FlightPlan flightPlan: flightList.getFlightPlansList()){
 			System.out.print(String.valueOf(count) + ". " + flightPlan.toString() + "\n--------------------------------------\n");
 			count++;
