@@ -193,15 +193,30 @@ public class Flight {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		
+		//Get departure time and day data
+		int localHours_DEP = DepartureTime.getTime().getLocalHours(this.DepartureAirport.getCode());
+		String timeZone_DEP = DepartureTime.getTime().getTimeZone(this.DepartureAirport.getCode());
+		int day_DEP = DepartureTime.getDate().getDay();
+		String month = String.valueOf(DepartureTime.getDate().getMonth());
+		String year = String.valueOf(DepartureTime.getDate().getYear());
+		
+		//Handle case where time conversion causes day change
+		if (localHours_DEP < 0){
+			localHours_DEP = 24 + localHours_DEP;
+			day_DEP--;
+		}
+		
+		//Append Flight number, departure airport, arrival airport, and date to the string buffer
 		sb.append(FlightNumber).append(" ");
 		sb.append(DepartureAirport.getName() + " (" + DepartureAirport.getCode() + ") -> " + ArrivalAirport.getName() + " (" + ArrivalAirport.getCode() + ")\n");
-		sb.append(String.valueOf(DepartureTime.getDate().getMonth()) + "/" + String.valueOf(DepartureTime.getDate().getDay()) + "/" + String.valueOf(DepartureTime.getDate().getYear()) + " ");
+		sb.append(month + "/" + day_DEP + "/" + year + " ");
 		
-		if(DepartureTime.getTime().getHours()%12 == 0){
+		//Append time in 12 hour format to string buffer
+		if(localHours_DEP%12 == 0){
 			sb.append("12:");
 		}
 		else{
-			sb.append(String.valueOf(DepartureTime.getTime().getHours()%12) + ":");
+			sb.append(localHours_DEP%12 + ":");
 		}
 		
 		
@@ -212,21 +227,33 @@ public class Flight {
 		
 		sb.append(String.valueOf(DepartureTime.getTime().getMinutes()));
 		
-		if(DepartureTime.getTime().getHours() >= 12){
-			sb.append("pm to ");
+		if(localHours_DEP >= 12){
+			sb.append("pm ");
 		}
 		else{
-			sb.append("am to ");
+			sb.append("am ");
 		}
 		
+		sb.append(timeZone_DEP + " to ");
 		
-		sb.append(String.valueOf(ArrivalTime.getDate().getMonth()) + "/" + String.valueOf(ArrivalTime.getDate().getDay()) + "/" + String.valueOf(ArrivalTime.getDate().getYear()) + " ");
+		//Get arrival flight data
+		int localHours_ARR = ArrivalTime.getTime().getLocalHours(this.ArrivalAirport.getCode());
+		int day_ARR = ArrivalTime.getDate().getDay();
+		String timeZone_ARR = ArrivalTime.getTime().getTimeZone(this.ArrivalAirport.getCode());
 		
-		if(ArrivalTime.getTime().getHours()%12 == 0){
+		//Handle case where time conversion causes day change
+				if (localHours_ARR < 0){
+					localHours_ARR = 24 + localHours_ARR;
+					day_ARR--;
+				}
+		
+		sb.append(month + "/" + day_ARR + "/" + year + " ");
+		
+		if(localHours_ARR%12 == 0){
 			sb.append("12:");
 		}
 		else{
-			sb.append(String.valueOf(ArrivalTime.getTime().getHours()%12) + ":");
+			sb.append(localHours_ARR%12 + ":");
 		}
 		
 		
@@ -237,12 +264,14 @@ public class Flight {
 		
 		sb.append(String.valueOf(ArrivalTime.getTime().getMinutes()));
 		
-		if(ArrivalTime.getTime().getHours() >= 12){
-			sb.append("pm\n");
+		if(localHours_ARR >= 12){
+			sb.append("pm ");
 		}
 		else{
-			sb.append("am\n");
+			sb.append("am ");
 		}
+		
+		sb.append(timeZone_ARR + "\n");
 		/*
 		int minutes = ArrivalTime.getTime().getTimeInMinutes() - DepartureTime.getTime().getTimeInMinutes();
 		if(ArrivalTime.getTime().getTimeInMinutes() < DepartureTime.getTime().getTimeInMinutes()){
