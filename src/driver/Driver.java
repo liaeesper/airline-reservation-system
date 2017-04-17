@@ -6,8 +6,11 @@ import airport.Airport;
 import flight.Flights;
 import flight.Flight;
 import airport.Airports;
+import plans.FlightPlan;
 import plans.FlightPlans;
+import plans.Reservation;
 import plans.SearchParams;
+import plans.Ticket;
 import dao.FlightPlansGenerator;
 import dao.ServerInterface;
 import plans.SearchParams;
@@ -25,12 +28,20 @@ public class Driver {
 	public static void main(String[] args) {
 
 		UserInterface userInt = UserInterface.instance;
-		SearchParams userParams;
+		//Date departureDate, char[] departureAirportCode
+
+		SearchParams userParams = new SearchParams();
+		Date Departuredate = new Date(5,5,2017);
+		userParams.setArrivalAirportCode("BOS".toCharArray());
+		userParams.setArrivalDate(Departuredate);
+		userParams.setIsRoundTrip(false);
 		ServerInterface resSys = ServerInterface.instance;
 		resSys.PopulateAirports();
 		resSys.PopulateAirplanes();
 
+
 		userInt.DisplaySearch();
+
 		
 		//FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
@@ -49,7 +60,6 @@ public class Driver {
 		ServerInterface resSys = new ServerInterface();
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		resSys.PopulateAirports();
-
 		//userParams = userInt.HandleSearch();
 		
 		userParams.setDepartureAirportCode("BOS".toCharArray());
@@ -66,10 +76,7 @@ public class Driver {
 		
 		ArrayList<FlightPlans> flightLists = plansGenerator.GeneratorManager(userParams);
 		userInt.DisplaySearchResults(flightLists.get(0));
-		
-		System.out.print("\n\n");
-		
-		userInt.DisplaySearchResults(flightLists.get(1));
+
 		
 		//Flights flightList = resSys.GetDepartingFlights(userParams);
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));

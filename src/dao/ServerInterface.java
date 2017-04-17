@@ -14,6 +14,7 @@ import airport.Airports;
 import flight.Flights;
 import plans.FlightPlan;
 import plans.FlightPlans;
+import plans.FlightPlan;
 import plans.Reservation;
 import plans.SearchParams;
 import user.UserInterface;
@@ -231,6 +232,51 @@ public class ServerInterface {
 		return flights;
 	}
 	
+	public Flights GetArrivingFlights(SearchParams searchParams){
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+		String xmlFlights;
+		
+		//Parse searchParams
+		String airportCode = new String(searchParams.getArrivalAirportCode());
+		String day = String.valueOf(searchParams.getArrivalDate().getYear()) + "_" + String.valueOf(searchParams.getArrivalDate().getMonth()) + "_" + String.valueOf(searchParams.getArrivalDate().getDay());
+		
+		try {
+			/**
+			 * Create an HTTP connection to the server for a GET 
+			 */
+			url = new URL(ServerLocation + QueryFactory.getArrivingFlights(TeamName, airportCode, day));
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			connection.setRequestProperty("User-Agent", TeamName);
+			
+			int responseCode = connection.getResponseCode();
+			if (responseCode >= HttpURLConnection.HTTP_OK){
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "UTF-8" : encoding);
+
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null) {
+					result.append(line);
+				}
+				reader.close();
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		xmlFlights = result.toString();
+		Flights flights = XMLParser.addAllArrivingFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
+		return flights;
+	}
+	
 	public Airplanes PopulateAirplanes(){
 		URL url;
 		HttpURLConnection connection;
@@ -279,7 +325,89 @@ public class ServerInterface {
 	
 	
 	public boolean ReserveTicket(Reservation plan){
-		return false;
+		URL url;
+		HttpURLConnection connection;
+		FlightPlan outgoing = plan.getOutgoingFlight();
+		String xmlflights = "<Flights>";
+		String seattype;
+
+		for (int i=0; i < outgoing.getNumberLegs(); i++){
+			if ((outgoing.getLegs().get(i).getSeatType() == 'C') | (outgoing.getLegs().get(i).getSeatType() == 'c') ){
+				seattype = "Coach";
+			}
+			else{
+				seattype = "FirstClass";
+			}
+			xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(outgoing.getLegs().get(i).getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype + "\"/>";
+			
+		}
+		
+		if (plan.getIsRoundTrip()){
+			FlightPlan incoming = plan.getReturningFlight();
+			for (int i=0; i < outgoing.getNumberLegs(); i++){
+				if ((outgoing.getLegs().get(i).getSeatType() == 'c') | (outgoing.getLegs().get(i).getSeatType() == 'C') ){
+					seattype = "Coach";
+				}
+				else{
+					seattype = "FirstClass";
+				}
+				xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(incoming.getLegs().get(i).getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype+ "\"/>";
+			}
+		}
+		xmlflights = xmlflights + "</Flights>";
+		try {
+			url = new URL(ServerLocation);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("User-Agent", TeamName);
+			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+			
+			String params = QueryFactory.reserveSeat(TeamName, xmlflights);
+			
+			//System.out.println("Parameters " + params);
+			connection.setDoOutput(true);
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes(params);
+			writer.flush();
+			writer.close();
+			
+			int responseCode = connection.getResponseCode();
+			System.out.println("\nSending 'POST' to reserve ticket");
+			System.out.println(("\nResponse Code : " + responseCode));
+			
+			if (responseCode >=300) {
+				if (responseCode == 304){
+					System.out.println("Your seat could not be reserved because there are no seats of that seat type left on at least one leg of the flight.");
+					return false;
+				}
+				else if (responseCode == 413) {
+					System.out.println("Your seat could not be reserved because of an error. The database was not locked before request.");
+					return false;
+				}
+				else {
+					System.out.println("Your seat could not be reserved because of an error.");
+					return false;
+				}
+			}
+			
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line;
+			StringBuffer response = new StringBuffer();
+			
+			while ((line = in.readLine()) != null) {
+				response.append(line);
+			}
+			
+			System.out.println("Your ticket has been reserved!");
+			in.close();
+			
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+		return true;
+
 	}
 	
 	public FlightPlans ToLocal(FlightPlans rawTimePlans){
