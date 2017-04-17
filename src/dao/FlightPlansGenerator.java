@@ -359,6 +359,14 @@ public class FlightPlansGenerator {
 			}			
 		}
 		
+		// pre sort lists
+		for(int i = 0; i<Lists.size(); i++){
+			Lists.get(i).sortByLowestPrice();
+			Lists.get(i).sortByHighestPrice();
+			Lists.get(i).sortByMostTime();
+			Lists.get(i).sortByLeastTime();
+		}
+		
 		return Lists;
 	}
 

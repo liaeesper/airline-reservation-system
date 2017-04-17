@@ -41,6 +41,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private ArrayList<FlightPlan> user_choices_list;
 	private boolean isReturnBool;
 	private boolean hasReturnBool = false;
+	private int mode_local = 0;
 
 	 
 	/**
@@ -49,10 +50,11 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public SearchResultsGui (ArrayList<FlightPlans> fpListArr, ArrayList<FlightPlan> user_choices, boolean isReturn) {
+	public SearchResultsGui (ArrayList<FlightPlans> fpListArr, ArrayList<FlightPlan> user_choices, boolean isReturn, int mode) {
 		user_choices_list = user_choices;
 		fpListArray = fpListArr;
 		isReturnBool = isReturn;
+		mode_local = mode;
 		if(fpListArr.size() > 1){
 			hasReturnBool = true;
 		}
@@ -62,7 +64,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		else{
 			fpList = fpListArr.get(0);
 		}
-		if(fpList.getFlightPlansList().size() == 0){
+		if(fpList.getFlightPlansList(0).size() == 0){
 			// TODO
 			// failure message window
 			dispose();
@@ -108,7 +110,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		
 		JTextArea display = new JTextArea ( 20, 58 );
 	    display.setEditable ( false ); // set textArea non-editable
-	    display.setText(fpList.toString());
+	    display.setText(fpList.toString(mode));
 	    JScrollPane scroll = new JScrollPane ( display );
 	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
 	    display.setCaretPosition(0); // set scroll position to top
@@ -126,7 +128,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		gbc.gridx = 1;
 		gbc.gridy = 22;
 		
-		flightPlanSpinner = new JSpinner( new SpinnerNumberModel(1, 1, fpList.getFlightPlansList().size(), 1) );
+		flightPlanSpinner = new JSpinner( new SpinnerNumberModel(1, 1, fpList.getFlightPlansList(0).size(), 1) );
 		JSpinner.NumberEditor numberEditor = new JSpinner.NumberEditor(flightPlanSpinner, "");
 		flightPlanSpinner.setEditor(numberEditor);
 		//flightPlanSpinner.setValue(1);
@@ -156,10 +158,10 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getActionCommand() == "Submit selection"){
-			user_choices_list.add(fpList.getFlightPlansList().get((int) flightPlanSpinner.getValue() - 1));
+			user_choices_list.add(fpList.getFlightPlansList(mode_local).get((int) flightPlanSpinner.getValue() - 1));
 			// enter confirmation page if no return flight, otherwise call self?
 			if(!isReturnBool && hasReturnBool){
-				SearchResultsGui returnFlightSearchResults = new SearchResultsGui(fpListArray, user_choices_list, true);
+				SearchResultsGui returnFlightSearchResults = new SearchResultsGui(fpListArray, user_choices_list, true, 0);
 			}
 			else{
 				ConfirmationGui confirmFlights = new ConfirmationGui(user_choices_list);
@@ -167,13 +169,23 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			dispose();
 		}
 		else if(arg0.getActionCommand() == "Sort by Price"){
-			fpListArray.get(0).sortByLowestPrice();
-			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool);
 			dispose();
+			if(mode_local == 1){
+				mode_local = 2;
+			}
+			else{
+				mode_local = 1;
+			}
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local);
 		}
 		else if(arg0.getActionCommand() == "Sort by Time"){
-			fpListArray.get(0).sortByLeastTime();
-			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool);
+			if(mode_local == 3){
+				mode_local = 4;
+			}
+			else{
+				mode_local = 3;
+			}
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local);
 			dispose();
 		}
 	}

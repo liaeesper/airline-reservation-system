@@ -73,7 +73,7 @@ public class UserInterface {
 	}
 	
 	public void DisplaySearchResults(ArrayList<FlightPlans> flightList){
-		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false);
+		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false, 0);
 		/*
 		int count = 1;
 		flightList.sortByLeastTime();

@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 //import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.jdatepicker.impl.*;
 
@@ -189,8 +190,17 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 			params.setRArrivalTime(tripTime);
 		}
 		dispose();
+		
+		// display a processing message
 		LoadingGui loadingPage = new LoadingGui();
-		UserInterface.instance.HandleSearch(params, loadingPage);
+		
+		Runnable handleSearch = new Runnable() {
+		     public void run() {
+		    	 UserInterface.instance.HandleSearch(params, loadingPage);
+		     }
+		};
+		
+		SwingUtilities.invokeLater(handleSearch);
 	}
 
 	@Override
