@@ -1,5 +1,7 @@
 package driver;
 
+import java.util.ArrayList;
+
 import airport.Airport;
 import flight.Flights;
 import flight.Flight;
@@ -52,13 +54,13 @@ public class Driver {
 		userParams.setDepartureAirportCode("BOS".toCharArray());
 		userParams.setArrivalAirportCode("TPA".toCharArray());
 		userParams.setDepartureDate(new Date(5, 5, 2017));
-		Time time[] = {new Time(4, 50), new Time(18, 30)};
+		Time time[] = {new Time(16, 50), new Time(22, 30)};
 		userParams.setDepartureTime(time);
 		userParams.setSeatType('C');
 		
 		
-		FlightPlans flightList = plansGenerator.GenerateFlightPlans(userParams);
-		userInt.DisplaySearchResults(flightList);
+		ArrayList<FlightPlans> flightLists = plansGenerator.GeneratorManager(userParams);
+		userInt.DisplaySearchResults(flightLists.get(0));
 		
 		//Flights flightList = resSys.GetDepartingFlights(userParams);
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));

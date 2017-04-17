@@ -44,13 +44,15 @@ public class FlightPlan {
 		return this.Legs;
 	}
 	
+	@Override
 	public String toString(){
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append("Num Legs " + this.NumberLegs).append(" $");
-		sb.append(String.valueOf(this.TotalPrice.getMoney()) + " ");
+		sb.append("Number of Legs " + this.NumberLegs).append(" |  $");
+		sb.append(String.valueOf(this.TotalPrice.getMoney()) + " | ");
 		
 		int minutes = this.TotalTime;
+		
 		
 		if(minutes >= 60){
 			sb.append(String.valueOf(minutes / 60) + " hours ");
@@ -75,6 +77,8 @@ public class FlightPlan {
 				}
 				
 				sb.append("\nLayover Time ");
+				
+				
 				if(lTime >= 60){
 					sb.append(String.valueOf(lTime / 60) + " hours ");
 					lTime = lTime % 60;
@@ -85,7 +89,7 @@ public class FlightPlan {
 				
 			}
 			
-			sb.append("Seat Type " + this.Legs.get(i).getSeatType() + "\n" + this.Legs.get(i).getForFlight().toString() + "\n");
+			sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
 		}
 		
 		

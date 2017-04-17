@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import flight.Flight;
@@ -10,6 +11,7 @@ import plans.SearchParams;
 import plans.Ticket;
 import utils.Date;
 import utils.DateTime;
+import utils.Price;
 
 public class FlightPlansGenerator {
 	
@@ -75,16 +77,33 @@ public class FlightPlansGenerator {
 	public ArrayList<Flight> FilterFlightsList(FlightPlan originPlan, ArrayList<Flight> unfiltered, int level){
 		ArrayList<Flight> filtered = new ArrayList<Flight>();
 		DateTime arrival, departure;
+		String dAirport, aAirport;
+		dAirport = originPlan.getLegs().get(0).getForFlight().getDepartureAirport().getCode();
+		
 		
 		for(Flight newF: unfiltered){
+			aAirport = newF.getArrivalAirport().getCode();
+			
 			arrival = originPlan.getLegs().get(level - 1).getForFlight().getArrivalTime();
 			departure = newF.getDepartureTime();
 			
-			if(!HappenedBefore(arrival, departure) && getLayoverTime(arrival, departure) != -1 && EnoughSeats(newF, originPlan.getLegs().get(0).getSeatType())){
+			if(!HappenedBefore(arrival, departure) && getLayoverTime(arrival, departure) != -1 && EnoughSeats(newF, originPlan.getLegs().get(level).getSeatType()) && !dAirport.equals(aAirport)){
 				filtered.add(new Flight(newF));				
 			}		
 		}
 		return filtered;
+	}
+	
+	public int CalculateTotalTime(FlightPlan flightPlan, int level){
+		int total = 0;
+		
+		for(int i = 0; i < level; i++){
+			total += getFlightDuration(flightPlan.getLegs().get(i).getForFlight());
+			if(i >= 1){
+				total += getLayoverTime(flightPlan.getLegs().get(i-1).getForFlight().getArrivalTime(), flightPlan.getLegs().get(i).getForFlight().getDepartureTime());
+			}
+		}
+		return total;
 	}
 	
 	
@@ -146,40 +165,120 @@ public class FlightPlansGenerator {
 		return List;
 	}
 	
-	public int CalculateTotalTime(FlightPlan flightPlan, int level){
-		int total = 0;
-		
-		for(int i = 0; i < level; i++){
-			total += getFlightDuration(flightPlan.getLegs().get(i).getForFlight());
-			if(i >= 1){
-				total += getLayoverTime(flightPlan.getLegs().get(i-1).getForFlight().getArrivalTime(), flightPlan.getLegs().get(i).getForFlight().getDepartureTime());
-			}
-		}
-		return total;
-	}
-	
-	
-	
-	
-	public FlightPlans GenerateFlightPlans(SearchParams userParams){
+	public ArrayList<FlightPlan> GenerateFlightLegs(FlightPlan unconcluded, SearchParams userParams, int level){
 		ServerInterface serverInterface = new ServerInterface();
 		int aTime, dTime;
 		ArrayList<FlightPlan> concludedList = new ArrayList<FlightPlan>();
-		ArrayList<FlightPlan> unconcludedList = new ArrayList<FlightPlan>();
-		ArrayList<ArrayList<FlightPlan>> InitialLists = new ArrayList<ArrayList<FlightPlan>>();
 		Flights searchResults = new Flights();
-		Flights lastChanceResults = new Flights();
 		SearchParams tempParams = userParams;
 		int flightDuration;
 		ArrayList<Ticket> tempTicket;
 		FlightPlan tempNewFlightPlan;
+		BigDecimal price;// = new BigDecimal(0.00);
 
 		char[] tempAirportCode;
 		char[] aAirportCode = userParams.getArrivalAirportCode();
-		//Flight possibleLeg1, possibleLeg2, possibleLeg3;
 		
-		ArrayList<Flight> filteredListLeg1 = new ArrayList<Flight>();
-		ArrayList<Flight> filteredListLeg2 = new ArrayList<Flight>();
+		ArrayList<Flight> filteredListLeg = new ArrayList<Flight>();
+		
+
+		ArrayList<Flight> tempSResults = new ArrayList<Flight>();
+		int fTime, lTime;
+		
+		tempParams.setArrivalAirportCode(userParams.getArrivalAirportCode());
+		tempParams.setDepartureAirportCode(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalAirport().getCode().toCharArray());
+		tempParams.setDepartureDate(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalTime().getDate());
+		aTime = unconcluded.getLegs().get(level - 1).getForFlight().getArrivalTime().getTime().getTimeInMinutes();
+		dTime = aTime + 4*60;
+		
+		searchResults.setFlightList((serverInterface.GetDepartingFlights(tempParams).getFlightList()));
+		
+
+		//layover over midnight
+		if(dTime >= 24*60){
+			tempParams.setDepartureDate(tempParams.getDepartureDate().IncrementDate());
+			tempSResults = new ArrayList<Flight>();
+			tempSResults.addAll(searchResults.getFlightList());
+			tempSResults.addAll(serverInterface.GetDepartingFlights(tempParams).getFlightList());
+			searchResults.setFlightList(tempSResults);
+			
+		}
+		
+		filteredListLeg = FilterFlightsList(unconcluded, searchResults.getFlightList(), level);
+		
+		for(Flight possibleLeg : filteredListLeg){
+			
+			fTime = getFlightDuration(possibleLeg);
+			lTime = getLayoverTime(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalTime(), possibleLeg.getDepartureTime());
+			
+			
+			tempAirportCode = possibleLeg.getArrivalAirport().getCode().toCharArray();
+			
+			tempTicket = new ArrayList<Ticket>();
+			tempTicket.add(new Ticket(unconcluded.getLegs().get(0).getSeatType(), unconcluded.getLegs().get(0).getForFlight()));
+			
+			price = new BigDecimal(0.0);
+			
+			if(level == 1){
+				tempTicket.add(new Ticket(userParams.getSeatType(), possibleLeg));
+				tempTicket.add(new Ticket());
+				
+				if(userParams.getSeatType() == 'C'){
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceC().getMoney());
+					price = price.add(possibleLeg.getPriceC().getMoney());
+					
+				}
+				else{
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceFc().getMoney());
+					price = price.add(possibleLeg.getPriceFc().getMoney());
+				}	
+				
+			}
+			else{
+				tempTicket.add(new Ticket(unconcluded.getLegs().get(1).getSeatType(), unconcluded.getLegs().get(1).getForFlight()));
+				tempTicket.add(new Ticket(userParams.getSeatType(), possibleLeg));
+				
+				if(userParams.getSeatType() == 'C'){
+					
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceC().getMoney());
+					price = price.add(unconcluded.getLegs().get(1).getForFlight().getPriceC().getMoney());
+					price = price.add(possibleLeg.getPriceC().getMoney());
+				}
+				else{
+					price = price.add(unconcluded.getLegs().get(0).getForFlight().getPriceFc().getMoney());
+					price = price.add(unconcluded.getLegs().get(1).getForFlight().getPriceFc().getMoney());
+					price = price.add(possibleLeg.getPriceFc().getMoney());
+				}	
+			}
+			
+			
+			flightDuration = unconcluded.getTotalTime() + lTime + fTime;
+			
+			if(aAirportCode[0] == tempAirportCode[0] && aAirportCode[1] == tempAirportCode[1] && aAirportCode[2] == tempAirportCode[2]){
+				
+				concludedList.add(new FlightPlan(level + 1, new Price(price), flightDuration, tempTicket));	
+				
+			}
+			else if(level == 1){
+				
+				tempNewFlightPlan = new FlightPlan(level + 1, new Price(price), flightDuration, tempTicket);
+				concludedList.addAll(GenerateFlightLegs(tempNewFlightPlan, tempParams, 2));
+				
+			}
+
+		}
+		
+		return concludedList;
+		
+	}
+	
+	public FlightPlans GenerateFlightPlansD(SearchParams userParams){
+		ServerInterface serverInterface = new ServerInterface();
+		ArrayList<FlightPlan> concludedList = new ArrayList<FlightPlan>();
+		ArrayList<FlightPlan> unconcludedList = new ArrayList<FlightPlan>();
+		ArrayList<ArrayList<FlightPlan>> InitialLists = new ArrayList<ArrayList<FlightPlan>>();
+		Flights searchResults = new Flights();
+
 		
 		//leg 1
 		searchResults.setFlightList(serverInterface.GetDepartingFlights(userParams).getFlightList());
@@ -188,143 +287,66 @@ public class FlightPlansGenerator {
 		unconcludedList = InitialLists.get(1);
 		
 		
-		ArrayList<Flight> tempSResults = new ArrayList<Flight>();
-		int fTime2, lTime2, fTime3, lTime3;
-		
-		//failed solo leg 1s
-		for(FlightPlan possibleLeg2Plan : unconcludedList){
-			
-			tempParams.setDepartureAirportCode(possibleLeg2Plan.getLegs().get(0).getForFlight().getArrivalAirport().getCode().toCharArray());
-			tempParams.setDepartureDate(possibleLeg2Plan.getLegs().get(0).getForFlight().getArrivalTime().getDate());
-			aTime = possibleLeg2Plan.getLegs().get(0).getForFlight().getArrivalTime().getTime().getTimeInMinutes();
-			dTime = aTime + 4*60;
-			
-			searchResults.setFlightList((serverInterface.GetDepartingFlights(tempParams).getFlightList()));
-			
-
-			//layover over midnight
-			if(dTime >= 24*60){
-				tempParams.setDepartureDate(IncrementDate(tempParams.getDepartureDate()));
-				tempSResults = new ArrayList<Flight>();
-				tempSResults.addAll(searchResults.getFlightList());
-				tempSResults.addAll(serverInterface.GetDepartingFlights(tempParams).getFlightList());
-				searchResults.setFlightList(tempSResults);
-				
-			}
-			
-			filteredListLeg1 = FilterFlightsList(possibleLeg2Plan, searchResults.getFlightList(), 1);
-			
-			//leg 2
-			for(Flight possibleLeg2 : filteredListLeg1){
-				
-				fTime2 = getFlightDuration(possibleLeg2);
-				lTime2 = getLayoverTime(possibleLeg2Plan.getLegs().get(0).getForFlight().getArrivalTime(), possibleLeg2.getDepartureTime());
-				
-				
-				tempAirportCode = possibleLeg2.getArrivalAirport().getCode().toCharArray();
-				
-				tempTicket = new ArrayList<Ticket>();
-				tempTicket.add(new Ticket(possibleLeg2Plan.getLegs().get(0).getSeatType(), possibleLeg2Plan.getLegs().get(0).getForFlight()));
-				tempTicket.add(new Ticket(userParams.getSeatType(), possibleLeg2));
-				tempTicket.add(new Ticket());
-				
-				
-				flightDuration = possibleLeg2Plan.getTotalTime() + lTime2 + fTime2;
-				
-				if(aAirportCode[0] == tempAirportCode[0] && aAirportCode[1] == tempAirportCode[1] && aAirportCode[2] == tempAirportCode[2]){
-					
-					if(userParams.getSeatType() == 'C'){
-						
-						concludedList.add(new FlightPlan(2, possibleLeg2.getPriceC(), flightDuration, tempTicket));
-					}
-					else{
-						concludedList.add(new FlightPlan(2, possibleLeg2.getPriceFc(), flightDuration, tempTicket));
-					}	
-				}
-				else{
-					//leg 3
-					if(userParams.getSeatType() == 'C'){
-						tempNewFlightPlan = new FlightPlan(2, possibleLeg2.getPriceC(), flightDuration, tempTicket);
-					}
-					else{
-						tempNewFlightPlan = new FlightPlan(2, possibleLeg2.getPriceFc(), flightDuration, tempTicket);
-					}
-					//lastChanceResults = serverInterface.GetDepartingFlights(tempParams);
-					
-					tempParams.setDepartureAirportCode(possibleLeg2.getArrivalAirport().getCode().toCharArray());
-					tempParams.setDepartureDate(possibleLeg2.getArrivalTime().getDate());
-					aTime = possibleLeg2.getArrivalTime().getTime().getTimeInMinutes();
-					dTime = aTime + 4*60;
-					
-					lastChanceResults.setFlightList((serverInterface.GetDepartingFlights(tempParams).getFlightList()));
-					
-
-					//layover over midnight
-					if(dTime >= 24*60){
-						tempParams.setDepartureDate(IncrementDate(tempParams.getDepartureDate()));
-						tempSResults = new ArrayList<Flight>();
-						tempSResults.addAll(lastChanceResults.getFlightList());
-						tempSResults.addAll(serverInterface.GetDepartingFlights(tempParams).getFlightList());
-						lastChanceResults.setFlightList(tempSResults);
-						
-					}
-					
-					filteredListLeg2 = FilterFlightsList(tempNewFlightPlan, lastChanceResults.getFlightList(), 2);
-					
-					for(Flight possibleLeg3 : filteredListLeg2){
-					
-						fTime3 = getFlightDuration(possibleLeg3);
-						lTime3 = getLayoverTime(possibleLeg2.getArrivalTime(), possibleLeg3.getDepartureTime());
-					
-						tempAirportCode = possibleLeg3.getArrivalAirport().getCode().toCharArray();
-							
-						if(aAirportCode[0] == tempAirportCode[0] && aAirportCode[1] == tempAirportCode[1] && aAirportCode[2] == tempAirportCode[2]){
-							tempTicket = new ArrayList<Ticket>();
-							tempTicket.add(new Ticket(possibleLeg2Plan.getLegs().get(0).getSeatType(), possibleLeg2Plan.getLegs().get(0).getForFlight()));
-							tempTicket.add(new Ticket(userParams.getSeatType(), possibleLeg2));
-							tempTicket.add(new Ticket(userParams.getSeatType(), possibleLeg3));
-							
-							flightDuration = possibleLeg2Plan.getTotalTime() + lTime2 + fTime2 + lTime3 + fTime3;
-							
-							if(userParams.getSeatType() == 'C'){
-								concludedList.add(new FlightPlan(3, possibleLeg2.getPriceC(), flightDuration, tempTicket));
-							}
-							else{
-								concludedList.add(new FlightPlan(3, possibleLeg2.getPriceFc(), flightDuration, tempTicket));
-							}	
-						}											
-					}
-				}
-			}
+		//other legs
+		for(FlightPlan unconcluded : unconcludedList){
+			concludedList.addAll(GenerateFlightLegs(unconcluded, userParams, 1));
 		}
 		
+		
+		return new FlightPlans(concludedList);
+	}
+	
+	public FlightPlans GenerateFlightPlansA(SearchParams userParams){
+		ServerInterface serverInterface = new ServerInterface();
+		ArrayList<FlightPlan> concludedList = new ArrayList<FlightPlan>();
+		ArrayList<FlightPlan> unconcludedList = new ArrayList<FlightPlan>();
+		ArrayList<ArrayList<FlightPlan>> InitialLists = new ArrayList<ArrayList<FlightPlan>>();
+		Flights searchResults = new Flights();
+
+		
+		//leg 1
+		searchResults.setFlightList(serverInterface.GetDepartingFlights(userParams).getFlightList());
+		InitialLists = FindInitialLists(searchResults, userParams);
+		concludedList = InitialLists.get(0);
+		unconcludedList = InitialLists.get(1);
+		
+		
+		//other legs
+		for(FlightPlan unconcluded : unconcludedList){
+			concludedList.addAll(GenerateFlightLegs(unconcluded, userParams, 1));
+		}
 		
 		
 		return new FlightPlans(concludedList);
 	}
 	
 	
-	private Date IncrementDate(Date departureDate) {
-		int day = departureDate.getDay();
-		int month = departureDate.getMonth();
-		int year = departureDate.getYear();
+	public ArrayList<FlightPlans> GeneratorManager(SearchParams searchParams){
 		
-		if(day == 31 && month == 12){
-			return new Date(1, 1, year++);
-		}
-		else if(day == 31 && (month == 1 || month == 3 || month == 5  || month == 7 || month == 8 || month == 10)){
-			return new Date(1, month++, year);
-		}
-		else if(day == 28 && month == 2){
-			return new Date(1, month++, year);
-		}
-		else if(day == 30 && (month == 4 || month == 6 || month == 9|| month == 11)){
-			return new Date(1, month++, year);
+		ArrayList<FlightPlans> Lists = new ArrayList<FlightPlans>();
+		SearchParams returnParams = new SearchParams();
+		
+		if(searchParams.getDepartureDate() != null){
+			Lists.add(GenerateFlightPlansD(searchParams));
 		}
 		else{
-			return new Date(day++, month, year);
+			Lists.add(GenerateFlightPlansA(searchParams));
 		}
 		
+		if(searchParams.getIsRoundTrip()){
+			returnParams.SetReturnParams(searchParams);
+			
+			if(searchParams.getRDepartureDate() != null){
+				Lists.add(GenerateFlightPlansD(returnParams));
+			}
+			else{
+				Lists.add(GenerateFlightPlansA(returnParams));
+			}			
+		}
+		
+		return Lists;
 	}
+
+	
 	
 }

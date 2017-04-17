@@ -176,4 +176,15 @@ public class SearchParams {
 		this.SeatType = '\0';
 	}
 	
+	public void SetReturnParams(SearchParams outgoingParams){
+		this.DepartureDate = outgoingParams.RDepartureDate;
+		this.DepartureTime = outgoingParams.RDepartureTime;
+		this.DepartureAirportCode = outgoingParams.ArrivalAirportCode;
+		this.ArrivalDate = outgoingParams.RArrivalDate;
+		this.ArrivalTime = outgoingParams.RArrivalTime;
+		this.ArrivalAirportCode = outgoingParams.DepartureAirportCode;
+		this.IsRoundTrip = outgoingParams.IsRoundTrip;
+		this.SeatType = outgoingParams.SeatType;
+	}
+	
 }

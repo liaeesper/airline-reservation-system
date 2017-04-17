@@ -18,6 +18,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -70,8 +71,8 @@ public class UserInterface {
 		//					+"Enter a date in the form MM/DD/YYYY, and hit enter again.");
 	}
 	
-	public void DisplaySearchResults(FlightPlans flightList){
-		SearchResultsGui searchResults = new SearchResultsGui(flightList);
+	public void DisplaySearchResults(ArrayList<FlightPlans> flightList){
+		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false);
 		/*
 		int count = 1;
 		flightList.sortByLeastTime();
@@ -128,7 +129,7 @@ public class UserInterface {
 		//DisplaySearchResultsProto(flightList);
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
-		FlightPlans flightList = plansGenerator.GenerateFlightPlans(userParams);
+		ArrayList<FlightPlans> flightList = plansGenerator.GeneratorManager(userParams);
 		DisplaySearchResults(flightList);
 		return;
 		
