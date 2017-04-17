@@ -131,7 +131,7 @@ public class UserInterface {
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
 		// TODO
-		//userParams.convertToLocal();
+		userParams.convertToGMT();
 		
 		ArrayList<FlightPlans> flightList = plansGenerator.GeneratorManager(userParams);
 		

@@ -18,26 +18,28 @@ public class SearchParams {
 	private char SeatType;
 	
 	public void convertToGMT(){
-		//DEPARTURE
-		for (int i = 0; i < DepartureTime.length; i++){
-			int GMTHours = this.DepartureTime[i].getGMTHours(String.valueOf(this.DepartureAirportCode));
-			if (GMTHours > 23){
-				GMTHours = GMTHours - 24;
-				this.DepartureDate.setDay(this.DepartureDate.getDay() + 1);
+		if(DepartureTime != null){
+			//DEPARTURE
+			for (int i = 0; i < DepartureTime.length; i++){
+				int GMTHours = this.DepartureTime[i].getGMTHours(String.valueOf(this.DepartureAirportCode));
+				if (GMTHours > 23){
+					GMTHours = GMTHours - 24;
+					this.DepartureDate.setDay(this.DepartureDate.getDay() + 1);
+				}
+				this.DepartureTime[i].setHours(GMTHours);
 			}
-			this.DepartureTime[i].setHours(GMTHours);
 		}
-		
-		//ARRIVAL
-		for (int i = 0; i < ArrivalTime.length; i++){
-			int GMTHours = this.ArrivalTime[i].getGMTHours(String.valueOf(this.ArrivalAirportCode));
-			if (GMTHours > 23){
-				GMTHours = GMTHours - 24;
-				this.ArrivalDate.setDay(this.ArrivalDate.getDay() + 1);
+		else{
+			//ARRIVAL
+			for (int i = 0; i < ArrivalTime.length; i++){
+				int GMTHours = this.ArrivalTime[i].getGMTHours(String.valueOf(this.ArrivalAirportCode));
+				if (GMTHours > 23){
+					GMTHours = GMTHours - 24;
+					this.ArrivalDate.setDay(this.ArrivalDate.getDay() + 1);
+				}
+				this.ArrivalTime[i].setHours(GMTHours);
 			}
-			this.ArrivalTime[i].setHours(GMTHours);
 		}
-		
 	}
 	
 	public void setDepartureDate(Date departureDate){
