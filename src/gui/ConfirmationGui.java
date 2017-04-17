@@ -88,7 +88,7 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 						
 		submitSelectionButton.addActionListener(this);
 				
-		setTitle("Search Results");  // "super" Frame sets its title
+		setTitle("Confirmation");  // "super" Frame sets its title
 		setSize(1000, 600);        // "super" Frame sets its initial window size
 	 
 		addWindowListener(this);	 

@@ -65,6 +65,8 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		if(fpList.getFlightPlansList().size() == 0){
 			// TODO
 			// failure message window
+			dispose();
+			new ErrorMessageGui("There are no flight plans that match these criteria.");
 			return;
 		}
 		
