@@ -28,6 +28,7 @@ public class Driver {
 		SearchParams userParams;
 		ServerInterface resSys = ServerInterface.instance;
 		resSys.PopulateAirports();
+		resSys.PopulateAirplanes();
 
 		userInt.DisplaySearch();
 		

@@ -130,6 +130,9 @@ public class UserInterface {
 		//DisplaySearchResultsProto(flightList);
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
+		// TODO
+		//userParams.convertToLocal();
+		
 		ArrayList<FlightPlans> flightList = plansGenerator.GeneratorManager(userParams);
 		
 		loadingPage.dispose();

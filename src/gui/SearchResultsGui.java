@@ -166,6 +166,16 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			}
 			dispose();
 		}
+		else if(arg0.getActionCommand() == "Sort by Price"){
+			fpListArray.get(0).sortByLowestPrice();
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool);
+			dispose();
+		}
+		else if(arg0.getActionCommand() == "Sort by Time"){
+			fpListArray.get(0).sortByLeastTime();
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool);
+			dispose();
+		}
 	}
 
 	@Override
