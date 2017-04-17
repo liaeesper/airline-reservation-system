@@ -57,11 +57,19 @@ public class Driver {
 		userParams.setDepartureDate(new Date(5, 5, 2017));
 		Time time[] = {new Time(16, 50), new Time(22, 30)};
 		userParams.setDepartureTime(time);
+		userParams.setIsRoundTrip(true);
+		userParams.setRDepartureDate(new Date(7, 5, 2017));
+		Time time2[] = {new Time(16, 50), new Time(22, 30)};
+		userParams.setRDepartureTime(time2);
 		userParams.setSeatType('C');
 		
 		
 		ArrayList<FlightPlans> flightLists = plansGenerator.GeneratorManager(userParams);
 		userInt.DisplaySearchResults(flightLists.get(0));
+		
+		System.out.print("\n\n");
+		
+		userInt.DisplaySearchResults(flightLists.get(1));
 		
 		//Flights flightList = resSys.GetDepartingFlights(userParams);
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));

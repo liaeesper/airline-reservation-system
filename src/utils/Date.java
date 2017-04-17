@@ -52,25 +52,32 @@ public class Date {
 		this.Year = year;
 	}
 	
+	public Date() {
+		this.Day = 0;
+		this.Month = 0;
+		this.Year = 0;
+	}
+
 	public Date IncrementDate() {
 		int day = this.Day;
 		int month = this.Month;
 		int year = this.Year;
+
 		
 		if(day == 31 && month == 12){
-			return new Date(1, 1, year++);
+			return new Date(1, 1, year+1);
 		}
 		else if(day == 31 && (month == 1 || month == 3 || month == 5  || month == 7 || month == 8 || month == 10)){
-			return new Date(1, month++, year);
+			return new Date(1, month+1, year);
 		}
 		else if(day == 28 && month == 2){
-			return new Date(1, month++, year);
+			return new Date(1, month+1, year);
 		}
 		else if(day == 30 && (month == 4 || month == 6 || month == 9|| month == 11)){
-			return new Date(1, month++, year);
+			return new Date(1, month+1, year);
 		}
 		else{
-			return new Date(day++, month, year);
+			return new Date(day+1, month, year);
 		}
 		
 	}
