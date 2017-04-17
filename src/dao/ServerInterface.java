@@ -327,7 +327,7 @@ public class ServerInterface {
 		String seattype;
 
 		for (int i=0; i < outgoing.getNumberLegs(); i++){
-			if ((outgoing.getLegs()[i].getSeatType() == 'C') | (outgoing.getLegs()[i].getSeatType() == 'C') ){
+			if ((outgoing.getLegs()[i].getSeatType() == 'C') | (outgoing.getLegs()[i].getSeatType() == 'c') ){
 				seattype = "Coach";
 			}
 			else{
@@ -357,7 +357,7 @@ public class ServerInterface {
 			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			
 			String params = QueryFactory.reserveSeat(TeamName, xmlflights);
-			
+			System.out.println("Parameters " + params);
 			connection.setDoOutput(true);
 			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
 			writer.writeBytes(params);
@@ -368,6 +368,17 @@ public class ServerInterface {
 			System.out.println("\nSending 'POST' to reserve ticket");
 			System.out.println(("\nResponse Code : " + responseCode));
 			
+			if (responseCode >=300) {
+				if (responseCode == 304){
+					System.out.println("Your seat could not be reserved because there are no seats of that seat type left on at least one leg of the flight.");
+					return false;
+				}
+				else {
+					System.out.println("Your seat could not be reserved because of an error.");
+					return false;
+				}
+			}
+			
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line;
 			StringBuffer response = new StringBuffer();
@@ -375,6 +386,8 @@ public class ServerInterface {
 			while ((line = in.readLine()) != null) {
 				response.append(line);
 			}
+			
+			System.out.println("Response... " + response);
 			in.close();
 			
 		}

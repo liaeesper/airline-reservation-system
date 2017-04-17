@@ -35,7 +35,8 @@ public class Driver {
 		userInt.DisplaySearch();
 		userParams = userInt.HandleSearch();
 		Flights flightList = resSys.GetDepartingFlights(userParams);
-		Flight myflight = flightList.getFlightList().get(1);
+		Flight myflight = flightList.getFlightList().get(0);
+		System.out.println("This is flight from BOS to " + myflight.getArrivalAirport().getCode());
 		//userInt.DisplaySearchResultsProto(userParams);//resSys.GetFlights(userParams));
 
 		Ticket myticket = new Ticket('c',myflight);
