@@ -58,7 +58,6 @@ public class Time {
 		put("IAD", -4); //Washington DC
 		put("DCA", -4); //Washington DC
 	}};
-	
 	private static Map<Integer, String> timeZones = new HashMap<Integer, String>(){{
 		put(-4, "EST");
 		put(-5, "CDT");
@@ -92,6 +91,10 @@ public class Time {
 	
 	public int getLocalHours(String code){
 		return this.Hours + Time.localConversion.get(code);
+	}
+	
+	public int getGMTHours(String code){
+		return this.Hours - Time.localConversion.get(code);
 	}
 	
 	public String getTimeZone(String code){
