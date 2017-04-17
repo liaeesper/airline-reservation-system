@@ -11,6 +11,7 @@ import plans.Reservation;
 import plans.SearchParams;
 import utils.Date;
 import utils.Time;
+import gui.LoadingGui;
 import gui.SearchGui;
 import gui.SearchResultsGui;
 
@@ -120,7 +121,7 @@ public class UserInterface {
 	 * takes user search parameters as input and passes them to the server interface,
 	 * then calls display flights
 	 */
-	public void HandleSearch(SearchParams userParams){
+	public void HandleSearch(SearchParams userParams, LoadingGui loadingPage){
 		// TODO
 		// convert times to GMT here
 		
@@ -130,6 +131,9 @@ public class UserInterface {
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
 		ArrayList<FlightPlans> flightList = plansGenerator.GeneratorManager(userParams);
+		
+		loadingPage.dispose();
+		
 		DisplaySearchResults(flightList);
 		return;
 		
