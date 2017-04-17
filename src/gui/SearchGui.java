@@ -163,12 +163,12 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 
 		
 		timeSpinnerS = new JSpinner( new SpinnerDateModel() );
-		JSpinner.DateEditor timeEditorS = new JSpinner.DateEditor(timeSpinnerS, "HH:mm:ss");
+		JSpinner.DateEditor timeEditorS = new JSpinner.DateEditor(timeSpinnerS, "HH:mm");
 		timeSpinnerS.setEditor(timeEditorS);
 		timeSpinnerS.setValue(new Date());
 		
 		timeSpinnerE = new JSpinner( new SpinnerDateModel() );
-		JSpinner.DateEditor timeEditorE = new JSpinner.DateEditor(timeSpinnerE, "HH:mm:ss");
+		JSpinner.DateEditor timeEditorE = new JSpinner.DateEditor(timeSpinnerE, "HH:mm");
 		timeSpinnerE.setEditor(timeEditorE);
 		timeSpinnerE.setValue(new Date());
 

@@ -29,17 +29,23 @@ public class FlightPlansGenerator {
 	
 	public int getLayoverTime(DateTime prevArrival, DateTime nextDeparture){
 		int layoverTime = getTimeBetween(prevArrival, nextDeparture);
-		Date pdate = prevArrival.getDate().IncrementDate();
+		Date pdate = prevArrival.getDate();
+		
+		int aMinutes = prevArrival.getTime().getTimeInMinutes();
+		int bMinutes = nextDeparture.getTime().getTimeInMinutes();
+		
+		if(aMinutes >= bMinutes){
+			pdate = prevArrival.getDate().IncrementDate();
+			bMinutes += 24*60;
+		}
+		
+		layoverTime = bMinutes - aMinutes;
 		
 		if(layoverTime >= 30 && layoverTime <= 4*60){
-			if(prevArrival.getDate().getDay() == nextDeparture.getDate().getDay() &&
-					prevArrival.getDate().getMonth() == nextDeparture.getDate().getMonth() &&
-					prevArrival.getDate().getYear() == nextDeparture.getDate().getYear()){
-				return layoverTime;
-			}
-			else if(prevArrival.getDate().getDay() == nextDeparture.getDate().getDay() &&
-					prevArrival.getDate().getMonth() == nextDeparture.getDate().getMonth() &&
-					prevArrival.getDate().getYear() == nextDeparture.getDate().getYear()){
+
+			if(pdate.getDay() == nextDeparture.getDate().getDay() &&
+					pdate.getMonth() == nextDeparture.getDate().getMonth() &&
+					pdate.getYear() == nextDeparture.getDate().getYear()){
 				return layoverTime;
 			}
 			
@@ -199,6 +205,7 @@ public class FlightPlansGenerator {
 		ArrayList<Flight> tempSResults = new ArrayList<Flight>();
 		int fTime, lTime;
 		
+		tempParams.setSeatType(userParams.getSeatType());
 		tempParams.setArrivalAirportCode(userParams.getArrivalAirportCode());
 		tempParams.setDepartureAirportCode(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalAirport().getCode().toCharArray());
 		tempParams.setDepartureDate(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalTime().getDate());

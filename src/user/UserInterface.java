@@ -76,7 +76,7 @@ public class UserInterface {
 		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false, 0);
 		/*
 		int count = 1;
-		flightList.sortByLeastTime();
+		flightList.sortByMostTime();
 		for(FlightPlan flightPlan: flightList.getFlightPlansList()){
 			System.out.print(String.valueOf(count) + ". " + flightPlan.toString() + "\n--------------------------------------\n");
 			count++;
