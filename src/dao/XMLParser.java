@@ -240,9 +240,6 @@ public class XMLParser {
 		PriceC = new Price(new BigDecimal(coach.getAttributeNode("Price").getValue().substring(1)));
 		SeatC = AirplaneUsed.getCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
 		
-		System.out.println("Arrival airport: " + ArrivalAirport.getCode());
-		System.out.println("Airplane C seats originally: " + AirplaneUsed.getCSeats());
-		System.out.println("Airplane C seats left: " + String.valueOf(SeatC));
 		
 		/**
 		 * Update the Airport object with values from XML node
@@ -323,13 +320,7 @@ public class XMLParser {
 		coach = (Element)seat.getElementsByTagName("Coach").item(0);
 		PriceC = new Price(new BigDecimal(coach.getAttributeNode("Price").getValue().substring(1)));
 		SeatC = AirplaneUsed.getCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
-		
-		System.out.println("Airplane found: " + AirplaneUsed.getManufacturer() + " " + AirplaneUsed.getModel());
-		System.out.println("Airplane FC seats originally: " + AirplaneUsed.getFCSeats());
-		System.out.println("Airplane FC seats left: " + String.valueOf(SeatFc));
-		System.out.println("Airplane C seats originally: " + AirplaneUsed.getCSeats());
-		System.out.println("Airplane C seats left: " + String.valueOf(SeatC));
-		
+
 		/**
 		 * Update the Airport object with values from XML node
 		 */
