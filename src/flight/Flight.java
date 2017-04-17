@@ -154,4 +154,110 @@ public class Flight {
 		this.PriceC = priceC;
 	}
 	
+	public Flight() {
+	}
+	
+	//written because of location based issues in FlightPlansGenerator
+	public Flight(Flight f) {
+		
+		Airport departureAirport = f.DepartureAirport;
+		int flightNumber = f.FlightNumber;
+		String planeType = f.PlaneType;
+		int flightTime = f.FlightTime;
+		DateTime departureTime = f.DepartureTime;
+		Airport arrivalAirport = f.ArrivalAirport;
+		DateTime arrivalTime = f.ArrivalTime;
+		int seatFc = f.SeatFc;
+		int seatC = f.SeatC;
+		Price priceFc = f.PriceFc;
+		Price priceC = f.PriceC;
+		
+		this.DepartureAirport = departureAirport;
+		this.FlightNumber = flightNumber;
+		this.PlaneType = planeType;
+		this.FlightTime = flightTime;
+		this.DepartureTime = departureTime;
+		this.ArrivalAirport = arrivalAirport;
+		this.ArrivalTime = arrivalTime;
+		this.SeatFc = seatFc;
+		this.SeatC = seatC;
+		this.PriceFc = priceFc;
+		this.PriceC = priceC;
+	}
+
+	/**
+	 * Convert object to printable string of format
+	 * 
+	 * @return the object formatted as String to display
+	 */
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append(FlightNumber).append(" ");
+		sb.append(DepartureAirport.getName() + " (" + DepartureAirport.getCode() + ") -> " + ArrivalAirport.getName() + " (" + ArrivalAirport.getCode() + ")\n");
+		sb.append(String.valueOf(DepartureTime.getDate().getDay()) + "/" + String.valueOf(DepartureTime.getDate().getMonth()) + "/" + String.valueOf(DepartureTime.getDate().getYear()) + " ");
+		
+		if(DepartureTime.getTime().getHours()%12 == 0){
+			sb.append("12:");
+		}
+		else{
+			sb.append(String.valueOf(DepartureTime.getTime().getHours()%12) + ":");
+		}
+		
+		
+		if(DepartureTime.getTime().getMinutes() < 10){
+			sb.append("0");
+		}
+		
+		
+		sb.append(String.valueOf(DepartureTime.getTime().getMinutes()));
+		
+		if(DepartureTime.getTime().getHours() >= 12){
+			sb.append("pm to ");
+		}
+		else{
+			sb.append("am to ");
+		}
+		
+		
+		sb.append(String.valueOf(ArrivalTime.getDate().getDay()) + "/" + String.valueOf(ArrivalTime.getDate().getMonth()) + "/" + String.valueOf(ArrivalTime.getDate().getYear()) + " ");
+		
+		if(ArrivalTime.getTime().getHours()%12 == 0){
+			sb.append("12:");
+		}
+		else{
+			sb.append(String.valueOf(ArrivalTime.getTime().getHours()%12) + ":");
+		}
+		
+		
+		if(ArrivalTime.getTime().getMinutes() < 10){
+			sb.append("0");
+		}
+		
+		
+		sb.append(String.valueOf(ArrivalTime.getTime().getMinutes()));
+		
+		if(ArrivalTime.getTime().getHours() >= 12){
+			sb.append("pm\n");
+		}
+		else{
+			sb.append("am\n");
+		}
+		
+		
+		/*
+		if(searchParams.getSeatType()  == 'F'){
+			sb.append("$" + PriceFc);
+		}
+		else{
+			sb.append("$" + PriceC);
+		}
+		*/
+		
+		sb.append("Coach $" + String.valueOf(PriceC.getMoney()) + "\nFirst Class $" + String.valueOf(PriceFc.getMoney()) + "\n");
+		
+		
+		
+		return sb.toString();
+	}	
 }

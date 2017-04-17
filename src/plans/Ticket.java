@@ -28,5 +28,10 @@ public class Ticket {
 		this.SeatType = seatType;
 		this.ForFlight = forFlight;
 	}
+
+	public Ticket() {
+		this.SeatType = '\0';
+		this.ForFlight = null;
+	}
 	
 }

@@ -12,11 +12,17 @@ import java.util.ArrayList;
 import airport.Airplanes;
 import airport.Airports;
 import flight.Flights;
+import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.FlightPlan;
 import plans.Reservation;
 import plans.SearchParams;
+import user.UserInterface;
+import plans.Ticket;
+import utils.Date;
+import utils.DateTime;
 import utils.QueryFactory;
+import utils.Time;
 import dao.XMLParser;
 import flight.Flight;
 
@@ -24,6 +30,8 @@ import flight.Flight;
 public class ServerInterface {
 	private final String ServerLocation = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 	private String TeamName = "TeamG";
+	public static ServerInterface instance =  new ServerInterface();
+
 	
 
 	public String getURL(){
@@ -315,9 +323,6 @@ public class ServerInterface {
 		return airplanes;
 	}
 	
-	public FlightPlans MakeFlightPlans(SearchParams userParams){
-		return null;
-	}
 	
 	public boolean ReserveTicket(Reservation plan){
 		URL url;

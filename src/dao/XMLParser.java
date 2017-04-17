@@ -234,12 +234,13 @@ public class XMLParser {
 		Element coach;
 		seat = (Element)elementFlight.getElementsByTagName("Seating").item(0);
 		firstclass = (Element)seat.getElementsByTagName("FirstClass").item(0);
-		PriceFc = new Price(new BigDecimal(firstclass.getAttributeNode("Price").getValue().substring(1)));
+
+		PriceFc = new Price(new BigDecimal(firstclass.getAttributeNode("Price").getValue().substring(1).replace(",", "")));
 		SeatFc = AirplaneUsed.getFCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(firstclass));
 		coach = (Element)seat.getElementsByTagName("Coach").item(0);
-		PriceC = new Price(new BigDecimal(coach.getAttributeNode("Price").getValue().substring(1)));
+		PriceC = new Price(new BigDecimal(coach.getAttributeNode("Price").getValue().substring(1).replace(",", "")));
 		SeatC = AirplaneUsed.getCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
-		
+
 		
 		/**
 		 * Update the Airport object with values from XML node
