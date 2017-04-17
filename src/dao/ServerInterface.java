@@ -273,7 +273,7 @@ public class ServerInterface {
 		}
 		
 		xmlFlights = result.toString();
-		Flights flights = XMLParser.addAllFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
+		Flights flights = XMLParser.addAllArrivingFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
 		return flights;
 	}
 	
@@ -332,25 +332,26 @@ public class ServerInterface {
 		String seattype;
 
 		for (int i=0; i < outgoing.getNumberLegs(); i++){
-			if ((outgoing.getLegs()[i].getSeatType() == 'C') | (outgoing.getLegs()[i].getSeatType() == 'c') ){
+			if ((outgoing.getLegs().get(i).getSeatType() == 'C') | (outgoing.getLegs().get(i).getSeatType() == 'c') ){
 				seattype = "Coach";
 			}
 			else{
 				seattype = "FirstClass";
 			}
-			xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(outgoing.getLegs()[i].getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype + "\"/>";
+			xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(outgoing.getLegs().get(i).getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype + "\"/>";
 			
 		}
+		
 		if (plan.getIsRoundTrip()){
 			FlightPlan incoming = plan.getReturningFlight();
 			for (int i=0; i < outgoing.getNumberLegs(); i++){
-				if ((outgoing.getLegs()[i].getSeatType() == 'C') | (outgoing.getLegs()[i].getSeatType() == 'C') ){
+				if ((outgoing.getLegs().get(i).getSeatType() == 'c') | (outgoing.getLegs().get(i).getSeatType() == 'C') ){
 					seattype = "Coach";
 				}
 				else{
 					seattype = "FirstClass";
 				}
-				xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(incoming.getLegs()[i].getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype+ "\"/>";
+				xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(incoming.getLegs().get(i).getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype+ "\"/>";
 			}
 		}
 		xmlflights = xmlflights + "</Flights>";
@@ -362,7 +363,8 @@ public class ServerInterface {
 			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			
 			String params = QueryFactory.reserveSeat(TeamName, xmlflights);
-			System.out.println("Parameters " + params);
+			
+			//System.out.println("Parameters " + params);
 			connection.setDoOutput(true);
 			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
 			writer.writeBytes(params);
@@ -376,6 +378,10 @@ public class ServerInterface {
 			if (responseCode >=300) {
 				if (responseCode == 304){
 					System.out.println("Your seat could not be reserved because there are no seats of that seat type left on at least one leg of the flight.");
+					return false;
+				}
+				else if (responseCode == 413) {
+					System.out.println("Your seat could not be reserved because of an error. The database was not locked before request.");
 					return false;
 				}
 				else {
@@ -392,7 +398,7 @@ public class ServerInterface {
 				response.append(line);
 			}
 			
-			System.out.println("Response... " + response);
+			System.out.println("Your ticket has been reserved!");
 			in.close();
 			
 		}

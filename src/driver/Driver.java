@@ -1,13 +1,17 @@
 package driver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import airport.Airport;
 import flight.Flights;
 import flight.Flight;
 import airport.Airports;
+import plans.FlightPlan;
 import plans.FlightPlans;
+import plans.Reservation;
 import plans.SearchParams;
+import plans.Ticket;
 import dao.FlightPlansGenerator;
 import dao.ServerInterface;
 import plans.SearchParams;
@@ -24,12 +28,28 @@ public class Driver {
 	 */
 	public static void main(String[] args) {
 
-		UserInterface userInt = UserInterface.instance;
-		SearchParams userParams;
+		//UserInterface userInt = UserInterface.instance;
+		//Date departureDate, char[] departureAirportCode
+
+		SearchParams userParams = new SearchParams();
+		Date Departuredate = new Date(5,5,2017);
+		userParams.setArrivalAirportCode("BOS".toCharArray());
+		userParams.setArrivalDate(Departuredate);
+		userParams.setIsRoundTrip(false);
 		ServerInterface resSys = ServerInterface.instance;
 		resSys.PopulateAirports();
-
-		userInt.DisplaySearch();
+		resSys.PopulateAirplanes();
+		Flights arriving = resSys.GetArrivingFlights(userParams);
+		
+		Ticket aticket = new Ticket('f', arriving.getFlightList().get(5));
+		ArrayList<Ticket> ticketlist = new ArrayList<Ticket> (Arrays.asList(aticket));
+		FlightPlan myplan = new FlightPlan(1, aticket.getForFlight().getPriceFc(), aticket.getForFlight().getFlightTime(),ticketlist);
+		Reservation testreserve = new Reservation(false,true,myplan,null);
+		
+		resSys.lock();
+		resSys.ReserveTicket(testreserve);
+		resSys.unlock();
+		//userInt.DisplaySearch();
 		
 		//FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
