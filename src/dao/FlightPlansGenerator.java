@@ -272,7 +272,7 @@ public class FlightPlansGenerator {
 		
 	}
 	
-	public FlightPlans GenerateFlightPlans(SearchParams userParams){
+	public FlightPlans GenerateFlightPlansD(SearchParams userParams){
 		ServerInterface serverInterface = new ServerInterface();
 		ArrayList<FlightPlan> concludedList = new ArrayList<FlightPlan>();
 		ArrayList<FlightPlan> unconcludedList = new ArrayList<FlightPlan>();
@@ -294,6 +294,57 @@ public class FlightPlansGenerator {
 		
 		
 		return new FlightPlans(concludedList);
+	}
+	
+	public FlightPlans GenerateFlightPlansA(SearchParams userParams){
+		ServerInterface serverInterface = new ServerInterface();
+		ArrayList<FlightPlan> concludedList = new ArrayList<FlightPlan>();
+		ArrayList<FlightPlan> unconcludedList = new ArrayList<FlightPlan>();
+		ArrayList<ArrayList<FlightPlan>> InitialLists = new ArrayList<ArrayList<FlightPlan>>();
+		Flights searchResults = new Flights();
+
+		
+		//leg 1
+		searchResults.setFlightList(serverInterface.GetDepartingFlights(userParams).getFlightList());
+		InitialLists = FindInitialLists(searchResults, userParams);
+		concludedList = InitialLists.get(0);
+		unconcludedList = InitialLists.get(1);
+		
+		
+		//other legs
+		for(FlightPlan unconcluded : unconcludedList){
+			concludedList.addAll(GenerateFlightLegs(unconcluded, userParams, 1));
+		}
+		
+		
+		return new FlightPlans(concludedList);
+	}
+	
+	
+	public ArrayList<FlightPlans> GeneratorManager(SearchParams searchParams){
+		
+		ArrayList<FlightPlans> Lists = new ArrayList<FlightPlans>();
+		SearchParams returnParams = new SearchParams();
+		
+		if(searchParams.getDepartureDate() != null){
+			Lists.add(GenerateFlightPlansD(searchParams));
+		}
+		else{
+			Lists.add(GenerateFlightPlansA(searchParams));
+		}
+		
+		if(searchParams.getIsRoundTrip()){
+			returnParams.SetReturnParams(searchParams);
+			
+			if(searchParams.getRDepartureDate() != null){
+				Lists.add(GenerateFlightPlansD(returnParams));
+			}
+			else{
+				Lists.add(GenerateFlightPlansA(returnParams));
+			}			
+		}
+		
+		return Lists;
 	}
 
 	

@@ -1,5 +1,7 @@
 package driver;
 
+import java.util.ArrayList;
+
 import airport.Airport;
 import flight.Flights;
 import flight.Flight;
@@ -39,8 +41,8 @@ public class Driver {
 		userParams.setSeatType('C');
 		
 		
-		FlightPlans flightList = plansGenerator.GenerateFlightPlans(userParams);
-		userInt.DisplaySearchResults(flightList);
+		ArrayList<FlightPlans> flightLists = plansGenerator.GeneratorManager(userParams);
+		userInt.DisplaySearchResults(flightLists.get(0));
 		
 		//Flights flightList = resSys.GetDepartingFlights(userParams);
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
