@@ -44,8 +44,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	// Constructor to setup GUI components and event handlers
 	public SearchGui () {
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
