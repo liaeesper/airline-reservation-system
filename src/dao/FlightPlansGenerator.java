@@ -170,7 +170,8 @@ public class FlightPlansGenerator {
 		int aTime, dTime;
 		ArrayList<FlightPlan> concludedList = new ArrayList<FlightPlan>();
 		Flights searchResults = new Flights();
-		SearchParams tempParams = userParams;
+		//SearchParams tempParams = userParams;
+		SearchParams tempParams = new SearchParams();
 		int flightDuration;
 		ArrayList<Ticket> tempTicket;
 		FlightPlan tempNewFlightPlan;
@@ -185,7 +186,7 @@ public class FlightPlansGenerator {
 		ArrayList<Flight> tempSResults = new ArrayList<Flight>();
 		int fTime, lTime;
 		
-			
+		tempParams.setArrivalAirportCode(userParams.getArrivalAirportCode());
 		tempParams.setDepartureAirportCode(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalAirport().getCode().toCharArray());
 		tempParams.setDepartureDate(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalTime().getDate());
 		aTime = unconcluded.getLegs().get(level - 1).getForFlight().getArrivalTime().getTime().getTimeInMinutes();
