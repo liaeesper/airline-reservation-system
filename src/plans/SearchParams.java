@@ -17,6 +17,31 @@ public class SearchParams {
 	private Time[] RArrivalTime;
 	private char SeatType;
 	
+	public void convertToGMT(){
+		if(DepartureTime != null){
+			//DEPARTURE
+			for (int i = 0; i < DepartureTime.length; i++){
+				int GMTHours = this.DepartureTime[i].getGMTHours(String.valueOf(this.DepartureAirportCode));
+				if (GMTHours > 23){
+					GMTHours = GMTHours - 24;
+					this.DepartureDate.setDay(this.DepartureDate.getDay() + 1);
+				}
+				this.DepartureTime[i].setHours(GMTHours);
+			}
+		}
+		else{
+			//ARRIVAL
+			for (int i = 0; i < ArrivalTime.length; i++){
+				int GMTHours = this.ArrivalTime[i].getGMTHours(String.valueOf(this.ArrivalAirportCode));
+				if (GMTHours > 23){
+					GMTHours = GMTHours - 24;
+					this.ArrivalDate.setDay(this.ArrivalDate.getDay() + 1);
+				}
+				this.ArrivalTime[i].setHours(GMTHours);
+			}
+		}
+	}
+	
 	public void setDepartureDate(Date departureDate){
 		this.DepartureDate = departureDate;
 	}
@@ -174,6 +199,17 @@ public class SearchParams {
 		this.RArrivalDate = null;
 		this.RArrivalTime = null;
 		this.SeatType = '\0';
+	}
+	
+	public void SetReturnParams(SearchParams outgoingParams){
+		this.DepartureDate = outgoingParams.RDepartureDate;
+		this.DepartureTime = outgoingParams.RDepartureTime;
+		this.DepartureAirportCode = outgoingParams.ArrivalAirportCode;
+		this.ArrivalDate = outgoingParams.RArrivalDate;
+		this.ArrivalTime = outgoingParams.RArrivalTime;
+		this.ArrivalAirportCode = outgoingParams.DepartureAirportCode;
+		this.IsRoundTrip = outgoingParams.IsRoundTrip;
+		this.SeatType = outgoingParams.SeatType;
 	}
 	
 }

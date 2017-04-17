@@ -11,6 +11,7 @@ import plans.Reservation;
 import plans.SearchParams;
 import utils.Date;
 import utils.Time;
+import gui.LoadingGui;
 import gui.SearchGui;
 import gui.SearchResultsGui;
 
@@ -18,6 +19,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -70,8 +72,8 @@ public class UserInterface {
 		//					+"Enter a date in the form MM/DD/YYYY, and hit enter again.");
 	}
 	
-	public void DisplaySearchResults(FlightPlans flightList){
-		SearchResultsGui searchResults = new SearchResultsGui(flightList);
+	public void DisplaySearchResults(ArrayList<FlightPlans> flightList){
+		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false);
 		/*
 		int count = 1;
 		flightList.sortByLeastTime();
@@ -119,7 +121,7 @@ public class UserInterface {
 	 * takes user search parameters as input and passes them to the server interface,
 	 * then calls display flights
 	 */
-	public void HandleSearch(SearchParams userParams){
+	public void HandleSearch(SearchParams userParams, LoadingGui loadingPage){
 		// TODO
 		// convert times to GMT here
 		
@@ -128,7 +130,13 @@ public class UserInterface {
 		//DisplaySearchResultsProto(flightList);
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
-		FlightPlans flightList = plansGenerator.GenerateFlightPlans(userParams);
+		// TODO
+		userParams.convertToGMT();
+		
+		ArrayList<FlightPlans> flightList = plansGenerator.GeneratorManager(userParams);
+		
+		loadingPage.dispose();
+		
 		DisplaySearchResults(flightList);
 		return;
 		

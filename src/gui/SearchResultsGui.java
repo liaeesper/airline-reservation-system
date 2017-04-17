@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
@@ -35,6 +36,12 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	//JPanel panel = new JPanel();
 	
 	private JSpinner flightPlanSpinner;
+	private FlightPlans fpList; 
+	private ArrayList<FlightPlans> fpListArray; 
+	private ArrayList<FlightPlan> user_choices_list;
+	private boolean isReturnBool;
+	private boolean hasReturnBool = false;
+
 	 
 	/**
 	 * 
@@ -42,10 +49,24 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public SearchResultsGui (FlightPlans fpList) {
+	public SearchResultsGui (ArrayList<FlightPlans> fpListArr, ArrayList<FlightPlan> user_choices, boolean isReturn) {
+		user_choices_list = user_choices;
+		fpListArray = fpListArr;
+		isReturnBool = isReturn;
+		if(fpListArr.size() > 1){
+			hasReturnBool = true;
+		}
+		if(isReturn){
+			fpList = fpListArr.get(1);
+		}
+		else{
+			fpList = fpListArr.get(0);
+		}
 		if(fpList.getFlightPlansList().size() == 0){
 			// TODO
 			// failure message window
+			dispose();
+			new ErrorMessageGui("There are no flight plans that match these criteria.");
 			return;
 		}
 		
@@ -134,6 +155,27 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getActionCommand() == "Submit selection"){
+			user_choices_list.add(fpList.getFlightPlansList().get((int) flightPlanSpinner.getValue() - 1));
+			// enter confirmation page if no return flight, otherwise call self?
+			if(!isReturnBool && hasReturnBool){
+				SearchResultsGui returnFlightSearchResults = new SearchResultsGui(fpListArray, user_choices_list, true);
+			}
+			else{
+				ConfirmationGui confirmFlights = new ConfirmationGui(user_choices_list);
+			}
+			dispose();
+		}
+		else if(arg0.getActionCommand() == "Sort by Price"){
+			fpListArray.get(0).sortByLowestPrice();
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool);
+			dispose();
+		}
+		else if(arg0.getActionCommand() == "Sort by Time"){
+			fpListArray.get(0).sortByLeastTime();
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool);
+			dispose();
+		}
 	}
 
 	@Override

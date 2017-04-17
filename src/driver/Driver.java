@@ -1,7 +1,6 @@
 package driver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import airport.Airport;
 import flight.Flights;
@@ -28,7 +27,7 @@ public class Driver {
 	 */
 	public static void main(String[] args) {
 
-		//UserInterface userInt = UserInterface.instance;
+		UserInterface userInt = UserInterface.instance;
 		//Date departureDate, char[] departureAirportCode
 
 		SearchParams userParams = new SearchParams();
@@ -39,17 +38,10 @@ public class Driver {
 		ServerInterface resSys = ServerInterface.instance;
 		resSys.PopulateAirports();
 		resSys.PopulateAirplanes();
-		Flights arriving = resSys.GetArrivingFlights(userParams);
-		
-		Ticket aticket = new Ticket('f', arriving.getFlightList().get(5));
-		ArrayList<Ticket> ticketlist = new ArrayList<Ticket> (Arrays.asList(aticket));
-		FlightPlan myplan = new FlightPlan(1, aticket.getForFlight().getPriceFc(), aticket.getForFlight().getFlightTime(),ticketlist);
-		Reservation testreserve = new Reservation(false,true,myplan,null);
-		
-		resSys.lock();
-		resSys.ReserveTicket(testreserve);
-		resSys.unlock();
-		//userInt.DisplaySearch();
+
+
+		userInt.DisplaySearch();
+
 		
 		//FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
@@ -75,11 +67,16 @@ public class Driver {
 		userParams.setDepartureDate(new Date(5, 5, 2017));
 		Time time[] = {new Time(16, 50), new Time(22, 30)};
 		userParams.setDepartureTime(time);
+		userParams.setIsRoundTrip(true);
+		userParams.setRDepartureDate(new Date(7, 5, 2017));
+		Time time2[] = {new Time(16, 50), new Time(22, 30)};
+		userParams.setRDepartureTime(time2);
 		userParams.setSeatType('C');
 		
 		
 		ArrayList<FlightPlans> flightLists = plansGenerator.GeneratorManager(userParams);
 		userInt.DisplaySearchResults(flightLists.get(0));
+
 		
 		//Flights flightList = resSys.GetDepartingFlights(userParams);
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));

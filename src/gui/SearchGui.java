@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
@@ -14,6 +15,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 //import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.jdatepicker.impl.*;
 
@@ -32,6 +34,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	private UtilDateModel modelD, modelA;
 	private ButtonGroup dOrAButtonGroup, seatButtonGroup, roundTripButtonGroup;
 	private JSpinner timeSpinnerS, timeSpinnerE;
+	private LoadingGui loadingPage;
 	 
 	/**
 	 * 
@@ -41,8 +44,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	// Constructor to setup GUI components and event handlers
 	public SearchGui () {
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -316,7 +317,18 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 			RoundTripSearchGui round_trip_search = new RoundTripSearchGui(params);
 			return;
 		}
-		UserInterface.instance.HandleSearch(params);
+		
+		// display a processing message
+		LoadingGui loadingPage = new LoadingGui();
+		
+		Runnable handleSearch = new Runnable() {
+		     public void run() {
+		    	 UserInterface.instance.HandleSearch(params, loadingPage);
+		     }
+		};
+		
+		SwingUtilities.invokeLater(handleSearch);
+		
 		
 	}
 

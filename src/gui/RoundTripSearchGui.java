@@ -189,7 +189,8 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 			params.setRArrivalTime(tripTime);
 		}
 		dispose();
-		UserInterface.instance.HandleSearch(params);
+		LoadingGui loadingPage = new LoadingGui();
+		UserInterface.instance.HandleSearch(params, loadingPage);
 	}
 
 	@Override
