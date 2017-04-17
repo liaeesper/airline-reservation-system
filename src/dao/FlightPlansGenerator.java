@@ -29,9 +29,20 @@ public class FlightPlansGenerator {
 	
 	public int getLayoverTime(DateTime prevArrival, DateTime nextDeparture){
 		int layoverTime = getTimeBetween(prevArrival, nextDeparture);
+		Date pdate = prevArrival.getDate().IncrementDate();
 		
 		if(layoverTime >= 30 && layoverTime <= 4*60){
-			return layoverTime;
+			if(prevArrival.getDate().getDay() == nextDeparture.getDate().getDay() &&
+					prevArrival.getDate().getMonth() == nextDeparture.getDate().getMonth() &&
+					prevArrival.getDate().getYear() == nextDeparture.getDate().getYear()){
+				return layoverTime;
+			}
+			else if(prevArrival.getDate().getDay() == nextDeparture.getDate().getDay() &&
+					prevArrival.getDate().getMonth() == nextDeparture.getDate().getMonth() &&
+					prevArrival.getDate().getYear() == nextDeparture.getDate().getYear()){
+				return layoverTime;
+			}
+			
 		}
 		
 		return -1;		
@@ -167,11 +178,13 @@ public class FlightPlansGenerator {
 	
 	public ArrayList<FlightPlan> GenerateFlightLegs(FlightPlan unconcluded, SearchParams userParams, int level){
 		ServerInterface serverInterface = new ServerInterface();
+		ServerInterface serverInterface2 = new ServerInterface();
 		int aTime, dTime;
 		ArrayList<FlightPlan> concludedList = new ArrayList<FlightPlan>();
 		Flights searchResults = new Flights();
 		//SearchParams tempParams = userParams;
 		SearchParams tempParams = new SearchParams();
+		SearchParams tempParams2 = new SearchParams();
 		int flightDuration;
 		ArrayList<Ticket> tempTicket;
 		FlightPlan tempNewFlightPlan;
@@ -194,15 +207,16 @@ public class FlightPlansGenerator {
 		
 		searchResults.setFlightList((serverInterface.GetDepartingFlights(tempParams).getFlightList()));
 		
-
+		
 		//layover over midnight
 		if(dTime >= 24*60){
-			tempParams.setDepartureDate(tempParams.getDepartureDate().IncrementDate());
+			tempParams2.setArrivalAirportCode(userParams.getArrivalAirportCode());
+			tempParams2.setDepartureAirportCode(unconcluded.getLegs().get(level - 1).getForFlight().getArrivalAirport().getCode().toCharArray());
+			tempParams2.setDepartureDate(tempParams.getDepartureDate().IncrementDate());
 			tempSResults = new ArrayList<Flight>();
 			tempSResults.addAll(searchResults.getFlightList());
-			tempSResults.addAll(serverInterface.GetDepartingFlights(tempParams).getFlightList());
-			searchResults.setFlightList(tempSResults);
-			
+			tempSResults.addAll(serverInterface2.GetDepartingFlights(tempParams2).getFlightList());
+			searchResults.setFlightList(tempSResults);			
 		}
 		
 		filteredListLeg = FilterFlightsList(unconcluded, searchResults.getFlightList(), level);
