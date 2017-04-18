@@ -28,13 +28,8 @@ public class Driver {
 	public static void main(String[] args) {
 
 		UserInterface userInt = UserInterface.instance;
-		//Date departureDate, char[] departureAirportCode
 
-		//SearchParams userParams = new SearchParams();
-		//Date Departuredate = new Date(5,5,2017);
-		//userParams.setArrivalAirportCode("BOS".toCharArray());
-		//userParams.setArrivalDate(Departuredate);
-		//userParams.setIsRoundTrip(false);
+		
 		ServerInterface resSys = ServerInterface.instance;
 		resSys.PopulateAirports();
 		resSys.PopulateAirplanes();
@@ -82,10 +77,5 @@ public class Driver {
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
 		*/
 		}
-
-		
-		
-		
-	
 	
 }
