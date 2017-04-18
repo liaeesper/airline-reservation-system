@@ -1,9 +1,7 @@
-/airport/
 /dao/
-/driver/
-/flight/
 /gui/
 /plans/
-/servlet/
 /user/
 /utils/
+/airport/
+/driver/

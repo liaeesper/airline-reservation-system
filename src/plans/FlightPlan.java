@@ -90,8 +90,8 @@ public class FlightPlan {
 			}
 			
 			//We dont need the toString call below
-			//sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
-			sb.append(this.Legs.get(i).getForFlight().toString() + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
+			sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
+			//sb.append(this.Legs.get(i).getForFlight().toString() + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
 		}
 		
 		
