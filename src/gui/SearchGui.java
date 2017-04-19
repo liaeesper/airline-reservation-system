@@ -318,6 +318,15 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 			return;
 		}
 		
+		
+		
+		//For Lia's use
+		params.setArrivalAirportCode("TPA".toCharArray());
+		params.setDepartureAirportCode("BOS".toCharArray());
+		utils.Time timed[] = {new utils.Time(12, 45), new utils.Time(22, 30)};
+		params.setDepartureTime(timed);
+		
+		
 		// display a processing message
 		LoadingGui loadingPage = new LoadingGui();
 		

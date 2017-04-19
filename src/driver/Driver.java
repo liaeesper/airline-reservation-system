@@ -2,6 +2,7 @@ package driver;
 
 import java.util.ArrayList;
 
+import airport.Airplanes;
 import airport.Airport;
 import flight.Flights;
 import flight.Flight;
@@ -31,8 +32,8 @@ public class Driver {
 
 		
 		ServerInterface resSys = ServerInterface.instance;
-		resSys.PopulateAirports();
-		resSys.PopulateAirplanes();
+		Airports.instance = resSys.PopulateAirports();
+		Airplanes.instance = resSys.PopulateAirplanes();
 
 
 		userInt.DisplaySearch();

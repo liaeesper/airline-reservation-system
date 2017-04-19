@@ -54,11 +54,12 @@ public class FlightPlan {
 		int minutes = this.TotalTime;
 		
 		
+		/*
 		if(minutes >= 60){
 			sb.append(String.valueOf(minutes / 60) + " hours ");
 			minutes = minutes % 60;
 		}
-		
+		*/
 		
 		sb.append(String.valueOf(minutes) + " minutes\n");
 		
@@ -78,20 +79,20 @@ public class FlightPlan {
 				
 				sb.append("\nLayover Time ");
 				
+				/*
 				
 				if(lTime >= 60){
 					sb.append(String.valueOf(lTime / 60) + " hours ");
 					lTime = lTime % 60;
 				}
-				
+				*/
 				
 				sb.append(String.valueOf(lTime) + " minutes\n\n");
 				
 			}
 			
-			//We dont need the toString call below
-			sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
-			//sb.append(this.Legs.get(i).getForFlight().toString() + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
+			//sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
+			sb.append(this.Legs.get(i).getForFlight().toString() + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
 		}
 		
 		
