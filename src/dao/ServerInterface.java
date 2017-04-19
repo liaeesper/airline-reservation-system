@@ -26,7 +26,12 @@ import utils.Time;
 import dao.XMLParser;
 import flight.Flight;
 
-
+/**
+ * ServerInterface queries WPI's server for information about airports, airplanes, and flights.
+ * All information is returned from the server as an XML string.
+ * Additionally, ServerInterface requests server lock and unlock modes as well as flight reservations.
+ * @author Team G
+ */
 public class ServerInterface {
 	private final String ServerLocation = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 	private String TeamName = "TeamG";
@@ -38,6 +43,10 @@ public class ServerInterface {
 		return this.ServerLocation;
 	}
 	
+	/**
+	 * Queries WPI's server for a list of airports using HTTP GET request. Calls XML parsing methods to parse XML string returned from server.
+	 * @return An Airports class containing a list of airports retrieved from WPI's server
+	 */
 	public Airports PopulateAirports(){
 		URL url;
 		HttpURLConnection connection;
@@ -49,15 +58,13 @@ public class ServerInterface {
 		Airports airports;
 
 		try {
-			/**
-			 * Create an HTTP connection to the server for a GET 
-			 */
+			//Create an HTTP connection to the server for a GET 
 			url = new URL(ServerLocation + QueryFactory.getAirports(TeamName));
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("User-Agent", TeamName);
 
-			/**
+			/*
 			 * If response code of SUCCESS read the XML string returned
 			 * line by line to build the full return string
 			 */
@@ -78,8 +85,10 @@ public class ServerInterface {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		xmlAirports = result.toString();
+		
+		//call XML parser to generate airports class
 		airports = XMLParser.addAll(xmlAirports);
 		return airports;
 	}
@@ -87,8 +96,6 @@ public class ServerInterface {
 	
 	/**
 	 * Lock the database for updating by the specified team. The operation will fail if the lock is held by another team.
-	 * 
-	 * @param teamName is the name of team requesting server lock
 	 * @return true if the server was locked successfully, else false
 	 */
 	public boolean lock () {
@@ -134,10 +141,8 @@ public class ServerInterface {
 	/**
 	 * Unlock the database previous locked by specified team. The operation will succeed if the server lock is held by the specified
 	 * team or if the server is not currently locked. If the lock is held be another team, the operation will fail.
-	 * 
+	 * <p>
 	 * The server interface to unlock the server interface uses HTTP POST protocol
-	 * 
-	 * @param teamName is the name of the team holding the lock
 	 * @return true if the server was successfully unlocked.
 	 */
 	public boolean unlock () {
@@ -186,7 +191,12 @@ public class ServerInterface {
 		return true;
 	}
 
-			
+	/**
+	 * Queries WPI's server for a list of flights departing from a specific airport using HTTP GET request.
+	 * Calls XML parsing methods to parse XML string returned from server.
+	 * @param searchParams is a SearchParams object containing user specified data necessary for requesting flight information from the server. (Airport code, departure date)
+	 * @return An Flights class containing a list of flights departing from an airport specified in searchParams and retrieved from WPI's server
+	 */
 	public Flights GetDepartingFlights(SearchParams searchParams){
 		URL url;
 		HttpURLConnection connection;
@@ -200,7 +210,7 @@ public class ServerInterface {
 		String day = String.valueOf(searchParams.getDepartureDate().getYear()) + "_" + String.valueOf(searchParams.getDepartureDate().getMonth()) + "_" + String.valueOf(searchParams.getDepartureDate().getDay());
 		
 		try {
-			/**
+			/*
 			 * Create an HTTP connection to the server for a GET 
 			 */
 			url = new URL(ServerLocation + QueryFactory.getDepartingFlights(TeamName, airportCode, day));
@@ -228,10 +238,18 @@ public class ServerInterface {
 		}
 		
 		xmlFlights = result.toString();
+		
+		//call XML parser to generate Flights class
 		Flights flights = XMLParser.addAllFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
 		return flights;
 	}
 	
+	/**
+	 * Queries WPI's server for a list of flights arriving at specific airport using HTTP GET request.
+	 * Calls XML parsing methods to parse XML string returned from server.
+	 * @param searchParams is a SearchParams object containing user specified data necessary for requesting flight information from the server. (Airport code, arrival date)
+	 * @return An Flights class containing a list of flights arriving at an airport specified in searchParams and retrieved from WPI's server
+	 */
 	public Flights GetArrivingFlights(SearchParams searchParams){
 		URL url;
 		HttpURLConnection connection;
@@ -245,7 +263,7 @@ public class ServerInterface {
 		String day = String.valueOf(searchParams.getArrivalDate().getYear()) + "_" + String.valueOf(searchParams.getArrivalDate().getMonth()) + "_" + String.valueOf(searchParams.getArrivalDate().getDay());
 		
 		try {
-			/**
+			/*
 			 * Create an HTTP connection to the server for a GET 
 			 */
 			url = new URL(ServerLocation + QueryFactory.getArrivingFlights(TeamName, airportCode, day));
@@ -273,10 +291,17 @@ public class ServerInterface {
 		}
 		
 		xmlFlights = result.toString();
+		
+		//call XML parser to generate Flights class
 		Flights flights = XMLParser.addAllArrivingFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
 		return flights;
 	}
 	
+	/**
+	 * Queries WPI's server for a list of airplanes using HTTP GET request.
+	 * Calls XML parsing methods to parse XML string returned from server.
+	 * @return An Airplanes class containing a list of airplanes retrieved from WPI's server
+	 */
 	public Airplanes PopulateAirplanes(){
 		URL url;
 		HttpURLConnection connection;
@@ -288,7 +313,7 @@ public class ServerInterface {
 		Airplanes airplanes;
 		
 		try {
-			/**
+			/*
 			 * Create an HTTP connection to the server for a GET 
 			 */
 			url = new URL(ServerLocation + QueryFactory.getAirplanes(TeamName));
@@ -296,7 +321,7 @@ public class ServerInterface {
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("User-Agent", TeamName);
 
-			/**
+			/*
 			 * If response code of SUCCESS read the XML string returned
 			 * line by line to build the full return string
 			 */
@@ -319,11 +344,18 @@ public class ServerInterface {
 		}
 		
 		xmlAirplanes = result.toString();
+		//call XML parser to generate Airplanes class
 		airplanes = XMLParser.addAllAirplanes(xmlAirplanes);
 		return airplanes;
 	}
 	
-	
+	/**
+	 * Requests flight reservations from WPI's server for a specific flightPlan using an HTTP POST request. The method considers all legs of a given flightPlan and attempts to reserve a seat for each of the legs.
+	 * @param plan contains information about flightPlan that the user has selected for reservation
+	 * @return True if the flightPlan was reserved successfully
+	 * <p>
+	 * False if there are no seats of the chosen seat type left on at least one leg of the flightPlan, or if the database was not locked before request
+	 */
 	public boolean ReserveTicket(Reservation plan){
 		URL url;
 		HttpURLConnection connection;
