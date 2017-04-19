@@ -210,6 +210,7 @@ public class Flight {
 		sb.append(FlightNumber).append(" ");
 		sb.append(DepartureAirport.getName() + " (" + DepartureAirport.getCode() + ") -> " + ArrivalAirport.getName() + " (" + ArrivalAirport.getCode() + ")\n");
 		
+		//Lia needs this, Don't delete until the end
 		/*
 		sb.append(String.valueOf(DepartureTime.getDate().getMonth()) + "/" + String.valueOf(DepartureTime.getDate().getDay()) + "/" + String.valueOf(DepartureTime.getDate().getYear()) + " ");
 		
