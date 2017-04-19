@@ -210,7 +210,7 @@ public class Flight {
 		sb.append(FlightNumber).append(" ");
 		sb.append(DepartureAirport.getName() + " (" + DepartureAirport.getCode() + ") -> " + ArrivalAirport.getName() + " (" + ArrivalAirport.getCode() + ")\n");
 		
-		/*
+		
 		sb.append(String.valueOf(DepartureTime.getDate().getMonth()) + "/" + String.valueOf(DepartureTime.getDate().getDay()) + "/" + String.valueOf(DepartureTime.getDate().getYear()) + " ");
 		
 		if(DepartureTime.getTime().getHours()%12 == 0){
@@ -271,7 +271,7 @@ public class Flight {
 		}
 		
 		sb.append(String.valueOf(a - d) + "\n");
-		*/
+		
 		
 
 		
@@ -282,7 +282,7 @@ public class Flight {
 		
 		
 		
-		
+		/*
 		sb.append(month + "/" + day_DEP + "/" + year + " ");
 		
 		//Append time in 12 hour format to string buffer
@@ -347,7 +347,7 @@ public class Flight {
 		
 		sb.append(timeZone_ARR + "\n");
 		
-		
+		*/
 		
 		/*
 		int minutes = ArrivalTime.getTime().getTimeInMinutes() - DepartureTime.getTime().getTimeInMinutes();
