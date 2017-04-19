@@ -324,6 +324,8 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		params.setDepartureAirportCode("BOS".toCharArray());
 		utils.Time timed[] = {new utils.Time(12, 45), new utils.Time(22, 30)};
 		params.setDepartureTime(timed);
+		params.setDepartureDate(null);
+		params.setArrivalDate(new utils.Date(7, 5, 2017));
 		
 		
 		// display a processing message
