@@ -1,5 +1,11 @@
 package utils;
 
+/**
+ * The Date class is a utility used to store date information (day, month, year) for flights, and search criteria.
+ * Additionally, the Date class contains methods to map a month string to an integer, and to increment a the date by one day. 
+ * @author Team G
+ */
+
 public class Date {
 	private int Day, Month, Year;
 	
