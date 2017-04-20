@@ -2,6 +2,11 @@ package airport;
 
 import java.util.ArrayList;
 
+/**
+ * Contains a collection (ArrayList) of the full set of Airport objects retrieved from WPI's server
+ * @author Team G
+ *
+ */
 public class Airports extends ArrayList<Airport> {
 	private static final long serialVersionUID = 1L;
 	public static Airports instance =  new Airports();
