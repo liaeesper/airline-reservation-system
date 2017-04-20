@@ -89,7 +89,7 @@ public class ServerInterface {
 		xmlAirports = result.toString();
 		
 		//call XML parser to generate airports class
-		airports = XMLParser.addAll(xmlAirports);
+		airports = XMLParser.addAllAirports(xmlAirports);
 		return airports;
 	}
 	
@@ -240,7 +240,7 @@ public class ServerInterface {
 		xmlFlights = result.toString();
 		
 		//call XML parser to generate Flights class
-		Flights flights = XMLParser.addAllFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
+		Flights flights = XMLParser.addAllDepartingFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
 		return flights;
 	}
 	

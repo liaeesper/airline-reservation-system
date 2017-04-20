@@ -54,7 +54,7 @@ public class XMLParser {
 	 * @pre the xmlAirports string adheres to the format specified by the server API
 	 * @post the [possibly empty] set of Airports in the XML string are added to collection
 	 */
-	public static Airports addAll (String xmlAirports) throws NullPointerException {
+	public static Airports addAllAirports (String xmlAirports) throws NullPointerException {
 		Airports airports = Airports.instance;
 		
 		// Load the XML string into a DOM tree for ease of processing
@@ -129,7 +129,7 @@ public class XMLParser {
 	 * @return a Flights object which is a collection of flights departing from the specified airport and parsed from the xmlFlights XML string argument
 	 * @throws NullPointerException
 	 */
-	public static Flights addAllFlights (String xmlFlights, String departureairportcode) throws NullPointerException {
+	public static Flights addAllDepartingFlights (String xmlFlights, String departureairportcode) throws NullPointerException {
 		
 		ArrayList<Flight> flightlist = new ArrayList<Flight>();
 		Airports airports = Airports.instance;
@@ -145,7 +145,7 @@ public class XMLParser {
 		
 		for (int i = 0; i < nodesFlights.getLength(); i++) {
 			Element elementFlight = (Element) nodesFlights.item(i);
-			Flight flight = buildFlight (elementFlight, airports, airplanes, DepartureAirport);
+			Flight flight = buildDepartingFlight (elementFlight, airports, airplanes, DepartureAirport);
 			
 			flightlist.add(flight);
 		}
@@ -195,7 +195,7 @@ public class XMLParser {
 	 * @param departureairport is the airport from which the flight contained in the DOM node is departing
 	 * @return Flight object created from a DOM representation of a flight
 	 */
-	static private Flight buildFlight (Node nodeFlight, Airports airports, Airplanes airplanes, Airport departureairport) {
+	static private Flight buildDepartingFlight (Node nodeFlight, Airports airports, Airplanes airplanes, Airport departureairport) {
 		//Instantiate all necessary variables
 		Flight flight;
 		int FlightNumber;
