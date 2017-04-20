@@ -3,6 +3,23 @@ package plans;
 import utils.Date;
 import utils.Time;
 
+/**
+ * Contains user desired search criteria used for querying WPI's server for informations and in flightPlan generation
+ * @param DepartureDate is the user desired date of departure. Null if ArrivalDate contains a value
+ * @param DepartureTime is an array containing the range of desired departure time. Index 0 is the earliest time and index 1 is the latest time. Null if ArrivalTime contains a value
+ * @param DepartureAirportCode is the 3 letter code of the desired departure airport
+ * @param ArrivalDate is the user desired date of arrival. Null if DepartureDate contains a value
+ * @param ArrivalTime is an array containing the range of desired arrival time. Index 0 is the earliest time and index 1 is the latest time. Null if DepartureTime contains a value
+ * @param ArrivalAirportCode is the 3 letter code of the desired arrival airport
+ * @param IsRoundTrip is true if the user desires a round trip flight, else false
+ * @param RDepartureDate is the date of departure for the return flight in a round trip flight. Null if not round trip
+ * @param RDepartureTime is an array containing the range of desired departure time for the return flight in a round trip flight. Index 0 is the earliest time and index 1 is the latest time. Null if RArrivalTime contains a value or if not round trip
+ * @param RArrivalDate is the date of arrival for the return flight in a round trip flight. Null if not round trip
+ * @param RArrivalTime is an array containing the range of desired arrival time for the return flight in a round trip flight. Index 0 is the earliest time and index 1 is the latest time. Null if RDepartureTime contains a value or if not round trip
+ * @param SeatType is the desired seating type. Either first class or coach.
+ * @author Team G
+ *
+ */
 public class SearchParams {
 	private Date DepartureDate;
 	private Time[] DepartureTime;
@@ -17,6 +34,10 @@ public class SearchParams {
 	private Time[] RArrivalTime;
 	private char SeatType;
 	
+	/**
+	 * Converts the local time retrieved from the user to GMT time. GMT time is used for querying the server
+	 * for flight information and for flightPlan generation
+	 */
 	public void convertToGMT(){
 		if(DepartureTime != null){
 			//DEPARTURE

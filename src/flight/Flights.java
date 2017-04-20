@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import airport.Airport;
 import utils.Date;
 
+/**
+ * Contains a collection (ArrayList) of the full set of flights (Flight objects) departing
+ * from a given airport on a given date
+ * @author Team G
+ *
+ */
 public class Flights {
 	private Airport DepartureAirport;
 	private Date DepartureDate;

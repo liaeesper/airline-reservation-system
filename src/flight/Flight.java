@@ -7,6 +7,22 @@ import utils.Date;
 import utils.Time;
 import utils.DateTime;
 
+/**
+ * Contains information about a single flight
+ * @param DepartureAirport is the airport that the flight is departing from
+ * @param FlightNumber is the flight number used as an identifier in WPI's server
+ * @param PlaneType is the type of plane that the flight is using. Necessary for seating information
+ * @param FlightTime is the total amount of time a flight takes from departure to arrival
+ * @param DepartureTime contains the date and time of departure
+ * @param ArrivalAirport is the airport that the flight is arriving at
+ * @param ArrivalTime is the airport that the flight is arriving at
+ * @param SeatFc is the number of first class seats available on the flight
+ * @param SeatC is the number of coach seats available on the flight
+ * @param PriceFc is the cost of reserving a first class seat
+ * @param PriceC is the cost of reserving a coach seat
+ * @author Team G
+ *
+ */
 public class Flight {
 	//private Flights FlightGroup; //- what is this.
 	private Airport DepartureAirport;
