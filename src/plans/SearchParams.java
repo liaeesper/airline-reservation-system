@@ -18,7 +18,7 @@ public class SearchParams {
 	private char SeatType;
 	
 	public void convertToGMT(){
-		if(DepartureTime != null){
+		if(DepartureDate != null){
 			//DEPARTURE
 			for (int i = 0; i < DepartureTime.length; i++){
 				int GMTHours = this.DepartureTime[i].getGMTHours(String.valueOf(this.DepartureAirportCode));
