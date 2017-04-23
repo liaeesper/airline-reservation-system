@@ -1,6 +1,9 @@
 package utils;
 import java.math.BigDecimal;
-
+/**
+ * The Price class is a utility used to store the cost of individual flights and full flight plans.
+ * @author Team G
+ */
 //idk which format to use so here's code for both
 public class Price {
 	//weird that we have floats in some places and doubles in others.

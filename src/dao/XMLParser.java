@@ -32,7 +32,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
+/**
+ * Contains methods to parse XML strings containing airport, airplane, and flight information.
+ * 
+ * @author Team G
+ *
+ */
 public class XMLParser {
 	
 	/**
@@ -49,7 +54,7 @@ public class XMLParser {
 	 * @pre the xmlAirports string adheres to the format specified by the server API
 	 * @post the [possibly empty] set of Airports in the XML string are added to collection
 	 */
-	public static Airports addAll (String xmlAirports) throws NullPointerException {
+	public static Airports addAllAirports (String xmlAirports) throws NullPointerException {
 		Airports airports = Airports.instance;
 		
 		// Load the XML string into a DOM tree for ease of processing
@@ -115,8 +120,16 @@ public class XMLParser {
 		return airport;
 	}
 	
-	//return a list of flights
-	public static Flights addAllFlights (String xmlFlights, String departureairportcode) throws NullPointerException {
+	/**
+	 * Builds a collection of Flights departing form a specific airport from an XML string.
+	 * This method iterates thru an XML string and uses the buildFlight method to parse an individual DOM node into a Flight object.
+	 * FLight objects are concatenated into a single Flights object.
+	 * @param xmlFlights is the XML string containing desired flight information
+	 * @param departureairportcode is the airport code of the airport from which all flights in XML string are departing from. Necessary for building a FLight object. 
+	 * @return a Flights object which is a collection of flights departing from the specified airport and parsed from the xmlFlights XML string argument
+	 * @throws NullPointerException
+	 */
+	public static Flights addAllDepartingFlights (String xmlFlights, String departureairportcode) throws NullPointerException {
 		
 		ArrayList<Flight> flightlist = new ArrayList<Flight>();
 		Airports airports = Airports.instance;
@@ -132,7 +145,7 @@ public class XMLParser {
 		
 		for (int i = 0; i < nodesFlights.getLength(); i++) {
 			Element elementFlight = (Element) nodesFlights.item(i);
-			Flight flight = buildFlight (elementFlight, airports, airplanes, DepartureAirport);
+			Flight flight = buildDepartingFlight (elementFlight, airports, airplanes, DepartureAirport);
 			
 			flightlist.add(flight);
 		}
@@ -140,6 +153,15 @@ public class XMLParser {
 		return new Flights(DepartureAirport, null, flightlist);
 	}
 	
+	/**
+	 * Builds a collection of Flights arriving at a specific airport from an XML string.
+	 * This method iterates thru an XML string and uses the buildFlight method to parse an individual DOM node into a Flight object.
+	 * FLight objects are concatenated into a single Flights object.
+	 * @param xmlFlights is the XML string containing desired flight information
+	 * @param arrivalairportcode is the airport code of the airport that all flights in the XML string are arriving at. Necessary for building a FLight object. 
+	 * @return a Flights object which is a collection of flights arriving at the specified airport and parsed from the xmlFlights XML string argument
+	 * @throws NullPointerException
+	 */
 	public static Flights addAllArrivingFlights (String xmlFlights, String arrivalairportcode) throws NullPointerException {
 		
 		ArrayList<Flight> flightlist = new ArrayList<Flight>();
@@ -167,11 +189,14 @@ public class XMLParser {
 	
 	/**
 	 * Creates an Flight object from a DOM node
+	 * @param nodeFlight is a DOM node describing the flight
+	 * @param airports is the full list of airports contained in WPI's server
+	 * @param airplanes is the full list of airplanes contained in WPI's server
+	 * @param departureairport is the airport from which the flight contained in the DOM node is departing
+	 * @return Flight object created from a DOM representation of a flight
 	 */
-	static private Flight buildFlight (Node nodeFlight, Airports airports, Airplanes airplanes, Airport departureairport) {
-		/**
-		 * Instantiate all necessary variables
-		 */
+	static private Flight buildDepartingFlight (Node nodeFlight, Airports airports, Airplanes airplanes, Airport departureairport) {
+		//Instantiate all necessary variables
 		Flight flight;
 		int FlightNumber;
 		String PlaneType;
@@ -243,19 +268,22 @@ public class XMLParser {
 		SeatC = AirplaneUsed.getCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
 		//SeatC = 6;
 
-		
-		/**
-		 * Update the Airport object with values from XML node
-		 */
+		//Update the Airport object with values from XML node
 		flight = new Flight(departureairport, FlightNumber, PlaneType, FlightTime, DepartureTime, ArrivalAirport, ArrivalTime, SeatFc, SeatC, PriceFc, PriceC);
 		
 		return flight;
 	}
 	
+	/**
+	 * Creates an Flight object from a DOM node
+	 * @param nodeFlight is a DOM node describing the flight
+	 * @param airports is the full list of airports contained in WPI's server
+	 * @param airplanes is the full list of airplanes contained in WPI's server
+	 * @param arrivalairport is the airport at which the flight contained in the DOM node is arriving
+	 * @return Flight object created from a DOM representation of a flight
+	 */
 	static private Flight buildArrivingFlight (Node nodeFlight, Airports airports, Airplanes airplanes, Airport arrivalairport) {
-		/**
-		 * Instantiate all necessary variables
-		 */
+		//Instantiate all necessary variables
 		Flight flight;
 		int FlightNumber;
 		String PlaneType;
@@ -325,15 +353,23 @@ public class XMLParser {
 		PriceC = new Price(new BigDecimal(coach.getAttributeNode("Price").getValue().substring(1).replace(",", "")));
 		SeatC = AirplaneUsed.getCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
 		
-		/**
-		 * Update the Airport object with values from XML node
-		 */
+
+		//Update the Airport object with values from XML node
 		flight = new Flight(DepartureAirport, FlightNumber, PlaneType, FlightTime, DepartureTime, arrivalairport, ArrivalTime, SeatFc, SeatC, PriceFc, PriceC);
 		
 		return flight;
 	}
 	
-	//return a list of flights
+	/**
+	 * Builds collection of airplanes from airplanes described in XML. Airplane objects are compiled into a single Airplanes object.
+	 * 
+	 * Parses an XML string to read each of the airplanes and adds each valid airplane
+	 * to the collection. The method uses Java DOM (Document Object Model) to convert
+	 * from XML to Java primitives.
+	 * @param xmlAirplanes is an XML string containing set of airplanes 
+	 * @return collection of airplanes parsed from the xml string
+	 * @throws NullPointerException
+	 */
 	public static Airplanes addAllAirplanes (String xmlAirplanes) throws NullPointerException {
 		Airplanes airplanes = Airplanes.instance;
 		
@@ -352,8 +388,13 @@ public class XMLParser {
 	
 	}
 	
+	/**
+	 * Creates an Airplane object from a DOM node
+	 * @param nodeAirplane is a DOM node describing the airplane
+	 * @return Airplane object created from a DOM representation of an airplane
+	 */
 	static private Airplane buildAirplane (Node nodeAirplane) {
-		/**
+		/*
 		 * Instantiate an empty Airplane object
 		 */
 		Airplane airplane;
@@ -393,7 +434,7 @@ public class XMLParser {
 	 * @return DOM tree from parsed XML or null if exception is caught
 	 */
 	static private Document buildDomDoc (String xmlString) {
-		/**
+		/*
 		 * load the xml string into a DOM document and return the Document
 		 */
 		try {

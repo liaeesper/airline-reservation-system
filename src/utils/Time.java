@@ -1,6 +1,10 @@
 package utils;
 import java.util.*;
-
+/**
+ * The Time class is a utility used to store time information (hours, minutes) for flights, and search criteria.
+ * Additionally, the Time class contains methods that convert GMT to local time, and vice-versa.
+ * @author Team G
+ */
 public class Time {
 	private int Hours;
 	private int Minutes;
