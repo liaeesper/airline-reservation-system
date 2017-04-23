@@ -92,8 +92,8 @@ public class FlightPlan {
 			}
 			
 			//first line here is for Lia to use when debugging because it helps her. Please don't delete it until we are done.
-			sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
-			//sb.append(this.Legs.get(i).getForFlight().toString() + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
+			//sb.append(this.Legs.get(i).getForFlight().toString(this.Legs.get(i).getSeatType()) + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
+			sb.append(this.Legs.get(i).getForFlight().toString() + "Seat Type " + this.Legs.get(i).getSeatType() + "\n");
 		}
 		
 		
