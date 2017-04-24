@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 
+import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
 
@@ -102,6 +103,10 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		ServerInterface.instance.lock();
+		
+		
+		ServerInterface.instance.unlock();
 
 	}
 
