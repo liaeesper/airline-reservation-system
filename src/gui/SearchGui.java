@@ -31,7 +31,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	//JPanel panel = new JPanel();
 	
 	private Choice airportDepList, airportArrList;
-	private UtilDateModel modelD, modelA;
+	private UtilDateModel modelDate;
 	private ButtonGroup dOrAButtonGroup, seatButtonGroup, roundTripButtonGroup;
 	private JSpinner timeSpinnerS, timeSpinnerE;
 	private LoadingGui loadingPage;
@@ -79,87 +79,69 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
-		add(new JLabel("Departure Date:"), gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		add(new JLabel("Arrival Date:"), gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 5;
 		add(new JLabel("Departure or Arrival Date Selection:"), gbc);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 7;
+		gbc.gridy = 5;
+		add(new JLabel("Date:"), gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 6;
 		add(new JLabel("Time Window Begin:"), gbc);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 8;
+		gbc.gridy = 7;
 		add(new JLabel("Time Window End:"), gbc);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 9;
+		gbc.gridy = 8;
 		add(new JLabel("Seating Type:"), gbc);
 
 		gbc.gridx = 0;
-		gbc.gridy = 11;
+		gbc.gridy = 10;
 		add(new JLabel("Round Trip:"), gbc);
 		
-		// add the calendar selection for departure and arrival date
-		modelD = new UtilDateModel();
-		modelA = new UtilDateModel();
+		// add radio button to choose departure or arrival date/time
+		
+		JRadioButton departureButton = new JRadioButton("Departure");
+		departureButton.setMnemonic(0);
+		departureButton.setSelected(true);
+		
+		JRadioButton arrivalButton = new JRadioButton("Arrival");
+		arrivalButton.setMnemonic(1);
 
-		modelD.setDate(2017, 4, 5); // month is zero based, this is May 5
-		modelA.setDate(2017, 4, 5);
+	    dOrAButtonGroup = new ButtonGroup();
+	    dOrAButtonGroup.add(departureButton);
+	    dOrAButtonGroup.add(arrivalButton);
+	 
+
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		add(departureButton, gbc);
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		add(arrivalButton, gbc);
+		
+		// add the calendar selection for departure or arrival date
+		modelDate = new UtilDateModel();
+
+		modelDate.setDate(2017, 4, 5); // month is zero based, this is May 5
 
 		Properties p = new Properties();
 		p.put("text.today", "Today");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		
-		JDatePanelImpl datePanelD = new JDatePanelImpl(modelD, p);
-		JDatePanelImpl datePanelA = new JDatePanelImpl(modelA, p);
-		JDatePickerImpl datePickerD = new JDatePickerImpl(datePanelD, new DateLabelFormatter());
-		JDatePickerImpl datePickerA = new JDatePickerImpl(datePanelA, new DateLabelFormatter());
+		JDatePanelImpl datePanel = new JDatePanelImpl(modelDate, p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
 		// sets the default date as selected
-		datePickerD.getModel().setSelected(true);
-		datePickerA.getModel().setSelected(true);
+		datePicker.getModel().setSelected(true);
 
 		
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		add(datePickerD, gbc);
-		
-		gbc.gridx = 1;
-		gbc.gridy = 4;
-		add(datePickerA, gbc);
-		
-		JRadioButton departureButton = new JRadioButton("Departure");
-		departureButton.setMnemonic(0);
-		//departureButton.setActionCommand(departureButton.getText());
-		departureButton.setSelected(true);
-		
-		JRadioButton arrivalButton = new JRadioButton("Arrival");
-		arrivalButton.setMnemonic(1);
-		//arrivalButton.setActionCommand(arrivalButton.getText());
-		//arrivalButton.setSelected(true);
-
-	    dOrAButtonGroup = new ButtonGroup();
-	    dOrAButtonGroup.add(departureButton);
-	    dOrAButtonGroup.add(arrivalButton);
-	    
-	    //departureButton.addActionListener(this);
-	    //arrivalButton.addActionListener(this);
-
-
 		gbc.gridx = 1;
 		gbc.gridy = 5;
-		add(departureButton, gbc);
-		gbc.gridx = 1;
-		gbc.gridy = 6;
-		//gbc.insets = new Insets(10,0,0,0);
-		add(arrivalButton, gbc);
+		add(datePicker, gbc);
 
 		
 		timeSpinnerS = new JSpinner( new SpinnerDateModel() );
@@ -174,11 +156,11 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 
 		
 		gbc.gridx = 1;
-		gbc.gridy = 7;
+		gbc.gridy = 6;
 		add(timeSpinnerS, gbc);
 		
 		gbc.gridx = 1;
-		gbc.gridy = 8;
+		gbc.gridy = 7;
 		add(timeSpinnerE, gbc);
 		
 		// seating type selection
@@ -193,10 +175,10 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	    seatButtonGroup.add(firstClassButton);
 
 		gbc.gridx = 1;
-		gbc.gridy = 9;
+		gbc.gridy = 8;
 		add(economyButton, gbc);
 		gbc.gridx = 1;
-		gbc.gridy = 10;
+		gbc.gridy = 9;
 		add(firstClassButton, gbc);
 
 		// round trip selection
@@ -212,15 +194,15 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	    roundTripButtonGroup.add(isRTButton);
 
 		gbc.gridx = 1;
-		gbc.gridy = 11;
+		gbc.gridy = 10;
 		add(isNotRTButton, gbc);
 		gbc.gridx = 1;
-		gbc.gridy = 12;
+		gbc.gridy = 11;
 		add(isRTButton, gbc);
 		
 		// submit search button
 		gbc.gridx = 1;
-		gbc.gridy = 14;
+		gbc.gridy = 13;
 		Button submitButton = new Button("Search");
 		add(submitButton, gbc);  
 		
@@ -276,7 +258,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		Date endTime;
 		if(departureOrArrival == 0){
 			// departure date/time selected
-			tripDate = new utils.Date(modelD.getDay(), modelD.getMonth() + 1, modelD.getYear());
+			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
 			startTime = (Date) timeSpinnerS.getValue();
 			endTime = (Date) timeSpinnerE.getValue();
 			calendar.setTime(startTime);
@@ -288,7 +270,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		}
 		else{
 			// arrival date/time selected
-			tripDate = new utils.Date(modelD.getDay(), modelD.getMonth() + 1, modelD.getYear());
+			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
 			startTime = (Date) timeSpinnerS.getValue();
 			endTime = (Date) timeSpinnerE.getValue();
 			calendar.setTime(startTime);
@@ -329,7 +311,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		*/
 		
 		// display a processing message
-		LoadingGui loadingPage = new LoadingGui();
+		loadingPage = new LoadingGui();
 		
 		Runnable handleSearch = new Runnable() {
 		     public void run() {
