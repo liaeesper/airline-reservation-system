@@ -1,5 +1,10 @@
 package airport;
 
+/**
+ * Contains information for a given airport including the airport name, airport code, latitude, and longitude.
+ * @author Team G
+ *
+ */
 public class Airport {
 	
 	private String Name;

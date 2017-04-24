@@ -18,13 +18,16 @@ public class SearchParams {
 	private char SeatType;
 	
 	public void convertToGMT(){
-		if(DepartureTime != null){
+		if(DepartureDate != null){
 			//DEPARTURE
 			for (int i = 0; i < DepartureTime.length; i++){
 				int GMTHours = this.DepartureTime[i].getGMTHours(String.valueOf(this.DepartureAirportCode));
 				if (GMTHours > 23){
 					GMTHours = GMTHours - 24;
-					this.DepartureDate.setDay(this.DepartureDate.getDay() + 1);
+					
+					if(i == 0){
+						this.DepartureDate.setDay(this.DepartureDate.getDay() + 1);
+					}
 				}
 				this.DepartureTime[i].setHours(GMTHours);
 			}
@@ -35,7 +38,10 @@ public class SearchParams {
 				int GMTHours = this.ArrivalTime[i].getGMTHours(String.valueOf(this.ArrivalAirportCode));
 				if (GMTHours > 23){
 					GMTHours = GMTHours - 24;
-					this.ArrivalDate.setDay(this.ArrivalDate.getDay() + 1);
+					
+					if(i == 0){
+						this.ArrivalDate.setDay(this.ArrivalDate.getDay() + 1);
+					}
 				}
 				this.ArrivalTime[i].setHours(GMTHours);
 			}
@@ -211,5 +217,6 @@ public class SearchParams {
 		this.IsRoundTrip = outgoingParams.IsRoundTrip;
 		this.SeatType = outgoingParams.SeatType;
 	}
+	
 	
 }

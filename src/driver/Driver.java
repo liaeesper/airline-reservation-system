@@ -2,6 +2,7 @@ package driver;
 
 import java.util.ArrayList;
 
+import airport.Airplanes;
 import airport.Airport;
 import flight.Flights;
 import flight.Flight;
@@ -28,16 +29,11 @@ public class Driver {
 	public static void main(String[] args) {
 
 		UserInterface userInt = UserInterface.instance;
-		//Date departureDate, char[] departureAirportCode
 
-		//SearchParams userParams = new SearchParams();
-		//Date Departuredate = new Date(5,5,2017);
-		//userParams.setArrivalAirportCode("BOS".toCharArray());
-		//userParams.setArrivalDate(Departuredate);
-		//userParams.setIsRoundTrip(false);
+		
 		ServerInterface resSys = ServerInterface.instance;
-		resSys.PopulateAirports();
-		resSys.PopulateAirplanes();
+		Airports.instance = resSys.PopulateAirports();
+		Airplanes.instance = resSys.PopulateAirplanes();
 
 
 		userInt.DisplaySearch();
@@ -82,10 +78,5 @@ public class Driver {
 		//userInt.DisplaySearchResultsProto(flightList);//resSys.GetFlights(userParams));
 		*/
 		}
-
-		
-		
-		
-	
 	
 }
