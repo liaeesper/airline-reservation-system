@@ -40,7 +40,7 @@ public class SearchParams {
 	 */
 	public void convertToGMT(){
 		if(DepartureDate != null){
-			//DEPARTURE
+			//DEPARTURE OUTGOING
 			for (int i = 0; i < DepartureTime.length; i++){
 				int GMTHours = this.DepartureTime[i].getGMTHours(String.valueOf(this.DepartureAirportCode));
 				if (GMTHours > 23){
@@ -53,8 +53,8 @@ public class SearchParams {
 				this.DepartureTime[i].setHours(GMTHours);
 			}
 		}
-		else{
-			//ARRIVAL
+		else if (ArrivalDate != null){
+			//ARRIVAL OUTGOING
 			for (int i = 0; i < ArrivalTime.length; i++){
 				int GMTHours = this.ArrivalTime[i].getGMTHours(String.valueOf(this.ArrivalAirportCode));
 				if (GMTHours > 23){
@@ -65,6 +65,34 @@ public class SearchParams {
 					}
 				}
 				this.ArrivalTime[i].setHours(GMTHours);
+			}
+		}
+		else if(RDepartureDate != null){
+			//DEPARTURE RETURN
+			for (int i = 0; i < RDepartureTime.length; i++){
+				int GMTHours = this.RDepartureTime[i].getGMTHours(String.valueOf(this.ArrivalAirportCode));
+				if (GMTHours > 23){
+					GMTHours = GMTHours - 24;
+					
+					if(i == 0){
+						this.RDepartureDate.setDay(this.RDepartureDate.getDay() + 1);
+					}
+				}
+				this.RDepartureTime[i].setHours(GMTHours);
+			}
+		}
+		else if (RArrivalDate != null){
+			//ARRIVAL RETURN
+			for (int i = 0; i < RArrivalTime.length; i++){
+				int GMTHours = this.RArrivalTime[i].getGMTHours(String.valueOf(this.DepartureAirportCode));
+				if (GMTHours > 23){
+					GMTHours = GMTHours - 24;
+					
+					if(i == 0){
+						this.RArrivalDate.setDay(this.RArrivalDate.getDay() + 1);
+					}
+				}
+				this.RArrivalTime[i].setHours(GMTHours);
 			}
 		}
 	}
