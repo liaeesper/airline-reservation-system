@@ -288,8 +288,8 @@ public class Flight {
 		}
 		
 		sb.append(String.valueOf(a - d) + "\n");
-		*/
 		
+		*/
 
 		
 		
