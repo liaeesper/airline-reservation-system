@@ -96,7 +96,7 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		ServerInterface.instance.lock();
+		
 		Reservation user_plan;
 		if(user_choices_list.size() == 1){
 			user_plan = new Reservation(false, false, user_choices_list.get(0), null);
@@ -113,7 +113,7 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 			public void run() {
 				//TODO
 				//// check flight seating here?
-
+				ServerInterface.instance.lock();
 				ServerInterface.instance.ReserveTicket(user_plan);
 				ServerInterface.instance.unlock();
 				new ReservedGui(user_choices_list, loadingPage);

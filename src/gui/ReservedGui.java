@@ -91,7 +91,7 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 						
 		submitSelectionButton.addActionListener(this);
 				
-		setTitle("Confirmation");  // "super" Frame sets its title
+		setTitle("Reserved");  // "super" Frame sets its title
 		setSize(1000, 600);        // "super" Frame sets its initial window size
 	 
 		addWindowListener(this);	 
