@@ -67,7 +67,7 @@ public class SearchParams {
 				this.ArrivalTime[i].setHours(GMTHours);
 			}
 		}
-		else if(RDepartureDate != null){
+		if(RDepartureDate != null){
 			//DEPARTURE RETURN
 			for (int i = 0; i < RDepartureTime.length; i++){
 				int GMTHours = this.RDepartureTime[i].getGMTHours(String.valueOf(this.ArrivalAirportCode));
