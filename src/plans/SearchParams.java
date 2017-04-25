@@ -267,5 +267,41 @@ public class SearchParams {
 		this.SeatType = outgoingParams.SeatType;
 	}
 	
-	
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		StringBuilder dA = new StringBuilder();
+		StringBuilder aA = new StringBuilder();
+		String aAirport, dAirport;
+		
+		Time Time1, Time2;
+		Date specifiedDate;
+		
+		dAirport = dA.append(DepartureAirportCode).toString();
+		aAirport = aA.append(ArrivalAirportCode).toString();
+		
+		if(DepartureDate != null){
+			Time1 = new Time(DepartureTime[0].getHours(), DepartureTime[0].getMinutes());
+			Time2 = new Time(DepartureTime[1].getHours(), DepartureTime[1].getMinutes());
+			specifiedDate = new Date(DepartureDate.getDay(), DepartureDate.getMonth(), DepartureDate.getYear());
+			sb.append("Searched by Departure Date/Time\n");
+		}
+		else{
+			Time1 = new Time(ArrivalTime[0].getHours(), ArrivalTime[0].getMinutes());
+			Time2 = new Time(ArrivalTime[1].getHours(), ArrivalTime[1].getMinutes());
+			specifiedDate = new Date(ArrivalDate.getDay(), ArrivalDate.getMonth(), ArrivalDate.getYear());
+			sb.append("Searched by Arrival Date/Time\n");
+		}
+		
+		sb.append(dAirport + "->" + aAirport + "\n");
+		
+		sb.append(String.valueOf(specifiedDate.getMonth()) + "/" + String.valueOf(specifiedDate.getDay()) + "/" + String.valueOf(specifiedDate.getYear()) + "\n");
+		sb.append(String.valueOf(Time1.getHours()) + ":" + String.valueOf(Time1.getMinutes()));
+		sb.append(" to " + String.valueOf(Time2.getHours()) + ":" + String.valueOf(Time2.getMinutes()));
+		
+		sb.append("\nSeat Type: " + SeatType);
+		sb.append("\nIs Round Trip: " + IsRoundTrip + "\n\n");
+		
+		return sb.toString();
+	}
 }

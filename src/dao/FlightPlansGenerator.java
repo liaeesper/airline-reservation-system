@@ -12,6 +12,7 @@ import plans.Ticket;
 import utils.Date;
 import utils.DateTime;
 import utils.Price;
+import utils.Time;
 
 
 /**
@@ -455,6 +456,8 @@ public class FlightPlansGenerator {
 		ServerInterface serverInterface = new ServerInterface();
 		Flights searchResults = new Flights();
 		
+		ArrayList<Flight> failed = new ArrayList<Flight>();
+		
 		searchResults.setFlightList(serverInterface.GetArrivingFlights(uParams).getFlightList());
 		SearchParams tempParams = new SearchParams();
 		ArrayList <Flight> tempSResults;
@@ -539,8 +542,15 @@ public class FlightPlansGenerator {
 					}		
 				}
 			}
+			
+			//comment out when not testing
+			else{
+				failed.add(possibleLeg1);
+			}
 		}
 		
+		//comment out when not testing
+		TestStringInitial(uParams, unconcludedList, failed, concludedList, 'a', searchResults.getFlightList().size());
 		
 		ArrayList<ArrayList<FlightPlan>> List = new ArrayList<ArrayList<FlightPlan>>();
 		List.add(concludedList);
@@ -693,16 +703,18 @@ public class FlightPlansGenerator {
 	 */
 	public ArrayList<FlightPlans> GeneratorManager(SearchParams searchParams){
 		
-		/*
+		
 		//Lia's test parameters
 		searchParams.setArrivalAirportCode("TPA".toCharArray());
 		searchParams.setDepartureAirportCode("BOS".toCharArray());
-		Time timed[] = {new Time(04, 45), new Time(02, 30)};
-		searchParams.setDepartureTime(timed);
+		Time timed[] = {new Time(04, 45), new Time(2, 30)};
+		searchParams.setArrivalTime(timed);
+		searchParams.setDepartureDate(null);
 		searchParams.setIsRoundTrip(false);
-		searchParams.setDepartureDate(new Date(5,5,2017));
+		searchParams.setArrivalDate(new Date(5,5,2017));
 		searchParams.setSeatType('c');
-		*/
+		
+		System.out.print(searchParams.toString());
 		
 		ArrayList<FlightPlans> Lists = new ArrayList<FlightPlans>();
 		SearchParams returnParams = new SearchParams();
@@ -739,6 +751,202 @@ public class FlightPlansGenerator {
 		return Lists;
 	}
 
+	
+	void TestStringFilter(FlightPlan Origin, ArrayList<Flight> PassedLegs, ArrayList<Flight> FailedLegs, ArrayList<Flight> ConcludedLegs, char searchType, int level, int numberFiltered){
+		StringBuffer sb = new StringBuffer();
+		
+		
+		
+		if(!ConcludedLegs.isEmpty()){
+			sb.append("\n\nConcluded:\n");
+			sb.append(DisplayTestFList(ConcludedLegs, searchType, Origin.getLegs().get(0).getSeatType()));
+			
+		}
+		
+		if(!PassedLegs.isEmpty()){
+			sb.append("\n\nPassed (and to be searched further):\n");
+			sb.append(DisplayTestFList(PassedLegs, searchType, Origin.getLegs().get(0).getSeatType()));
+		}
+		
+		if(!FailedLegs.isEmpty()){
+			sb.append("\n\nFailed (failed validation):\n");
+			sb.append(DisplayTestFList(FailedLegs, searchType, Origin.getLegs().get(0).getSeatType()));
+		}
+		
+		
+		System.out.print(sb.toString());
+		
+		
+		
+	}
+	
+	
+	void TestStringInitial(SearchParams sp, ArrayList<FlightPlan> Passed, ArrayList<Flight> Failed, ArrayList<FlightPlan> Direct, char searchType, int numberFiltered){
+		StringBuffer sb = new StringBuffer();
+		StringBuffer dA = new StringBuffer();
+		StringBuffer aA = new StringBuffer();
+		
+		dA.append( sp.getDepartureAirportCode());
+		aA.append( sp.getArrivalAirportCode());
+		
+		sb.append("Search Params:\n" + dA.toString() + "->" + aA.toString());
+		
+		int minutesT1, minutesT2;
+		Date dt, nd;
+		
+		if(searchType == 'd'){
+			dt = new Date(sp.getDepartureDate().getDay(), sp.getDepartureDate().getMonth(), sp.getDepartureDate().getYear());
+			nd = dt.IncrementDate();
+			minutesT1 = sp.getDepartureTime()[0].getTimeInMinutes();
+			minutesT2 = sp.getDepartureTime()[1].getTimeInMinutes();
+			sb.append("\nSearching by Departure Date " + String.valueOf(sp.getDepartureDate().getMonth()) + "/" + String.valueOf(sp.getDepartureDate().getDay()) + "/" + String.valueOf(sp.getDepartureDate().getYear()));
+			sb.append(" " + String.valueOf(sp.getDepartureTime()[0].getHours()) + ":" + String.valueOf(sp.getDepartureTime()[0].getMinutes())+ " GMT to ");
+			if(minutesT1 >= minutesT2){
+				sb.append(String.valueOf(nd.getMonth()) + "/" + String.valueOf(nd.getDay()) + "/" + String.valueOf(nd.getYear()) + " ");
+			}
+			sb.append(String.valueOf(sp.getDepartureTime()[1].getHours()) + ":" + String.valueOf(sp.getDepartureTime()[1].getMinutes()));
+		}
+		else{
+			dt = new Date(sp.getArrivalDate().getDay(), sp.getArrivalDate().getMonth(), sp.getArrivalDate().getYear());
+			nd = dt.IncrementDate();
+			minutesT1 = sp.getArrivalTime()[0].getTimeInMinutes();
+			minutesT2 = sp.getArrivalTime()[1].getTimeInMinutes();
+			sb.append("\nSearching by Arrival Date " + String.valueOf(sp.getArrivalDate().getMonth()) + "/" + String.valueOf(sp.getArrivalDate().getDay()) + "/" + String.valueOf(sp.getArrivalDate().getYear()));
+			sb.append(" " + String.valueOf(sp.getArrivalTime()[0].getHours()) + ":" + String.valueOf(sp.getArrivalTime()[0].getMinutes()) + " GMT to ");
+			if(minutesT1 >= minutesT2){
+				sb.append(String.valueOf(nd.getMonth()) + "/" + String.valueOf(nd.getDay()) + "/" + String.valueOf(nd.getYear()) + " ");
+			}
+			sb.append(String.valueOf(sp.getArrivalTime()[1].getHours()) + ":" + String.valueOf(sp.getArrivalTime()[1].getMinutes()));
+		}
+		
+		sb.append(" GMT\nNeed minutes in range of: " + String.valueOf(minutesT1) + " to ");
+		
+		if(minutesT1 >= minutesT2){
+			sb.append("1439 to ");
+		}
+		
+		sb.append(String.valueOf(minutesT2));
+		
+		if(minutesT1 >= minutesT2){
+			sb.append(" of the next day");
+		}
+		
+		sb.append("\nSeat Type: " + sp.getSeatType() + "\n");
+		
+		sb.append("\nNumber Filtered: " + String.valueOf(numberFiltered));
+		
+		if(!Direct.isEmpty()){
+			sb.append("\n\nConcluded:\n");
+			sb.append(DisplayTestFPList(Direct, searchType, 0));
+			
+		}
+		
+		if(!Passed.isEmpty()){
+			sb.append("\n\nPassed (and to be searched further):\n");
+			sb.append(DisplayTestFPList(Passed, searchType, 0));
+		}
+		
+		if(!Failed.isEmpty()){
+			sb.append("\n\nFailed (failed validation):\n");
+			sb.append(DisplayTestFList(Failed, searchType, sp.getSeatType()));
+		}
+		
+		
+		System.out.print(sb.toString());
+		
+		
+	}
+	
+	String DisplayTestFPList(ArrayList<FlightPlan> List, char searchType, int level){
+		StringBuilder sb = new StringBuilder();
+		Date tDate;
+		int count = 0;
+		Flight tempFlight;
+		for(FlightPlan fp : List){
+			count = count + 1;
+			//for(int i = 0; i < level+1; i++){
+				//tempFlight = fp.getLegs().get(level).getForFlight();
+
+				tempFlight = fp.getLegs().get(0).getForFlight();
+				sb.append(String.valueOf(count) + ". " + tempFlight.getDepartureAirport().getCode() + "->" + tempFlight.getArrivalAirport().getCode());
+				tDate = tempFlight.getDepartureTime().getDate();
+				
+				if(searchType == 'd'){
+					tDate = tempFlight.getDepartureTime().getDate();	
+					sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
+					sb.append(" " + String.valueOf(tempFlight.getDepartureTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getDepartureTime().getTime().getMinutes()) + " GMT");
+					sb.append(" | Departure Time mins: " + String.valueOf(tempFlight.getDepartureTime().getTime().getTimeInMinutes()));
+				}
+				else{
+					tDate = tempFlight.getArrivalTime().getDate();
+					sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
+					sb.append(" " + String.valueOf(tempFlight.getArrivalTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getArrivalTime().getTime().getMinutes()) + " GMT");
+					sb.append(" | Arrival Time mins: " + String.valueOf(tempFlight.getArrivalTime().getTime().getTimeInMinutes()));
+				}
+				
+				sb.append("\nSeats Left for ");
+				
+				if(fp.getLegs().get(0).getSeatType() == 'c'){
+					sb.append("Coach: " + String.valueOf(tempFlight.getSeatC()));
+				}
+				else{
+					sb.append("First Class: " + String.valueOf(tempFlight.getSeatFc()));
+				}
+				/*
+				
+				if(level > 0){
+					sb.append("\nLayover Time: " + String.valueOf(getLayoverTime(fp.getLegs().get(i).getForFlight().getArrivalTime(), fp.getLegs().get(i+1).getForFlight().getDepartureTime())));
+				}
+				*/
+				
+			//}
+			sb.append("\n-----------------------\n");
+		}
+		
+		return sb.toString();
+	}
+	
+	String DisplayTestFList(ArrayList<Flight> List, char searchType, char seatType){
+		
+		StringBuilder sb = new StringBuilder();
+		Date tDate;
+		int count = 0;
+		for(Flight tempFlight : List){
+			count = count + 1;
+			sb.append(String.valueOf(count) + ". " + tempFlight.getDepartureAirport().getCode() + "->" + tempFlight.getArrivalAirport().getCode());
+			tDate = tempFlight.getDepartureTime().getDate();
+			
+			if(searchType == 'd'){
+				tDate = tempFlight.getDepartureTime().getDate();	
+				sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
+				sb.append(" " + String.valueOf(tempFlight.getDepartureTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getDepartureTime().getTime().getMinutes()) + " GMT");
+				sb.append(" | Departure Time mins: " + String.valueOf(tempFlight.getDepartureTime().getTime().getTimeInMinutes()));
+			}
+			else{
+				tDate = tempFlight.getArrivalTime().getDate();
+				sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
+				sb.append(" " + String.valueOf(tempFlight.getArrivalTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getArrivalTime().getTime().getMinutes()) + " GMT");
+				sb.append(" | Arrival Time mins: " + String.valueOf(tempFlight.getArrivalTime().getTime().getTimeInMinutes()));
+			}
+			
+			sb.append("\nSeats Left for ");
+			
+			if(seatType == 'c'){
+				sb.append("Coach: " + String.valueOf(tempFlight.getSeatC()));
+			}
+			else{
+				sb.append("First Class: " + String.valueOf(tempFlight.getSeatFc()));
+			}
+			
+
+			sb.append("\n-----------------------\n");
+				
+			
+		}
+		
+		return sb.toString();
+	
+	}
 	
 	
 }
