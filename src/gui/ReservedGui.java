@@ -12,12 +12,10 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import plans.FlightPlan;
-import plans.FlightPlans;
 
 public class ReservedGui extends JFrame implements ActionListener, WindowListener{
 	private static final long serialVersionUID = 1L;
