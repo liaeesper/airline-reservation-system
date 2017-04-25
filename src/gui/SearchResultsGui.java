@@ -68,7 +68,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			// TODO
 			// failure message window
 			dispose();
-			new ErrorMessageGui("There are no flight plans that match these criteria.");
+			new ErrorMessageGui("There are no flight plans that match these criteria.", true);
 			return;
 		}
 		
