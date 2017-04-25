@@ -714,6 +714,7 @@ public class FlightPlansGenerator {
 		searchParams.setArrivalDate(new Date(5,5,2017));
 		searchParams.setSeatType('c');
 		*/
+		//System.out.print(searchParams.toString());
 		
 		//System.out.print(searchParams.toString());
 		

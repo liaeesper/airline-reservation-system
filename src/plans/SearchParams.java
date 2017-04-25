@@ -277,6 +277,10 @@ public class SearchParams {
 		
 		Time Time1, Time2;
 		Date specifiedDate;
+		int Time1LocalHours;
+		int Time2LocalHours;
+		int day;
+		String timeZone;
 		
 		dAirport = dA.append(DepartureAirportCode).toString();
 		aAirport = aA.append(ArrivalAirportCode).toString();
@@ -286,23 +290,59 @@ public class SearchParams {
 			Time2 = new Time(DepartureTime[1].getHours(), DepartureTime[1].getMinutes());
 			specifiedDate = new Date(DepartureDate.getDay(), DepartureDate.getMonth(), DepartureDate.getYear());
 			sb.append("Searched by Departure Date/Time\n");
+			
+			//Convert to local time
+			Time1LocalHours = Time1.getLocalHours(dAirport);
+			Time2LocalHours = Time2.getLocalHours(dAirport);
+			timeZone = Time1.getTimeZone(dAirport);
+			day = specifiedDate.getDay();
+			
+			//Handle case where time conversion causes day change
+			if (Time1LocalHours < 0 || Time2LocalHours < 0){
+				day--;
+			}
+			if (Time1LocalHours < 0){
+				Time1LocalHours = 24 + Time1LocalHours;
+			}
+			
+			if (Time2LocalHours < 0){
+				Time2LocalHours = 24 + Time2LocalHours;
+			}			
+			
 		}
 		else{
 			Time1 = new Time(ArrivalTime[0].getHours(), ArrivalTime[0].getMinutes());
 			Time2 = new Time(ArrivalTime[1].getHours(), ArrivalTime[1].getMinutes());
 			specifiedDate = new Date(ArrivalDate.getDay(), ArrivalDate.getMonth(), ArrivalDate.getYear());
 			sb.append("Searched by Arrival Date/Time\n");
+			
+			//Convert to local time
+			Time1LocalHours = Time1.getLocalHours(aAirport);
+			Time2LocalHours = Time2.getLocalHours(aAirport);
+			timeZone = Time1.getTimeZone(aAirport);
+			day = specifiedDate.getDay();
+			
+			//Handle case where time conversion causes day change
+			if (Time1LocalHours < 0 || Time2LocalHours < 0){
+				day--;
+			}
+			if (Time1LocalHours < 0){
+				Time1LocalHours = 24 + Time1LocalHours;
+			}
+			
+			if (Time2LocalHours < 0){
+				Time2LocalHours = 24 + Time2LocalHours;
+			}		
 		}
 		
 		sb.append(dAirport + "->" + aAirport + "\n");
 		
-		sb.append(String.valueOf(specifiedDate.getMonth()) + "/" + String.valueOf(specifiedDate.getDay()) + "/" + String.valueOf(specifiedDate.getYear()) + "\n");
-		sb.append(String.valueOf(Time1.getHours()) + ":" + String.valueOf(Time1.getMinutes()));
-		sb.append(" to " + String.valueOf(Time2.getHours()) + ":" + String.valueOf(Time2.getMinutes()));
+		sb.append(String.valueOf(specifiedDate.getMonth()) + "/" + String.valueOf(day) + "/" + String.valueOf(specifiedDate.getYear()) + "\n");
+		sb.append(String.valueOf(Time1LocalHours) + ":" + String.valueOf(Time1.getMinutes()) + " " + timeZone);
+		sb.append(" to " + String.valueOf(Time2LocalHours) + ":" + String.valueOf(Time2.getMinutes()) + " " +  timeZone);
 		
 		sb.append("\nSeat Type: " + SeatType);
 		sb.append("\nIs Round Trip: " + IsRoundTrip + "\n\n");
-		
 		return sb.toString();
 	}
 }
