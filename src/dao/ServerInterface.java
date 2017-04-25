@@ -362,19 +362,32 @@ public class ServerInterface {
 		FlightPlan outgoing = plan.getOutgoingFlight();
 		String xmlflights = "<Flights>";
 		String seattype;
-
+		
+		String flightnum="";
+		
+		//create xml string for flight reservation - <Flights> <Flight number=DDDDD seating=SEAT_TYPE/> <Flight number=DDDDD seating=SEAT_TYPE/> </Flights>
+	    //add all outgoing legs to xml string for flight reservation
 		for (int i=0; i < outgoing.getNumberLegs(); i++){
+			//if coach seating was selected for this leg, specify "Coach"
 			if ((outgoing.getLegs().get(i).getSeatType() == 'C') | (outgoing.getLegs().get(i).getSeatType() == 'c') ){
 				seattype = "Coach";
 			}
 			else{
+				//if first class seating was selected, specify "firstclass"
 				seattype = "FirstClass";
 			}
-			xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(outgoing.getLegs().get(i).getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype + "\"/>";
+			//pad the flight number on the left with zeros if it is less than four digits long (for formatting)
+			flightnum = Integer.toString(outgoing.getLegs().get(i).getForFlight().getFlightNumber());
+			while (flightnum.length() < 4){
+				flightnum = "0" + flightnum;
+			}
+			//<Flight number=DDDDD seating=SEAT_TYPE/>
+			xmlflights = xmlflights + "<Flight number=\"" + flightnum + "\" seating=\"" +  seattype + "\"/>";
 			
 		}
-		
+		//add all incoming legs to xml string for flight reservation
 		if (plan.getIsRoundTrip()){
+			System.out.println("Is round trip");
 			FlightPlan incoming = plan.getReturningFlight();
 			for (int i=0; i < outgoing.getNumberLegs(); i++){
 				if ((outgoing.getLegs().get(i).getSeatType() == 'c') | (outgoing.getLegs().get(i).getSeatType() == 'C') ){
@@ -383,10 +396,18 @@ public class ServerInterface {
 				else{
 					seattype = "FirstClass";
 				}
-				xmlflights = xmlflights + "<Flight number=\"" + Integer.toString(incoming.getLegs().get(i).getForFlight().getFlightNumber()) + "\" seating=\"" +  seattype+ "\"/>";
+				
+				flightnum = Integer.toString(incoming.getLegs().get(i).getForFlight().getFlightNumber());
+				while (flightnum.length() < 4){
+					flightnum = "0" + flightnum;
+				}
+				xmlflights = xmlflights + "<Flight number=\"" + flightnum + "\" seating=\"" +  seattype+ "\"/>";
 			}
 		}
 		xmlflights = xmlflights + "</Flights>";
+		
+		System.out.print(xmlflights);
+		
 		try {
 			url = new URL(ServerLocation);
 			connection = (HttpURLConnection) url.openConnection();

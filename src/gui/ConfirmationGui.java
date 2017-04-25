@@ -11,33 +11,19 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
+import dao.ServerInterface;
 import plans.FlightPlan;
-import plans.FlightPlans;
+import plans.Reservation;
 
 public class ConfirmationGui extends JFrame implements ActionListener, WindowListener{
-	//private Label lblAir;    // Declare a Label component 
-	//private TextField tfCount; // Declare a TextField component 
-	//private Button btnCount;   // Declare a Button component
-	//private int count = 0;     // Counter's value
-	//JPanel panel = new JPanel();
 	
-	private JSpinner flightPlanSpinner;
-	private FlightPlans fpList; 
-	private ArrayList<FlightPlans> fpListArray; 
 	private ArrayList<FlightPlan> user_choices_list;
-	private boolean isReturnBool;
 
-	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
@@ -52,8 +38,6 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 		// error message if either choice is no longer free, also lock
 		
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -97,12 +81,40 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 
 	/**
 	 * actionPerformed()
-	 * Fills out the user params object when search is clicked.
-	 * Calls handleSearch() with that object.
+	 * Reserves user flight plans. Opens reserved page.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
+		
+		Reservation user_plan;
+		if(user_choices_list.size() == 1){
+			user_plan = new Reservation(false, false, user_choices_list.get(0), null);
+		}
+		else{
+			user_plan = new Reservation(true, false, user_choices_list.get(0), user_choices_list.get(1));
+		}
+		
+		dispose();
+		// display a processing message
+		LoadingGui loadingPage = new LoadingGui();
+		
+		Runnable handleReserve = new Runnable() {
+			public void run() {
+				//TODO
+				//// check flight seating here?
+				ServerInterface.instance.lock();
+				boolean reservationSuccessful = ServerInterface.instance.ReserveTicket(user_plan);
+				ServerInterface.instance.unlock();
+				if(reservationSuccessful){
+					new ReservedGui(user_choices_list, loadingPage);
+				}
+				else{
+					new ErrorMessageGui("Flight could not be reserved.",false);
+				}
+			}
+		};
+		
+		SwingUtilities.invokeLater(handleReserve);
 	}
 
 	@Override

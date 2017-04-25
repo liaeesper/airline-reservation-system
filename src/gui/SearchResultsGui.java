@@ -3,38 +3,19 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Properties;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-//import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerDateModel;
-//import javax.swing.SwingConstants;
 import javax.swing.SpinnerNumberModel;
 
-import org.jdatepicker.impl.*;
-
-import airport.Airports;
 import plans.FlightPlan;
 import plans.FlightPlans;
-import plans.SearchParams;
-import user.UserInterface;
 
 public class SearchResultsGui extends JFrame implements ActionListener, WindowListener{
-	//private Label lblAir;    // Declare a Label component 
-	//private TextField tfCount; // Declare a TextField component 
-	//private Button btnCount;   // Declare a Button component
-	//private int count = 0;     // Counter's value
-	//JPanel panel = new JPanel();
-	
 	private JSpinner flightPlanSpinner;
 	private FlightPlans fpList; 
 	private ArrayList<FlightPlans> fpListArray; 
@@ -68,7 +49,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			// TODO
 			// failure message window
 			dispose();
-			new ErrorMessageGui("There are no flight plans that match these criteria.");
+			new ErrorMessageGui("There are no flight plans that match these criteria.", true);
 			return;
 		}
 		

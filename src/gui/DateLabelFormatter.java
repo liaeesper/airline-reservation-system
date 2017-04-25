@@ -7,8 +7,9 @@ import java.util.Calendar;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 
 public class DateLabelFormatter extends AbstractFormatter {
-
-    private String datePattern = "MM-dd-yyyy";
+	private static final long serialVersionUID = 1L;
+	
+	private String datePattern = "MM-dd-yyyy";
     private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
     @Override

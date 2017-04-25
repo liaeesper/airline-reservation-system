@@ -30,7 +30,6 @@ public class Driver {
 
 		UserInterface userInt = UserInterface.instance;
 
-		
 		ServerInterface resSys = ServerInterface.instance;
 		Airports.instance = resSys.PopulateAirports();
 		Airplanes.instance = resSys.PopulateAirplanes();

@@ -1,0 +1,19 @@
+Things not working / not implemented:
+
+///1. Conversion to local time / GMT
+
+2. Check for seats remaining after a user confirms their choices
+
+3. Reservation completed page and reserving in the DB
+
+4. special message when no flights of current seating type remaining
+
+5. Sorting flight plans
+
+6. Searching by arrival time and date
+
+7. Testing
+
+8. Documentation
+
+9. Revise RAD and Test Plan

@@ -61,15 +61,17 @@ public class FlightPlansGenerator {
 	
 	public boolean EnoughSeats(Flight flight, char seatType){
 		
+		
 		ArrayList<Airplane> List = Airplanes.instance;
 		int numSeats;
 		for(Airplane airplane: List){
 			if(airplane.getModel().equals(flight.getPlaneType())){
 				if(seatType == 'c'){
-					numSeats = airplane.getCSeats() - flight.getSeatC();
+					
+					numSeats = flight.getSeatC();
 				}
 				else{
-					numSeats = airplane.getFCSeats() - flight.getSeatFc();
+					numSeats = flight.getSeatFc();
 				}
 				
 				if(numSeats > 0){

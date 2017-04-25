@@ -8,29 +8,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import plans.FlightPlan;
-import plans.FlightPlans;
-
 public class ErrorMessageGui extends JFrame implements ActionListener, WindowListener{
-	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	// Constructor to setup GUI components and event handlers
-	public ErrorMessageGui (String errorMessage) {		
+	/** Constructor to setup GUI components and event handlers
+	 * 
+	 * @param errorMessage			A string to display as an error message.
+	 * @param suggestAlternative    Set to true for suggesting a search for alternative flights 
+	 * 								if none are found. If set to false, shows errorMessage.
+	 */
+	public ErrorMessageGui (String errorMessage, boolean suggestAlternative) {		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -40,12 +32,24 @@ public class ErrorMessageGui extends JFrame implements ActionListener, WindowLis
 		gbc.gridheight = 1;
 		gbc.weightx = 0.5;
 		
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-						
-		// loading message
+		// error message
 		
-		add(new JLabel(errorMessage, SwingConstants.CENTER), gbc);  
+		if(suggestAlternative){
+			gbc.gridx = 0;
+			gbc.gridy = 1;
+			add(new JLabel("Try searching for flights with a different seating type:"), gbc); 
+			
+			gbc.gridx = 1;
+			Button backButton = new Button("Back to Search");
+			add(backButton, gbc);  
+			
+			backButton.addActionListener(this);
+		}
+		else{
+			gbc.gridx = 1;
+			gbc.gridy = 1;
+			add(new JLabel(errorMessage, SwingConstants.CENTER), gbc); 
+		}
 										
 		setTitle("Error");  // "super" Frame sets its title
 		setSize(500, 300);        // "super" Frame sets its initial window size
@@ -61,6 +65,8 @@ public class ErrorMessageGui extends JFrame implements ActionListener, WindowLis
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		dispose();
+		new SearchGui();
 	}
 
 	@Override

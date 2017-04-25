@@ -23,7 +23,7 @@ import plans.SearchParams;
 import user.UserInterface;
 
 public class RoundTripSearchGui extends JFrame implements ActionListener, WindowListener{	
-	private UtilDateModel modelD, modelA;
+	private UtilDateModel modelDate;
 	private ButtonGroup dOrAButtonGroup;
 	private JSpinner timeSpinnerS, timeSpinnerE;
 	private SearchParams params;
@@ -37,8 +37,6 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	public RoundTripSearchGui (SearchParams known_params) {
 		params = known_params;
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -52,54 +50,23 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		//gbc.ipady = 40; 
 		
 		gbc.gridx = 0;
-		gbc.gridy = 3;
-		add(new JLabel("Departure Date:"), gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		add(new JLabel("Arrival Date:"), gbc);
-		
-		gbc.gridx = 0;
 		gbc.gridy = 5;
+		add(new JLabel("Date:"), gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 3;
 		add(new JLabel("Departure or Arrival Date Selection:"), gbc);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 7;
+		gbc.gridy = 6;
 		add(new JLabel("Time Window Begin:"), gbc);
 		
 		gbc.gridx = 0;
-		gbc.gridy = 8;
+		gbc.gridy = 7;
 		add(new JLabel("Time Window End:"), gbc);
 		
-		// add the calendar selection for departure and arrival date
-		modelD = new UtilDateModel();
-		modelA = new UtilDateModel();
+		// add radio button to choose departure or arrival date/time
 
-		modelD.setDate(2017, 4, 5); // month is zero based, this is May 5
-		modelA.setDate(2017, 4, 5);
-
-		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		
-		JDatePanelImpl datePanelD = new JDatePanelImpl(modelD, p);
-		JDatePanelImpl datePanelA = new JDatePanelImpl(modelA, p);
-		JDatePickerImpl datePickerD = new JDatePickerImpl(datePanelD, new DateLabelFormatter());
-		JDatePickerImpl datePickerA = new JDatePickerImpl(datePanelA, new DateLabelFormatter());
-
-		// sets the default date as selected
-		datePickerD.getModel().setSelected(true);
-		datePickerA.getModel().setSelected(true);
-
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		add(datePickerD, gbc);
-		
-		gbc.gridx = 1;
-		gbc.gridy = 4;
-		add(datePickerA, gbc);
-		
 		JRadioButton departureButton = new JRadioButton("Departure");
 		departureButton.setMnemonic(0);
 		departureButton.setSelected(true);
@@ -112,12 +79,31 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	    dOrAButtonGroup.add(arrivalButton);
 	    
 		gbc.gridx = 1;
-		gbc.gridy = 5;
+		gbc.gridy = 3;
 		add(departureButton, gbc);
 		gbc.gridx = 1;
-		gbc.gridy = 6;
+		gbc.gridy = 4;
 		add(arrivalButton, gbc);
 
+		// add the calendar selection for departure and arrival date
+		modelDate = new UtilDateModel();
+
+		modelDate.setDate(2017, 4, 5); // month is zero based, this is May 5
+
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		
+		JDatePanelImpl datePanel = new JDatePanelImpl(modelDate, p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+
+		// sets the default date as selected
+		datePicker.getModel().setSelected(true);
+
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		add(datePicker, gbc);
 		
 		timeSpinnerS = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditorS = new JSpinner.DateEditor(timeSpinnerS, "HH:mm:ss");
@@ -130,16 +116,16 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		timeSpinnerE.setValue(new Date());
 
 		gbc.gridx = 1;
-		gbc.gridy = 7;
+		gbc.gridy = 6;
 		add(timeSpinnerS, gbc);
 		
 		gbc.gridx = 1;
-		gbc.gridy = 8;
+		gbc.gridy = 7;
 		add(timeSpinnerE, gbc);
 				
 		// submit search button
 		gbc.gridx = 1;
-		gbc.gridy = 14;
+		gbc.gridy = 13;
 		Button submitButton = new Button("Search");
 		add(submitButton, gbc);  
 		
@@ -160,32 +146,23 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();//.getActionCommand();
-		utils.Date tripDate;
 		utils.Time tripTime[] = new utils.Time[2];
 		Calendar calendar = Calendar.getInstance();
-		Date startTime;
-		Date endTime;
+		utils.Date tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
+		Date startTime = (Date) timeSpinnerS.getValue();
+		Date endTime = (Date) timeSpinnerE.getValue();
+		calendar.setTime(startTime);
+		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		calendar.setTime(endTime);
+		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
 		if(departureOrArrival == 0){
 			// departure date/time selected
-			tripDate = new utils.Date(modelD.getDay(), modelD.getMonth() + 1, modelD.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setRDepartureDate(tripDate);
 			params.setRDepartureTime(tripTime);
 		}
 		else{
 			// arrival date/time selected
-			tripDate = new utils.Date(modelD.getDay(), modelD.getMonth() + 1, modelD.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setRArrivalDate(tripDate);
 			params.setRArrivalTime(tripTime);
 		}
