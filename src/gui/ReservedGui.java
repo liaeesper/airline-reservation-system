@@ -11,41 +11,20 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerNumberModel;
 
-import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
-import plans.Reservation;
 
 public class ReservedGui extends JFrame implements ActionListener, WindowListener{
-	//private Label lblAir;    // Declare a Label component 
-	//private TextField tfCount; // Declare a TextField component 
-	//private Button btnCount;   // Declare a Button component
-	//private int count = 0;     // Counter's value
-	//JPanel panel = new JPanel();
-	
-	private JSpinner flightPlanSpinner;
-	private FlightPlans fpList; 
-	private ArrayList<FlightPlans> fpListArray; 
-	private ArrayList<FlightPlan> user_choices_list;
-	private boolean isReturnBool;
-
-	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
 	public ReservedGui (ArrayList<FlightPlan> user_choices, LoadingGui loadingPage) {
 		loadingPage.dispose();
-		user_choices_list = user_choices;
 		String flightPlansText = "";
 		for(int i = 0; i < user_choices.size(); i++){
 			flightPlansText += String.format("Flight plan %d:\n", i+1);
@@ -55,8 +34,6 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 		// error message if either choice is no longer free, also lock
 		
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -74,7 +51,7 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 		// display flight plan list string		
 		
 		JTextArea display = new JTextArea ( 20, 58 );
-	    display.setEditable ( false ); // set textArea non-editable
+	    display.setEditable ( false ); 
 	    display.setText(flightPlansText);
 	    JScrollPane scroll = new JScrollPane ( display );
 	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
@@ -91,11 +68,11 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 						
 		submitSelectionButton.addActionListener(this);
 				
-		setTitle("Reserved");  // "super" Frame sets its title
-		setSize(1000, 600);        // "super" Frame sets its initial window size
+		setTitle("Reserved");  
+		setSize(1000, 600);        // initial window size
 	 
 		addWindowListener(this);	 
-		setVisible(true);         // "super" Frame shows
+		setVisible(true);         // Frame shows
 	}
 
 	/**

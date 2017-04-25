@@ -37,8 +37,6 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	public RoundTripSearchGui (SearchParams known_params) {
 		params = known_params;
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -148,10 +146,9 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();//.getActionCommand();
-		utils.Date tripDate;
 		utils.Time tripTime[] = new utils.Time[2];
 		Calendar calendar = Calendar.getInstance();
-		tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
+		utils.Date tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
 		Date startTime = (Date) timeSpinnerS.getValue();
 		Date endTime = (Date) timeSpinnerE.getValue();
 		calendar.setTime(startTime);

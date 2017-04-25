@@ -8,25 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import plans.FlightPlan;
-import plans.FlightPlans;
-
 public class ErrorMessageGui extends JFrame implements ActionListener, WindowListener{
-	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/** Constructor to setup GUI components and event handlers
@@ -45,7 +32,6 @@ public class ErrorMessageGui extends JFrame implements ActionListener, WindowLis
 		gbc.gridheight = 1;
 		gbc.weightx = 0.5;
 		
-						
 		// error message
 		
 		if(suggestAlternative){
