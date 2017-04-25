@@ -100,8 +100,6 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 		
 		Runnable handleReserve = new Runnable() {
 			public void run() {
-				//TODO
-				//// check flight seating here?
 				ServerInterface.instance.lock();
 				boolean reservationSuccessful = ServerInterface.instance.ReserveTicket(user_plan);
 				ServerInterface.instance.unlock();
