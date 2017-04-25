@@ -389,8 +389,8 @@ public class ServerInterface {
 		if (plan.getIsRoundTrip()){
 			System.out.println("Is round trip");
 			FlightPlan incoming = plan.getReturningFlight();
-			for (int i=0; i < outgoing.getNumberLegs(); i++){
-				if ((outgoing.getLegs().get(i).getSeatType() == 'c') | (outgoing.getLegs().get(i).getSeatType() == 'C') ){
+			for (int i=0; i < incoming.getNumberLegs(); i++){
+				if ((incoming.getLegs().get(i).getSeatType() == 'c') | (incoming.getLegs().get(i).getSeatType() == 'C') ){
 					seattype = "Coach";
 				}
 				else{
