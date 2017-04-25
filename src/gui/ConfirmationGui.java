@@ -103,9 +103,14 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 				//TODO
 				//// check flight seating here?
 				ServerInterface.instance.lock();
-				ServerInterface.instance.ReserveTicket(user_plan);
+				boolean reservationSuccessful = ServerInterface.instance.ReserveTicket(user_plan);
 				ServerInterface.instance.unlock();
-				new ReservedGui(user_choices_list, loadingPage);
+				if(reservationSuccessful){
+					new ReservedGui(user_choices_list, loadingPage);
+				}
+				else{
+					new ErrorMessageGui("Flight could not be reserved.",false);
+				}
 			}
 		};
 		
