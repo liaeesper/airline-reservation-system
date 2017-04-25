@@ -3,8 +3,6 @@ package dao;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import airport.Airplane;
-import airport.Airplanes;
 import flight.Flight;
 import flight.Flights;
 import plans.FlightPlan;
@@ -14,14 +12,28 @@ import plans.Ticket;
 import utils.Date;
 import utils.DateTime;
 import utils.Price;
-import utils.Time;
 
+
+/**
+ * Searches and calculates valid flight plans given search criteria via a SearchParam object
+ * 
+ * @author Team G
+ *
+ */
 public class FlightPlansGenerator {
 	
+	/**
+	 * Finds the time between DateTime a and b in minutes
+	 * Assumes that DateTime a and b are no longer than 24 hours apart
+	 * @param a
+	 * @param b
+	 * @return returns the time in minutes between DateTime a and b
+	 */
 	public int getTimeBetween(DateTime a, DateTime b){
 		int aMinutes = a.getTime().getTimeInMinutes();
 		int bMinutes = b.getTime().getTimeInMinutes();
 		
+		//Add 24 hours to b's minutes if b's time of day takes place at or before a's
 		if(aMinutes >= bMinutes){
 			bMinutes += 24*60;
 		}
@@ -30,22 +42,36 @@ public class FlightPlansGenerator {
 		
 	}
 	
+	/*
+	 * Gets the time in minutes between the arrival time of the previous flight leg and the departure time of the next flight
+	 * If the layover time is invalid (not between 30 minutes and 4 hours) it returns a -1 as to act like a boolean
+	 * @prevArrival DateTime of the previous flight leg's arrival time
+	 * @nextDeparture DateTime of the next flight leg's departure time
+	 * @return either returns valid layover time (in minutes) or a -1 to indicate invalid layover time
+	 * 
+	 */
 	public int getLayoverTime(DateTime prevArrival, DateTime nextDeparture){
-		int layoverTime = getTimeBetween(prevArrival, nextDeparture);
+		int layoverTime = 0;
 		Date pdate = prevArrival.getDate();
 		
 		int aMinutes = prevArrival.getTime().getTimeInMinutes();
 		int bMinutes = nextDeparture.getTime().getTimeInMinutes();
 		
+		//increments the date of prevArrival by a day if it sees that nextDeparture's time of day takes place on or before prevArrival's
+		//also updates the this change for later comparison purposes
+		//this can occur because of layovers occurring over midnight
 		if(aMinutes >= bMinutes){
 			pdate = prevArrival.getDate().IncrementDate();
 			bMinutes += 24*60;
 		}
 		
+		//calculates layover time
 		layoverTime = bMinutes - aMinutes;
 		
+		//checks if the layover time is between 30 minutes and 4 hours
 		if(layoverTime >= 30 && layoverTime <= 4*60){
-
+			
+			//makes sure the dates are correct
 			if(pdate.getDay() == nextDeparture.getDate().getDay() &&
 					pdate.getMonth() == nextDeparture.getDate().getMonth() &&
 					pdate.getYear() == nextDeparture.getDate().getYear()){
@@ -58,42 +84,49 @@ public class FlightPlansGenerator {
 	}
 	
 	
-	
+	/**
+	 * Determines if there is available seating for a flight
+	 * @param flight given flight to check the seating availability of
+	 * @param seatType seating type to check the availability of
+	 * @return Returns true if there is available seating, false if not
+	 */
 	public boolean EnoughSeats(Flight flight, char seatType){
 		
-		
-		ArrayList<Airplane> List = Airplanes.instance;
 		int numSeats;
-		for(Airplane airplane: List){
-			if(airplane.getModel().equals(flight.getPlaneType())){
-				if(seatType == 'c'){
-					
-					numSeats = flight.getSeatC();
-				}
-				else{
-					numSeats = flight.getSeatFc();
-				}
-				
-				if(numSeats > 0){
-					return true;
-				}
-				else{
-					return false;
-				}
-				
-			}
+
+		if(seatType == 'c'){
+			
+			numSeats = flight.getSeatC();
+		}
+		else{
+			numSeats = flight.getSeatFc();
 		}
 		
-		return false;
-		
-		//return true;
+		if(numSeats > 0){
+			return true;
+		}
+		else{
+			return false;
+		}
+				
 	}
-	
+
+	/**
+	 * gets the duration time of a flight
+	 * @param flight to get the duration of
+	 * @return the duration time of a flight in minutes
+	 */
 	public int getFlightDuration(Flight flight){
 		return getTimeBetween(flight.getDepartureTime(), flight.getArrivalTime());
 	}
 	
-	
+	/**
+	 * Checks that a "previous" flight has already landed by the time the next departure occurs
+	 * Assumes the DateTimes are within the same month and year
+	 * @prevArrival DateTime of the previous flight leg's arrival time
+	 * @nextDeparture DateTime of the next flight leg's departure time
+	 * @return true if prevArrival occurred before nextDeparture, false if not
+	 */
 	public boolean HappenedAfter(DateTime prevArrival, DateTime nextDeparture){
 		
 		if(nextDeparture.getDate().getDay() > prevArrival.getDate().getDay()){
@@ -121,49 +154,67 @@ public class FlightPlansGenerator {
 		return true;//dates are equal
 	}
 	
+	
+	/**
+	 * Filters the a given flight list so it gets a valid list of flight legs
+	 * Makes sure that one a previous leg did not occur before another, that layover time is valid, 
+	 * that there is enough seats of the specified seat type, and that there is no backtracking airports
+	 * @param originPlan Plan that yielded the SearchParams that was used to get the unfiltered list
+	 * @param unfiltered list of possible flight legs that occur within a proximity of originPlan
+	 * @param level of search the system is in in terms of how many flight legs have been found for originPlan already
+	 * @param type of search that is going on (by arrival date or departure date)
+	 * @return a list of valid flight legs
+	 */
 	public ArrayList<Flight> FilterFlightsList(FlightPlan originPlan, ArrayList<Flight> unfiltered, int level, char type){
 		ArrayList<Flight> filtered = new ArrayList<Flight>();
 		DateTime arrival = null, departure = null;
 		String dAirport = null, aAirport = null;
 		
+		//if searching by departure date
 		if (type == 'd'){
+			//departure airport is the originally specified departure airport in the whole search (the one the user specified, or arrival airport if this is a returning flight search)
 			dAirport = originPlan.getLegs().get(0).getForFlight().getDepartureAirport().getCode();
+			
+			//arrival time is when the previous flight leg landed (the last flight leg that was added to the originPlan)
 			arrival = originPlan.getLegs().get(level - 1).getForFlight().getArrivalTime();
 		}
+		//if searching by arrival date
 		else{
+			//arrival airport is the originally specified arrival airport in the whole search (the one the user specified, or departure airport if this is a returning flight search)
 			aAirport = originPlan.getLegs().get(level - 1).getForFlight().getArrivalAirport().getCode();
+			
+			//departure time is when the previous flight leg landed (the last flight leg that was added to the originPlan)
 			departure = originPlan.getLegs().get(0).getForFlight().getDepartureTime();
 		}
 		
 		for(Flight newF: unfiltered){
 			if(type == 'd'){
+				//arrival airport of the next potential flight leg to test for backtracking
 				aAirport = newF.getArrivalAirport().getCode();
+				
+				//departure time of the next potential flight leg
 				departure = newF.getDepartureTime();
 			}
 			else{
+				//departure airport of the next potential flight leg to test for backtracking
 				dAirport = newF.getDepartureAirport().getCode();
+				
+				//departure time of the previous potential flight leg
 				arrival = newF.getArrivalTime();
 			}
 			
+			//checks is valid by checking that the potential leg is occuring in order, has a valid layover time, enough seats, and doesn't backtrack
 			if(HappenedAfter(arrival, departure) && getLayoverTime(arrival, departure) != -1 && EnoughSeats(newF, originPlan.getLegs().get(0).getSeatType()) && !dAirport.equals(aAirport)){
+				
+				//adds it to the filtered list if passes
 				filtered.add(new Flight(newF));				
 			}		
 		}
+		
+		//returns filtered list
 		return filtered;
 	}
 	
-	
-	public int CalculateTotalTime(FlightPlan flightPlan, int level){
-		int total = 0;
-		
-		for(int i = 0; i < level; i++){
-			total += getFlightDuration(flightPlan.getLegs().get(i).getForFlight());
-			if(i >= 1){
-				total += getLayoverTime(flightPlan.getLegs().get(i-1).getForFlight().getArrivalTime(), flightPlan.getLegs().get(i).getForFlight().getDepartureTime());
-			}
-		}
-		return total;
-	}
 	
 	
 	public ArrayList<ArrayList<FlightPlan>> FindInitialLists(SearchParams uParams){
@@ -638,7 +689,7 @@ public class FlightPlansGenerator {
 	 * 
 	 * @param searchParam user-specified search criteria needed to search
 	 * @return a list of FlightPlans that is one or two lists long
-	 * depending if the user wants an 
+	 * depending if the user wants a round trip
 	 */
 	public ArrayList<FlightPlans> GeneratorManager(SearchParams searchParams){
 		
