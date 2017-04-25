@@ -550,7 +550,7 @@ public class FlightPlansGenerator {
 		}
 		
 		//comment out when not testing
-		TestStringInitial(uParams, unconcludedList, failed, concludedList, 'a', searchResults.getFlightList().size());
+		//TestStringInitial(uParams, unconcludedList, failed, concludedList, 'a', searchResults.getFlightList().size());
 		
 		ArrayList<ArrayList<FlightPlan>> List = new ArrayList<ArrayList<FlightPlan>>();
 		List.add(concludedList);
@@ -714,7 +714,7 @@ public class FlightPlansGenerator {
 		searchParams.setArrivalDate(new Date(5,5,2017));
 		searchParams.setSeatType('c');
 		
-		System.out.print(searchParams.toString());
+		//System.out.print(searchParams.toString());
 		
 		ArrayList<FlightPlans> Lists = new ArrayList<FlightPlans>();
 		SearchParams returnParams = new SearchParams();
