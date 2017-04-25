@@ -250,33 +250,25 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		String arrivalAirport = airportArrList.getSelectedItem();
 		params.setDepartureAirportCode(departureAirport.toCharArray());
 		params.setArrivalAirportCode(arrivalAirport.toCharArray());
-		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();//.getActionCommand();
+		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();
 		utils.Date tripDate;
 		utils.Time tripTime[] = new utils.Time[2];
 		Calendar calendar = Calendar.getInstance();
-		Date startTime;
-		Date endTime;
+		tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
+		Date startTime = (Date) timeSpinnerS.getValue();
+		Date endTime = (Date) timeSpinnerE.getValue();
+		calendar.setTime(startTime);
+		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		calendar.setTime(endTime);
+		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
 		if(departureOrArrival == 0){
 			// departure date/time selected
-			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setDepartureDate(tripDate);
 			params.setDepartureTime(tripTime);
 		}
 		else{
 			// arrival date/time selected
-			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setArrivalDate(tripDate);
 			params.setArrivalTime(tripTime);
 		}
