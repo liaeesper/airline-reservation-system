@@ -14,12 +14,14 @@ import javax.swing.SpinnerNumberModel;
 
 import plans.FlightPlan;
 import plans.FlightPlans;
+import plans.SearchParams;
 
 public class SearchResultsGui extends JFrame implements ActionListener, WindowListener{
 	private JSpinner flightPlanSpinner;
 	private FlightPlans fpList; 
 	private ArrayList<FlightPlans> fpListArray; 
 	private ArrayList<FlightPlan> user_choices_list;
+	private SearchParams userParams;
 	private boolean isReturnBool;
 	private boolean hasReturnBool = false;
 	private int mode_local = 0;
@@ -31,8 +33,9 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public SearchResultsGui (ArrayList<FlightPlans> fpListArr, ArrayList<FlightPlan> user_choices, boolean isReturn, int mode) {
+	public SearchResultsGui (ArrayList<FlightPlans> fpListArr, ArrayList<FlightPlan> user_choices, boolean isReturn, int mode, SearchParams user_params) {
 		user_choices_list = user_choices;
+		userParams = user_params;
 		fpListArray = fpListArr;
 		isReturnBool = isReturn;
 		mode_local = mode;
@@ -91,7 +94,11 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		
 		JTextArea display = new JTextArea ( 20, 58 );
 	    display.setEditable ( false ); // set textArea non-editable
-	    display.setText(fpList.toString(mode));
+	    String displayText = "Search Criteria:\n" 
+	    					+ user_params.toString()
+	    					+ "Search Results:\n"
+	    					+ fpList.toString(mode);
+	    display.setText(displayText);
 	    JScrollPane scroll = new JScrollPane ( display );
 	    scroll.setVerticalScrollBarPolicy ( ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS );
 	    display.setCaretPosition(0); // set scroll position to top
@@ -142,7 +149,8 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			user_choices_list.add(fpList.getFlightPlansList(mode_local).get((int) flightPlanSpinner.getValue() - 1));
 			// enter confirmation page if no return flight, otherwise call self?
 			if(!isReturnBool && hasReturnBool){
-				SearchResultsGui returnFlightSearchResults = new SearchResultsGui(fpListArray, user_choices_list, true, 0);
+				userParams.SetReturnParams(userParams); // convert to return params
+				SearchResultsGui returnFlightSearchResults = new SearchResultsGui(fpListArray, user_choices_list, true, 0, userParams);
 			}
 			else{
 				ConfirmationGui confirmFlights = new ConfirmationGui(user_choices_list);
@@ -157,7 +165,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			else{
 				mode_local = 1;
 			}
-			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local);
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local, userParams);
 		}
 		else if(arg0.getActionCommand() == "Sort by Time"){
 			if(mode_local == 3){
@@ -166,7 +174,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			else{
 				mode_local = 3;
 			}
-			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local);
+			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local, userParams);
 			dispose();
 		}
 	}

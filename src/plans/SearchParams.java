@@ -259,10 +259,11 @@ public class SearchParams {
 	public void SetReturnParams(SearchParams outgoingParams){
 		this.DepartureDate = outgoingParams.RDepartureDate;
 		this.DepartureTime = outgoingParams.RDepartureTime;
+		char temp[] = outgoingParams.DepartureAirportCode;
 		this.DepartureAirportCode = outgoingParams.ArrivalAirportCode;
 		this.ArrivalDate = outgoingParams.RArrivalDate;
 		this.ArrivalTime = outgoingParams.RArrivalTime;
-		this.ArrivalAirportCode = outgoingParams.DepartureAirportCode;
+		this.ArrivalAirportCode = temp;
 		this.IsRoundTrip = outgoingParams.IsRoundTrip;
 		this.SeatType = outgoingParams.SeatType;
 	}

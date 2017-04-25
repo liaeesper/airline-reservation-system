@@ -703,7 +703,7 @@ public class FlightPlansGenerator {
 	 */
 	public ArrayList<FlightPlans> GeneratorManager(SearchParams searchParams){
 		
-		
+		/*
 		//Lia's test parameters
 		searchParams.setArrivalAirportCode("TPA".toCharArray());
 		searchParams.setDepartureAirportCode("BOS".toCharArray());
@@ -713,6 +713,7 @@ public class FlightPlansGenerator {
 		searchParams.setIsRoundTrip(false);
 		searchParams.setArrivalDate(new Date(5,5,2017));
 		searchParams.setSeatType('c');
+		*/
 		
 		//System.out.print(searchParams.toString());
 		

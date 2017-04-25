@@ -24,8 +24,8 @@ public class UserInterface {
 		SearchGui search = new SearchGui();
 	}
 	
-	public void DisplaySearchResults(ArrayList<FlightPlans> flightList){
-		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false, 0);
+	public void DisplaySearchResults(ArrayList<FlightPlans> flightList, SearchParams userParams){
+		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false, 0, userParams);
 	}
 	
 	public void DisplaySearchResultsProto(Flights flightList){
@@ -81,7 +81,7 @@ public class UserInterface {
 		
 		loadingPage.dispose();
 		
-		DisplaySearchResults(flightList);
+		DisplaySearchResults(flightList, userParams);
 		return;
 	}
 	
