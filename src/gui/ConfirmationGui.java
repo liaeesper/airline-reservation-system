@@ -11,28 +11,19 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import dao.ServerInterface;
 import plans.FlightPlan;
-import plans.FlightPlans;
 import plans.Reservation;
-import user.UserInterface;
 
 public class ConfirmationGui extends JFrame implements ActionListener, WindowListener{
 	
 	private ArrayList<FlightPlan> user_choices_list;
 
-	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
@@ -47,8 +38,6 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 		// error message if either choice is no longer free, also lock
 		
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;

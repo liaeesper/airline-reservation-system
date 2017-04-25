@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
@@ -10,35 +9,23 @@ import java.util.Properties;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-//import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-//import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.jdatepicker.impl.*;
 
-import airport.Airports;
 import plans.SearchParams;
 import user.UserInterface;
 
 public class SearchGui extends JFrame implements ActionListener, WindowListener{
-	//private Label lblAir;    // Declare a Label component 
-	//private TextField tfCount; // Declare a TextField component 
-	//private Button btnCount;   // Declare a Button component
-	//private int count = 0;     // Counter's value
-	//JPanel panel = new JPanel();
-	
 	private Choice airportDepList, airportArrList;
 	private UtilDateModel modelDate;
 	private ButtonGroup dOrAButtonGroup, seatButtonGroup, roundTripButtonGroup;
 	private JSpinner timeSpinnerS, timeSpinnerE;
 	private LoadingGui loadingPage;
 	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
@@ -53,8 +40,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		gbc.weightx = 0.5;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		//gbc.fill = GridBagConstraints.HORIZONTAL;
-		//gbc.ipady = 40; 
 
 
 		add(new JLabel("Departure Airport:"), gbc);
@@ -215,27 +200,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	 
 		addWindowListener(this);	 
 		setVisible(true);         // "super" Frame shows
-
-		/*
-		tfCount = new TextField("0", 10); // construct the TextField component
-		tfCount.setEditable(false);       // set to read-only
-		add(tfCount);                     // "super" Frame container adds TextField component
-	 
-		btnCount = new Button("Count");   // construct the Button component
-		add(btnCount);                    // "super" Frame container adds Button component
-	 
-		btnCount.addActionListener(this);
-	         // "btnCount" is the source object that fires an ActionEvent when clicked.
-	         // The source add "this" instance as an ActionEvent listener, which provides
-	         //   an ActionEvent handler called actionPerformed().
-	         // Clicking "btnCount" invokes actionPerformed().
-	 
-		setTitle("Search");  // "super" Frame sets its title
-		setSize(1000, 400);        // "super" Frame sets its initial window size
-	 
-		addWindowListener(this);	 
-		setVisible(true);         // "super" Frame shows
-		*/
 	}
 
 	/**
@@ -250,33 +214,24 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		String arrivalAirport = airportArrList.getSelectedItem();
 		params.setDepartureAirportCode(departureAirport.toCharArray());
 		params.setArrivalAirportCode(arrivalAirport.toCharArray());
-		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();//.getActionCommand();
-		utils.Date tripDate;
+		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();
 		utils.Time tripTime[] = new utils.Time[2];
 		Calendar calendar = Calendar.getInstance();
-		Date startTime;
-		Date endTime;
+		utils.Date tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
+		Date startTime = (Date) timeSpinnerS.getValue();
+		Date endTime = (Date) timeSpinnerE.getValue();
+		calendar.setTime(startTime);
+		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		calendar.setTime(endTime);
+		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
 		if(departureOrArrival == 0){
 			// departure date/time selected
-			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setDepartureDate(tripDate);
 			params.setDepartureTime(tripTime);
 		}
 		else{
 			// arrival date/time selected
-			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setArrivalDate(tripDate);
 			params.setArrivalTime(tripTime);
 		}

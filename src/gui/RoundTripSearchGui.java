@@ -37,8 +37,6 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	public RoundTripSearchGui (SearchParams known_params) {
 		params = known_params;
 		setLayout(new GridBagLayout());
-	         // "super" Frame, which is a Container, sets its layout to FlowLayout to arrange
-	         // the components from left-to-right, and flow to next row from top-to-bottom.
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -148,32 +146,23 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();//.getActionCommand();
-		utils.Date tripDate;
 		utils.Time tripTime[] = new utils.Time[2];
 		Calendar calendar = Calendar.getInstance();
-		Date startTime;
-		Date endTime;
+		utils.Date tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
+		Date startTime = (Date) timeSpinnerS.getValue();
+		Date endTime = (Date) timeSpinnerE.getValue();
+		calendar.setTime(startTime);
+		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		calendar.setTime(endTime);
+		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
 		if(departureOrArrival == 0){
 			// departure date/time selected
-			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setRDepartureDate(tripDate);
 			params.setRDepartureTime(tripTime);
 		}
 		else{
 			// arrival date/time selected
-			tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-			startTime = (Date) timeSpinnerS.getValue();
-			endTime = (Date) timeSpinnerE.getValue();
-			calendar.setTime(startTime);
-			tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-			calendar.setTime(endTime);
-			tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 			params.setRArrivalDate(tripDate);
 			params.setRArrivalTime(tripTime);
 		}
