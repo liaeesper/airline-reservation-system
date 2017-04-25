@@ -29,7 +29,12 @@ public class ErrorMessageGui extends JFrame implements ActionListener, WindowLis
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// Constructor to setup GUI components and event handlers
+	/** Constructor to setup GUI components and event handlers
+	 * 
+	 * @param errorMessage			A string to display as an error message.
+	 * @param suggestAlternative    Set to true for suggesting a search for alternative flights 
+	 * 								if none are found. If set to false, shows errorMessage.
+	 */
 	public ErrorMessageGui (String errorMessage, boolean suggestAlternative) {		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
