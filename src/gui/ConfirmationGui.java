@@ -91,7 +91,7 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 			user_plan = new Reservation(false, false, user_choices_list.get(0), null);
 		}
 		else{
-			user_plan = new Reservation(false, true, user_choices_list.get(0), user_choices_list.get(1));
+			user_plan = new Reservation(true, false, user_choices_list.get(0), user_choices_list.get(1));
 		}
 		
 		dispose();
