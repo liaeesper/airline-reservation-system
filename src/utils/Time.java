@@ -112,4 +112,16 @@ public class Time {
 		return Time.timeZones.get(Time.localConversion.get(code));
 	}
 	
+	public static boolean validTimeWindow(Time window[]){
+		if(window.length != 2){
+			return false;
+		}
+		int hours0 = window[0].getHours();
+		int hours1 = window[1].getHours();
+		int minutes0 = window[0].getMinutes();
+		int minutes1 = window[1].getMinutes();
+		
+		return !(hours1 < hours0 || (hours0 == hours1 && minutes1 < minutes0));
+	}
+	
 }

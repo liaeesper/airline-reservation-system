@@ -155,6 +155,11 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 		calendar.setTime(endTime);
 		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		if(!utils.Time.validTimeWindow(tripTime)){
+			dispose();
+			new ErrorMessageGui("Second time must be after first time in window.", false);
+			return;
+		}
 
 		if(departureOrArrival == 0){
 			// departure date/time selected

@@ -224,6 +224,11 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 		calendar.setTime(endTime);
 		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		if(!utils.Time.validTimeWindow(tripTime)){
+			dispose();
+			new ErrorMessageGui("Second time must be after first time in window.", false);
+			return;
+		}
 
 		if(departureOrArrival == 0){
 			// departure date/time selected
@@ -254,16 +259,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 			RoundTripSearchGui round_trip_search = new RoundTripSearchGui(params);
 			return;
 		}
-		
-		/*
-		//Lia's built-in search parameters
-		params.setArrivalAirportCode("TPA".toCharArray());
-		params.setDepartureAirportCode("BOS".toCharArray());
-		utils.Time timed[] = {new utils.Time(12, 45), new utils.Time(22, 30)};
-		params.setDepartureTime(timed);
-		params.setArrivalDate(null);
-		params.setDepartureDate(new utils.Date(5, 5, 2017));
-		*/
 		
 		// display a processing message
 		loadingPage = new LoadingGui();
