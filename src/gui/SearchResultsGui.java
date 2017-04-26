@@ -27,10 +27,10 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private int modeLocal = 0;
 	
 	// constants for sort mode selection
-	public static final int SORT_BY_PRICE_DESCENDING = 1;
-	public static final int SORT_BY_PRICE_ASCENDING = 2;
-	public static final int SORT_BY_TIME_DESCENDING = 3;
-	public static final int SORT_BY_TIME_ASCENDING = 4;
+	private static final int SORT_BY_PRICE_DESCENDING = 1;
+	private static final int SORT_BY_PRICE_ASCENDING = 2;
+	private static final int SORT_BY_TIME_DESCENDING = 3;
+	private static final int SORT_BY_TIME_ASCENDING = 4;
 
 	 
 	/**
