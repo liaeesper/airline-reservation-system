@@ -42,7 +42,6 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 		gbc.gridheight = 1;
 		gbc.weightx = 0.5;
 		
-		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 2;

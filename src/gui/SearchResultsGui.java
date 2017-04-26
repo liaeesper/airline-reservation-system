@@ -56,8 +56,6 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			fpList = fpListArr.get(0);
 		}
 		if(fpList.getFlightPlansList(0).size() == 0){
-			// TODO
-			// failure message window
 			dispose();
 			new ErrorMessageGui("There are no flight plans that match these criteria.", true);
 			return;
@@ -126,7 +124,6 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		flightPlanSpinner = new JSpinner( new SpinnerNumberModel(1, 1, fpList.getFlightPlansList(0).size(), 1) );
 		JSpinner.NumberEditor numberEditor = new JSpinner.NumberEditor(flightPlanSpinner, "");
 		flightPlanSpinner.setEditor(numberEditor);
-		//flightPlanSpinner.setValue(1);
 		add(flightPlanSpinner, gbc);
 		
 		// submit selection button

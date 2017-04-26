@@ -49,7 +49,6 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 		gbc.gridheight = 1;
 		gbc.weightx = 0.5;
 		
-		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridwidth = 2;

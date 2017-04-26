@@ -56,12 +56,9 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		}
 		gbc.gridx = 1;
 		add(airportDepList, gbc);
-		//gbc.insets = new Insets(30, 50, 50, 50);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		
-        ///panel.add(new JLabel(" "),"span, grow");	
-		
+				
 		add(new JLabel("Arrival Airport:"), gbc);
 		gbc.gridx = 1;
 		add(airportArrList, gbc);
@@ -103,7 +100,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	    dOrAButtonGroup.add(departureButton);
 	    dOrAButtonGroup.add(arrivalButton);
 	 
-
 		gbc.gridx = 1;
 		gbc.gridy = 3;
 		add(departureButton, gbc);
@@ -127,12 +123,10 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		// sets the default date as selected
 		datePicker.getModel().setSelected(true);
 
-		
 		gbc.gridx = 1;
 		gbc.gridy = 5;
 		add(datePicker, gbc);
 
-		
 		timeSpinnerS = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditorS = new JSpinner.DateEditor(timeSpinnerS, "HH:mm");
 		timeSpinnerS.setEditor(timeEditorS);
@@ -143,7 +137,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		timeSpinnerE.setEditor(timeEditorE);
 		timeSpinnerE.setValue(new Date());
 
-		
 		gbc.gridx = 1;
 		gbc.gridy = 6;
 		add(timeSpinnerS, gbc);
@@ -196,9 +189,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		add(submitButton, gbc);  
 		
 		submitButton.addActionListener(this);
-		
-		//add(panel, gbc);
-		
+				
 		setTitle("Search");  // "super" Frame sets its title
 		setSize(1000, 400);        // "super" Frame sets its initial window size
 	 
