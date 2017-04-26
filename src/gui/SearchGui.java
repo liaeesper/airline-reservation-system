@@ -19,6 +19,11 @@ import org.jdatepicker.impl.*;
 import plans.SearchParams;
 import user.UserInterface;
 
+/**
+ * @author Team G
+ * Class for displaying the GUI that takes in user search criteria. Also handles that input to
+ * send to UserInterface, or to RoundTripSearchGui.
+ */
 public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	private Choice airportDepList, airportArrList;
 	private UtilDateModel modelDate;
@@ -210,26 +215,64 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		SearchParams params = new SearchParams();
+		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();
+		utils.Time tripTime[] = new utils.Time[2];
+		utils.Date tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
+		
 		String departureAirport = airportDepList.getSelectedItem();
 		String arrivalAirport = airportArrList.getSelectedItem();
 		params.setDepartureAirportCode(departureAirport.toCharArray());
 		params.setArrivalAirportCode(arrivalAirport.toCharArray());
-		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();
-		utils.Time tripTime[] = new utils.Time[2];
-		Calendar calendar = Calendar.getInstance();
-		utils.Date tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-		Date startTime = (Date) timeSpinnerS.getValue();
-		Date endTime = (Date) timeSpinnerE.getValue();
-		calendar.setTime(startTime);
-		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-		calendar.setTime(endTime);
-		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+
+		setTimeWindow(tripTime);
+
 		if(!utils.Time.validTimeWindow(tripTime)){
 			dispose();
 			new ErrorMessageGui("Second time must be after first time in window.", false);
 			return;
 		}
 
+		int isRoundTrip = roundTripButtonGroup.getSelection().getMnemonic();
+		
+		setParamsConditionals(params, departureOrArrival, tripTime, tripDate, isRoundTrip);
+		
+		dispose();
+		if(isRoundTrip == 1){
+			new RoundTripSearchGui(params);
+			return;
+		}
+		
+		displayProcessingMessage(params);
+		
+	}
+
+	/**
+	 * Passes control to the user interface, and creates a loading page.
+	 * @param params
+	 */
+	private void displayProcessingMessage(SearchParams params) {
+		loadingPage = new LoadingGui();
+		
+		Runnable handleSearch = new Runnable() {
+		     public void run() {
+		    	 UserInterface.instance.HandleSearch(params, loadingPage);
+		     }
+		};
+		
+		SwingUtilities.invokeLater(handleSearch);
+	}
+
+	/**
+	 * Sets parameters of the SearchParams object which require some conditional logic. This includes
+	 * the departure date and time, 
+	 * @param params
+	 * @param departureOrArrival
+	 * @param tripTime
+	 * @param tripDate
+	 * @param isRoundTrip
+	 */
+	private void setParamsConditionals(SearchParams params, int departureOrArrival, utils.Time[] tripTime,
+			utils.Date tripDate, int isRoundTrip) {
 		if(departureOrArrival == 0){
 			// departure date/time selected
 			params.setDepartureDate(tripDate);
@@ -240,7 +283,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 			params.setArrivalDate(tripDate);
 			params.setArrivalTime(tripTime);
 		}
-		int isRoundTrip = roundTripButtonGroup.getSelection().getMnemonic();
 		int seatingType = seatButtonGroup.getSelection().getMnemonic();
 		if(isRoundTrip == 0){
 			params.setIsRoundTrip(false);
@@ -254,24 +296,21 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		else{
 			params.setSeatType('f');
 		}
-		dispose();
-		if(isRoundTrip == 1){
-			new RoundTripSearchGui(params);
-			return;
-		}
-		
-		// display a processing message
-		loadingPage = new LoadingGui();
-		
-		Runnable handleSearch = new Runnable() {
-		     public void run() {
-		    	 UserInterface.instance.HandleSearch(params, loadingPage);
-		     }
-		};
-		
-		SwingUtilities.invokeLater(handleSearch);
-		
-		
+	}
+
+	/**
+	 * Sets the time window using the spinner values.
+	 * @param params
+	 * @param tripTime
+	 */
+	private void setTimeWindow(utils.Time[] tripTime) {
+		Calendar calendar = Calendar.getInstance();
+		Date startTime = (Date) timeSpinnerS.getValue();
+		Date endTime = (Date) timeSpinnerE.getValue();
+		calendar.setTime(startTime);
+		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		calendar.setTime(endTime);
+		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 	}
 
 	@Override
@@ -280,6 +319,10 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	@Override
 	public void windowClosed(WindowEvent arg0) {}
 
+	/**
+	 * The entire system is exited when the window close button is pressed.
+	 * @param arg0
+	 */
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		System.exit(0);  // Terminate the program

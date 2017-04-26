@@ -19,15 +19,17 @@ import org.jdatepicker.impl.*;
 import plans.SearchParams;
 import user.UserInterface;
 
+/**
+ * @author Team G
+ * Class for displaying the GUI that takes in user search criteria for the incoming flight of
+ * a round trip. Also handles that input to send to UserInterface.
+ */
 public class RoundTripSearchGui extends JFrame implements ActionListener, WindowListener{	
 	private UtilDateModel modelDate;
 	private ButtonGroup dOrAButtonGroup;
 	private JSpinner timeSpinnerS, timeSpinnerE;
 	private SearchParams knownParams;
 	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
@@ -144,33 +146,28 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	public void actionPerformed(ActionEvent arg0) {
 		int departureOrArrival = dOrAButtonGroup.getSelection().getMnemonic();//.getActionCommand();
 		utils.Time tripTime[] = new utils.Time[2];
-		Calendar calendar = Calendar.getInstance();
 		utils.Date tripDate = new utils.Date(modelDate.getDay(), modelDate.getMonth() + 1, modelDate.getYear());
-		Date startTime = (Date) timeSpinnerS.getValue();
-		Date endTime = (Date) timeSpinnerE.getValue();
-		calendar.setTime(startTime);
-		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-		calendar.setTime(endTime);
-		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		
+		setTimeWindow(tripTime);
+		
 		if(!utils.Time.validTimeWindow(tripTime)){
 			dispose();
 			new ErrorMessageGui("Second time must be after first time in window.", false);
 			return;
 		}
 
-		if(departureOrArrival == 0){
-			// departure date/time selected
-			knownParams.setRDepartureDate(tripDate);
-			knownParams.setRDepartureTime(tripTime);
-		}
-		else{
-			// arrival date/time selected
-			knownParams.setRArrivalDate(tripDate);
-			knownParams.setRArrivalTime(tripTime);
-		}
+		setReturnDateAndTime(departureOrArrival, tripTime, tripDate);
+		
 		dispose();
 		
-		// display a processing message
+		displayProcessingMessage();
+		
+	}
+
+	/**
+	 * Passes control to the user interface, and creates a loading page.
+	 */
+	private void displayProcessingMessage() {
 		LoadingGui loadingPage = new LoadingGui();
 		
 		Runnable handleSearch = new Runnable() {
@@ -182,12 +179,51 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		SwingUtilities.invokeLater(handleSearch);
 	}
 
+	/**
+	 * Sets the time window using the spinner values.
+	 * @param tripTime
+	 */
+	private void setTimeWindow(utils.Time[] tripTime) {
+		Calendar calendar = Calendar.getInstance();
+		Date startTime = (Date) timeSpinnerS.getValue();
+		Date endTime = (Date) timeSpinnerE.getValue();
+		calendar.setTime(startTime);
+		tripTime[0] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+		calendar.setTime(endTime);
+		tripTime[1] = new utils.Time(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+	}
+
+	
+	/**
+	 * Sets departure or arrival date and time window for the incoming/return flight.
+	 * @param departureOrArrival
+	 * @param tripTime
+	 * @param tripDate
+	 */
+	private void setReturnDateAndTime(int departureOrArrival, utils.Time[] tripTime, utils.Date tripDate) {
+		if(departureOrArrival == 0){
+			// departure date/time selected
+			knownParams.setRDepartureDate(tripDate);
+			knownParams.setRDepartureTime(tripTime);
+		}
+		else{
+			// arrival date/time selected
+			knownParams.setRArrivalDate(tripDate);
+			knownParams.setRArrivalTime(tripTime);
+		}
+	}
+	
+
 	@Override
 	public void windowActivated(WindowEvent arg0) {}
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {}
 
+	/**
+	 * The entire system is exited when the window close button is pressed.
+	 * @param arg0
+	 */
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		System.exit(0);  // Terminate the program
