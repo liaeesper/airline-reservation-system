@@ -7,24 +7,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import airport.Airplanes;
 import airport.Airports;
 import flight.Flights;
 import plans.FlightPlan;
 import plans.FlightPlans;
-import plans.FlightPlan;
 import plans.Reservation;
 import plans.SearchParams;
-import user.UserInterface;
-import plans.Ticket;
-import utils.Date;
-import utils.DateTime;
 import utils.QueryFactory;
-import utils.Time;
 import dao.XMLParser;
-import flight.Flight;
 
 /**
  * ServerInterface queries WPI's server for information about airports, airplanes, and flights.

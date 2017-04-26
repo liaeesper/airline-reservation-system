@@ -150,10 +150,10 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 			// enter confirmation page if no return flight, otherwise call self?
 			if(!isReturnBool && hasReturnBool){
 				userParams.SetReturnParams(userParams); // convert to return params
-				SearchResultsGui returnFlightSearchResults = new SearchResultsGui(fpListArray, user_choices_list, true, 0, userParams);
+				new SearchResultsGui(fpListArray, user_choices_list, true, 0, userParams);
 			}
 			else{
-				ConfirmationGui confirmFlights = new ConfirmationGui(user_choices_list);
+				new ConfirmationGui(user_choices_list);
 			}
 			dispose();
 		}

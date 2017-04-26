@@ -1,23 +1,8 @@
 package driver;
 
-import java.util.ArrayList;
-
 import airport.Airplanes;
-import airport.Airport;
-import flight.Flights;
-import flight.Flight;
 import airport.Airports;
-import plans.FlightPlan;
-import plans.FlightPlans;
-import plans.Reservation;
-import plans.SearchParams;
-import plans.Ticket;
-import dao.FlightPlansGenerator;
 import dao.ServerInterface;
-import plans.SearchParams;
-import utils.Date;
-import utils.Time;
-import utils.Price;
 import user.UserInterface;
 
 

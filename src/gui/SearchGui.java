@@ -256,7 +256,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		}
 		dispose();
 		if(isRoundTrip == 1){
-			RoundTripSearchGui round_trip_search = new RoundTripSearchGui(params);
+			new RoundTripSearchGui(params);
 			return;
 		}
 		

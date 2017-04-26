@@ -2,15 +2,11 @@ package user;
 
 import flight.Flight;
 import flight.Flights;
-import airport.Airports;
 import dao.FlightPlansGenerator;
-import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.Reservation;
 import plans.SearchParams;
-import utils.Date;
-import utils.Time;
 import gui.LoadingGui;
 import gui.SearchGui;
 import gui.SearchResultsGui;
@@ -21,11 +17,11 @@ public class UserInterface {
 	public static UserInterface instance =  new UserInterface();
 
 	public void DisplaySearch(){
-		SearchGui search = new SearchGui();
+		new SearchGui();
 	}
 	
 	public void DisplaySearchResults(ArrayList<FlightPlans> flightList, SearchParams userParams){
-		SearchResultsGui searchResults = new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false, 0, userParams);
+		new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false, 0, userParams);
 	}
 	
 	public void DisplaySearchResultsProto(Flights flightList){
@@ -63,18 +59,11 @@ public class UserInterface {
 	/**
 	 * HandleSearch()
 	 * takes user search parameters as input and passes them to the server interface,
-	 * then calls display flights
+	 * then calls display flights. Also closes the processing message after the flight list is created.
 	 */
 	public void HandleSearch(SearchParams userParams, LoadingGui loadingPage){
-		// TODO
-		// convert times to GMT here
-		
-		ServerInterface resSys = ServerInterface.instance;
-		//Flights flightList = resSys.GetDepartingFlights(userParams);
-		//DisplaySearchResultsProto(flightList);
 		FlightPlansGenerator plansGenerator = new FlightPlansGenerator();
 		
-		// TODO
 		userParams.convertToGMT();
 		
 		ArrayList<FlightPlans> flightList = plansGenerator.GeneratorManager(userParams);

@@ -28,10 +28,6 @@ import utils.Time;
 import utils.Date;
 import utils.DateTime;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 /**
  * Contains methods to parse XML strings containing airport, airplane, and flight information.
  * 

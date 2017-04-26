@@ -9,16 +9,13 @@ import java.util.Properties;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-//import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-//import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.jdatepicker.impl.*;
 
-import airport.Airports;
 import plans.SearchParams;
 import user.UserInterface;
 

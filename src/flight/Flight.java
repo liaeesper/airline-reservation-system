@@ -3,8 +3,6 @@ package flight;
 import airport.Airport;
 import utils.Price;
 
-import utils.Date;
-import utils.Time;
 import utils.DateTime;
 
 /**
