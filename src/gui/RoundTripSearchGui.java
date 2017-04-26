@@ -23,7 +23,7 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	private UtilDateModel modelDate;
 	private ButtonGroup dOrAButtonGroup;
 	private JSpinner timeSpinnerS, timeSpinnerE;
-	private SearchParams params;
+	private SearchParams knownParams;
 	 
 	/**
 	 * 
@@ -31,8 +31,8 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public RoundTripSearchGui (SearchParams known_params) {
-		params = known_params;
+	public RoundTripSearchGui (SearchParams knownParams) {
+		this.knownParams = knownParams;
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -160,13 +160,13 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 
 		if(departureOrArrival == 0){
 			// departure date/time selected
-			params.setRDepartureDate(tripDate);
-			params.setRDepartureTime(tripTime);
+			knownParams.setRDepartureDate(tripDate);
+			knownParams.setRDepartureTime(tripTime);
 		}
 		else{
 			// arrival date/time selected
-			params.setRArrivalDate(tripDate);
-			params.setRArrivalTime(tripTime);
+			knownParams.setRArrivalDate(tripDate);
+			knownParams.setRArrivalTime(tripTime);
 		}
 		dispose();
 		
@@ -175,7 +175,7 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		
 		Runnable handleSearch = new Runnable() {
 		     public void run() {
-		    	 UserInterface.instance.HandleSearch(params, loadingPage);
+		    	 UserInterface.instance.HandleSearch(knownParams, loadingPage);
 		     }
 		};
 		

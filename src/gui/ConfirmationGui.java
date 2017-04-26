@@ -22,17 +22,17 @@ import plans.Reservation;
 
 public class ConfirmationGui extends JFrame implements ActionListener, WindowListener{
 	
-	private ArrayList<FlightPlan> user_choices_list;
+	private ArrayList<FlightPlan> userChoices;
 
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public ConfirmationGui (ArrayList<FlightPlan> user_choices) {
-		user_choices_list = user_choices;
+	public ConfirmationGui (ArrayList<FlightPlan> userChoices) {
+		this.userChoices = userChoices;
 		String flightPlansText = "";
-		for(int i = 0; i < user_choices.size(); i++){
+		for(int i = 0; i < userChoices.size(); i++){
 			flightPlansText += String.format("Flight plan %d:\n", i+1);
-			flightPlansText += user_choices.get(i).toString();
+			flightPlansText += userChoices.get(i).toString();
 		}
 		// TODO
 		// error message if either choice is no longer free, also lock
@@ -86,12 +86,12 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
-		Reservation user_plan;
-		if(user_choices_list.size() == 1){
-			user_plan = new Reservation(false, false, user_choices_list.get(0), null);
+		Reservation userPlan;
+		if(userChoices.size() == 1){
+			userPlan = new Reservation(false, false, userChoices.get(0), null);
 		}
 		else{
-			user_plan = new Reservation(true, false, user_choices_list.get(0), user_choices_list.get(1));
+			userPlan = new Reservation(true, false, userChoices.get(0), userChoices.get(1));
 		}
 		
 		dispose();
@@ -101,10 +101,10 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 		Runnable handleReserve = new Runnable() {
 			public void run() {
 				ServerInterface.instance.lock();
-				boolean reservationSuccessful = ServerInterface.instance.ReserveTicket(user_plan);
+				boolean reservationSuccessful = ServerInterface.instance.ReserveTicket(userPlan);
 				ServerInterface.instance.unlock();
 				if(reservationSuccessful){
-					new ReservedGui(user_choices_list, loadingPage);
+					new ReservedGui(userChoices, loadingPage);
 				}
 				else{
 					new ErrorMessageGui("Flight could not be reserved.",false);

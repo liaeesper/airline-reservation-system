@@ -19,12 +19,18 @@ import plans.SearchParams;
 public class SearchResultsGui extends JFrame implements ActionListener, WindowListener{
 	private JSpinner flightPlanSpinner;
 	private FlightPlans fpList; 
-	private ArrayList<FlightPlans> fpListArray; 
-	private ArrayList<FlightPlan> user_choices_list;
+	private ArrayList<FlightPlans> fpListArr; 
+	private ArrayList<FlightPlan> userChoices;
 	private SearchParams userParams;
-	private boolean isReturnBool;
-	private boolean hasReturnBool = false;
-	private int mode_local = 0;
+	private boolean isReturn;
+	private boolean hasReturn = false;
+	private int modeLocal = 0;
+	
+	// constants for sort mode selection
+	public static final int SORT_BY_PRICE_DESCENDING = 1;
+	public static final int SORT_BY_PRICE_ASCENDING = 2;
+	public static final int SORT_BY_TIME_DESCENDING = 3;
+	public static final int SORT_BY_TIME_ASCENDING = 4;
 
 	 
 	/**
@@ -33,14 +39,14 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public SearchResultsGui (ArrayList<FlightPlans> fpListArr, ArrayList<FlightPlan> user_choices, boolean isReturn, int mode, SearchParams user_params) {
-		user_choices_list = user_choices;
-		userParams = user_params;
-		fpListArray = fpListArr;
-		isReturnBool = isReturn;
-		mode_local = mode;
+	public SearchResultsGui (ArrayList<FlightPlans> fpListArr, ArrayList<FlightPlan> userChoices, boolean isReturn, int mode, SearchParams userParams) {
+		this.userChoices = userChoices;
+		this.userParams = userParams;
+		this.fpListArr = fpListArr;
+		this.isReturn = isReturn;
+		modeLocal = mode;
 		if(fpListArr.size() > 1){
-			hasReturnBool = true;
+			hasReturn = true;
 		}
 		if(isReturn){
 			fpList = fpListArr.get(1);
@@ -95,7 +101,7 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 		JTextArea display = new JTextArea ( 20, 58 );
 	    display.setEditable ( false ); // set textArea non-editable
 	    String displayText = "Search Criteria:\n" 
-	    					+ user_params.toString()
+	    					+ userParams.toString()
 	    					+ "Search Results:\n"
 	    					+ fpList.toString(mode);
 	    display.setText(displayText);
@@ -146,35 +152,35 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getActionCommand() == "Submit selection"){
-			user_choices_list.add(fpList.getFlightPlansList(mode_local).get((int) flightPlanSpinner.getValue() - 1));
+			userChoices.add(fpList.getFlightPlansList(modeLocal).get((int) flightPlanSpinner.getValue() - 1));
 			// enter confirmation page if no return flight, otherwise call self?
-			if(!isReturnBool && hasReturnBool){
+			if(!isReturn && hasReturn){
 				userParams.SetReturnParams(userParams); // convert to return params
-				new SearchResultsGui(fpListArray, user_choices_list, true, 0, userParams);
+				new SearchResultsGui(fpListArr, userChoices, true, 0, userParams);
 			}
 			else{
-				new ConfirmationGui(user_choices_list);
+				new ConfirmationGui(userChoices);
 			}
 			dispose();
 		}
 		else if(arg0.getActionCommand() == "Sort by Price"){
 			dispose();
-			if(mode_local == 1){
-				mode_local = 2;
+			if(modeLocal == SORT_BY_PRICE_DESCENDING){
+				modeLocal = SORT_BY_PRICE_ASCENDING;
 			}
 			else{
-				mode_local = 1;
+				modeLocal = SORT_BY_PRICE_DESCENDING;
 			}
-			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local, userParams);
+			new SearchResultsGui(fpListArr, userChoices, isReturn, modeLocal, userParams);
 		}
 		else if(arg0.getActionCommand() == "Sort by Time"){
-			if(mode_local == 3){
-				mode_local = 4;
+			if(modeLocal == SORT_BY_TIME_DESCENDING){
+				modeLocal = SORT_BY_TIME_ASCENDING;
 			}
 			else{
-				mode_local = 3;
+				modeLocal = SORT_BY_TIME_DESCENDING;
 			}
-			new SearchResultsGui(fpListArray, user_choices_list, isReturnBool, mode_local, userParams);
+			new SearchResultsGui(fpListArr, userChoices, isReturn, modeLocal, userParams);
 			dispose();
 		}
 	}

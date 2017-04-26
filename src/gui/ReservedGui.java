@@ -21,12 +21,12 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
-	public ReservedGui (ArrayList<FlightPlan> user_choices, LoadingGui loadingPage) {
+	public ReservedGui (ArrayList<FlightPlan> userChoices, LoadingGui loadingPage) {
 		loadingPage.dispose();
 		String flightPlansText = "";
-		for(int i = 0; i < user_choices.size(); i++){
+		for(int i = 0; i < userChoices.size(); i++){
 			flightPlansText += String.format("Flight plan %d:\n", i+1);
-			flightPlansText += user_choices.get(i).toString();
+			flightPlansText += userChoices.get(i).toString();
 		}
 		// TODO
 		// error message if either choice is no longer free, also lock
