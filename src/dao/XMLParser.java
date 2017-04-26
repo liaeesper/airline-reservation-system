@@ -121,18 +121,17 @@ public class XMLParser {
 	 * This method iterates thru an XML string and uses the buildFlight method to parse an individual DOM node into a Flight object.
 	 * FLight objects are concatenated into a single Flights object.
 	 * @param xmlFlights is the XML string containing desired flight information
-	 * @param departureairportcode is the airport code of the airport from which all flights in XML string are departing from. Necessary for building a FLight object. 
 	 * @return a Flights object which is a collection of flights departing from the specified airport and parsed from the xmlFlights XML string argument
 	 * @throws NullPointerException
 	 */
-	public static Flights addAllDepartingFlights (String xmlFlights, String departureairportcode) throws NullPointerException {
+	public static Flights addAllFlights (String xmlFlights) throws NullPointerException {
 		
 		ArrayList<Flight> flightlist = new ArrayList<Flight>();
 		Airports airports = Airports.instance;
 		Airplanes airplanes = Airplanes.instance;
 		
 		
-		Airport DepartureAirport = airports.getAirport(departureairportcode);
+
 		
 		// Load the XML string into a DOM tree for ease of processing
 		// then iterate over all nodes adding each airport to our collection
@@ -141,57 +140,22 @@ public class XMLParser {
 		
 		for (int i = 0; i < nodesFlights.getLength(); i++) {
 			Element elementFlight = (Element) nodesFlights.item(i);
-			Flight flight = buildDepartingFlight (elementFlight, airports, airplanes, DepartureAirport);
+			Flight flight = buildFlight (elementFlight, airports, airplanes);
 			
 			flightlist.add(flight);
 		}
-		
+		Airport DepartureAirport = flightlist.get(1).getDepartureAirport();
 		return new Flights(DepartureAirport, null, flightlist);
 	}
-	
-	/**
-	 * Builds a collection of Flights arriving at a specific airport from an XML string.
-	 * This method iterates thru an XML string and uses the buildFlight method to parse an individual DOM node into a Flight object.
-	 * FLight objects are concatenated into a single Flights object.
-	 * @param xmlFlights is the XML string containing desired flight information
-	 * @param arrivalairportcode is the airport code of the airport that all flights in the XML string are arriving at. Necessary for building a FLight object. 
-	 * @return a Flights object which is a collection of flights arriving at the specified airport and parsed from the xmlFlights XML string argument
-	 * @throws NullPointerException
-	 */
-	public static Flights addAllArrivingFlights (String xmlFlights, String arrivalairportcode) throws NullPointerException {
-		
-		ArrayList<Flight> flightlist = new ArrayList<Flight>();
-		Airports airports = Airports.instance;
-		Airplanes airplanes = Airplanes.instance;
-		
-		
-		Airport ArrivalAirport = airports.getAirport(arrivalairportcode);
-		
-		// Load the XML string into a DOM tree for ease of processing
-		// then iterate over all nodes adding each airport to our collection
-		Document docFlights = buildDomDoc (xmlFlights);
-		NodeList nodesFlights = docFlights.getElementsByTagName("Flight");
-		
-		for (int i = 0; i < nodesFlights.getLength(); i++) {
-			Element elementFlight = (Element) nodesFlights.item(i);
-			Flight flight = buildArrivingFlight (elementFlight, airports, airplanes, ArrivalAirport);
-			
-			flightlist.add(flight);
-		}
-		
-		return new Flights(ArrivalAirport, null, flightlist);
-	}
-
 	
 	/**
 	 * Creates an Flight object from a DOM node
 	 * @param nodeFlight is a DOM node describing the flight
 	 * @param airports is the full list of airports contained in WPI's server
 	 * @param airplanes is the full list of airplanes contained in WPI's server
-	 * @param departureairport is the airport from which the flight contained in the DOM node is departing
 	 * @return Flight object created from a DOM representation of a flight
 	 */
-	static private Flight buildDepartingFlight (Node nodeFlight, Airports airports, Airplanes airplanes, Airport departureairport) {
+	static private Flight buildFlight (Node nodeFlight, Airports airports, Airplanes airplanes) {
 		//Instantiate all necessary variables
 		Flight flight;
 		int FlightNumber;
@@ -199,6 +163,7 @@ public class XMLParser {
 		int FlightTime;
 		DateTime DepartureTime = new DateTime(null,null);
 		DateTime ArrivalTime = new DateTime(null,null);
+		Airport DepartureAirport = null;
 		Airport ArrivalAirport = null;
 		Airplane AirplaneUsed;
 		int SeatFc;
@@ -221,8 +186,12 @@ public class XMLParser {
 		
 		// Extract departure element
 		Element dep;
+		Element depcode;
 		dep = (Element)elementFlight.getElementsByTagName("Departure").item(0);
+		depcode = (Element)dep.getElementsByTagName("Code").item(0);
+		DepartureAirport = airports.getAirport(getCharacterDataFromElement(depcode));
 		Element deptime;
+		
 		
 		//Extract departure time
 		deptime = (Element)dep.getElementsByTagName("Time").item(0);
@@ -258,100 +227,14 @@ public class XMLParser {
 
 		PriceFc = new Price(new BigDecimal(firstclass.getAttributeNode("Price").getValue().substring(1).replace(",", "")));
 		SeatFc = AirplaneUsed.getFCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(firstclass));
-		//SeatFc = AirplaneUsed.GetFCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(firstclass));
+
 		coach = (Element)seat.getElementsByTagName("Coach").item(0);
 		PriceC = new Price(new BigDecimal(coach.getAttributeNode("Price").getValue().substring(1).replace(",", "")));
 		SeatC = AirplaneUsed.getCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
-		//SeatC = 6;
+
 
 		//Update the Airport object with values from XML node
-		flight = new Flight(departureairport, FlightNumber, PlaneType, FlightTime, DepartureTime, ArrivalAirport, ArrivalTime, SeatFc, SeatC, PriceFc, PriceC);
-		
-		return flight;
-	}
-	
-	/**
-	 * Creates an Flight object from a DOM node
-	 * @param nodeFlight is a DOM node describing the flight
-	 * @param airports is the full list of airports contained in WPI's server
-	 * @param airplanes is the full list of airplanes contained in WPI's server
-	 * @param arrivalairport is the airport at which the flight contained in the DOM node is arriving
-	 * @return Flight object created from a DOM representation of a flight
-	 */
-	static private Flight buildArrivingFlight (Node nodeFlight, Airports airports, Airplanes airplanes, Airport arrivalairport) {
-		//Instantiate all necessary variables
-		Flight flight;
-		int FlightNumber;
-		String PlaneType;
-		int FlightTime;
-		DateTime DepartureTime = new DateTime(null,null);
-		DateTime ArrivalTime = new DateTime(null,null);
-		Airport DepartureAirport = null;
-		Airplane AirplaneUsed;
-		int SeatFc;
-		int SeatC;
-		Price PriceFc;
-		Price PriceC;
-
-		//get next Flights element from xml string
-		Element elementFlight = (Element) nodeFlight;
-		//get Airplane element
-		PlaneType = elementFlight.getAttributeNode("Airplane").getValue();
-		//get Flight Time element
-		FlightTime = Integer.parseInt(elementFlight.getAttributeNode("FlightTime").getValue());
-		//get Flight Number element
-		FlightNumber = Integer.parseInt(elementFlight.getAttributeNode("Number").getValue());
-		
-		//get Airplane info for given plane
-		AirplaneUsed = airplanes.getAirplane(PlaneType);
-		
-		
-		// Extract departure element
-		Element dep;
-		Element depcode;
-		dep = (Element)elementFlight.getElementsByTagName("Departure").item(0);
-		depcode = (Element)dep.getElementsByTagName("Code").item(0);
-		DepartureAirport = airports.getAirport(getCharacterDataFromElement(depcode));
-		Element deptime;
-		
-		//Extract departure time
-		deptime = (Element)dep.getElementsByTagName("Time").item(0);
-		String [] departuretime = getCharacterDataFromElement(deptime).split(" ");
-		Date depardate = new Date(Integer.parseInt(departuretime[2]), utils.Date.findmonth(departuretime[1]), Integer.parseInt(departuretime[0]));
-		Time departime = new Time(Integer.parseInt(departuretime[3].substring(0,2)), Integer.parseInt(departuretime[3].substring(3,5)));
-		DepartureTime.setDate(depardate);
-		DepartureTime.setTime(departime);
-
-		//Extract arrival element
-		Element arr;
-		arr = (Element)elementFlight.getElementsByTagName("Arrival").item(0);
-		//Extract arrival airport code
-		Element arrtime;
-		
-		//Extract arrival time
-		arrtime = (Element)arr.getElementsByTagName("Time").item(0);
-		String [] arrivaltime = getCharacterDataFromElement(arrtime).split(" ");
-		Date arrvdate = new Date(Integer.parseInt(arrivaltime[2]), utils.Date.findmonth(arrivaltime[1]), Integer.parseInt(arrivaltime[0]));
-		Time arrvtime = new Time(Integer.parseInt(arrivaltime[3].substring(0,2)), Integer.parseInt(arrivaltime[3].substring(3,5)));
-		ArrivalTime.setDate(arrvdate);
-		ArrivalTime.setTime(arrvtime);
-		
-		// Extract remaining first class and coach seats
-		Element seat;
-		Element firstclass;
-		Element coach;
-		seat = (Element)elementFlight.getElementsByTagName("Seating").item(0);
-		firstclass = (Element)seat.getElementsByTagName("FirstClass").item(0);
-
-		PriceFc = new Price(new BigDecimal(firstclass.getAttributeNode("Price").getValue().substring(1).replace(",", "")));
-		SeatFc = AirplaneUsed.getFCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(firstclass));
-		coach = (Element)seat.getElementsByTagName("Coach").item(0);
-		PriceC = new Price(new BigDecimal(coach.getAttributeNode("Price").getValue().substring(1).replace(",", "")));
-		SeatC = AirplaneUsed.getCSeats() - Integer.parseInt(XMLParser.getCharacterDataFromElement(coach));
-		
-
-		//Update the Airport object with values from XML node
-		flight = new Flight(DepartureAirport, FlightNumber, PlaneType, FlightTime, DepartureTime, arrivalairport, ArrivalTime, SeatFc, SeatC, PriceFc, PriceC);
+		flight = new Flight(DepartureAirport, FlightNumber, PlaneType, FlightTime, DepartureTime, ArrivalAirport, ArrivalTime, SeatFc, SeatC, PriceFc, PriceC);
 		
 		return flight;
 	}

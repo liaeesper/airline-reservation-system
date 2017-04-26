@@ -232,7 +232,7 @@ public class ServerInterface {
 		xmlFlights = result.toString();
 		
 		//call XML parser to generate Flights class
-		Flights flights = XMLParser.addAllDepartingFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
+		Flights flights = XMLParser.addAllFlights(xmlFlights); //need to parse xmlAirports string into Flights object
 		return flights;
 	}
 	
@@ -285,7 +285,7 @@ public class ServerInterface {
 		xmlFlights = result.toString();
 		
 		//call XML parser to generate Flights class
-		Flights flights = XMLParser.addAllArrivingFlights(xmlFlights, airportCode); //need to parse xmlAirports string into Flights object
+		Flights flights = XMLParser.addAllFlights(xmlFlights); //need to parse xmlAirports string into Flights object
 		return flights;
 	}
 	
@@ -354,21 +354,23 @@ public class ServerInterface {
 		FlightPlan outgoing = plan.getOutgoingFlight();
 		String xmlflights = "<Flights>";
 		String seattype;
+
 		
-		String flightnum="";
+		String flightnum = "";
 		
-		//create xml string for flight reservation - <Flights> <Flight number=DDDDD seating=SEAT_TYPE/> <Flight number=DDDDD seating=SEAT_TYPE/> </Flights>
-	    //add all outgoing legs to xml string for flight reservation
+		// Create xml string for flight reservation <Flights> <Flight number=DDDDD seating=SEAT_TYPE/> <Flight number=DDDDD seating=SEAT_TYPE/> </Flights>
+
+		//Create string for reserving outgoing flights
 		for (int i=0; i < outgoing.getNumberLegs(); i++){
-			//if coach seating was selected for this leg, specify "Coach"
+			//if the seat type for the flight is coach specify "SEAT_TYPE "Coach"
 			if ((outgoing.getLegs().get(i).getSeatType() == 'C') | (outgoing.getLegs().get(i).getSeatType() == 'c') ){
 				seattype = "Coach";
 			}
 			else{
-				//if first class seating was selected, specify "firstclass"
+				//if the seat type for the flight is firstclass sepcify "SEAT_TYPE "FirstClass"
 				seattype = "FirstClass";
 			}
-			//pad the flight number on the left with zeros if it is less than four digits long (for formatting)
+			//if the flight number is less than four digits pad to the left with zeros
 			flightnum = Integer.toString(outgoing.getLegs().get(i).getForFlight().getFlightNumber());
 			while (flightnum.length() < 4){
 				flightnum = "0" + flightnum;
@@ -377,18 +379,21 @@ public class ServerInterface {
 			xmlflights = xmlflights + "<Flight number=\"" + flightnum + "\" seating=\"" +  seattype + "\"/>";
 			
 		}
-		//add all incoming legs to xml string for flight reservation
+		//create string for reserving incoming flights if roundtrip
 		if (plan.getIsRoundTrip()){
 			System.out.println("Is round trip");
 			FlightPlan incoming = plan.getReturningFlight();
 			for (int i=0; i < incoming.getNumberLegs(); i++){
+				//if the seat type for the flight is coach specify "SEAT_TYPE "Coach"
 				if ((incoming.getLegs().get(i).getSeatType() == 'c') | (incoming.getLegs().get(i).getSeatType() == 'C') ){
 					seattype = "Coach";
 				}
 				else{
+					//if the seat type for the flight is firstclass sepcify "SEAT_TYPE "FirstClass"
 					seattype = "FirstClass";
 				}
 				
+				//if the flight number is less than four digits pad to the left with zeros
 				flightnum = Integer.toString(incoming.getLegs().get(i).getForFlight().getFlightNumber());
 				while (flightnum.length() < 4){
 					flightnum = "0" + flightnum;
@@ -396,30 +401,38 @@ public class ServerInterface {
 				xmlflights = xmlflights + "<Flight number=\"" + flightnum + "\" seating=\"" +  seattype+ "\"/>";
 			}
 		}
+		System.out.println(xmlflights);
 		xmlflights = xmlflights + "</Flights>";
 		
 		System.out.print(xmlflights);
 		
+	
 		try {
+			//connect to server
 			url = new URL(ServerLocation);
 			connection = (HttpURLConnection) url.openConnection();
+			
+			//POST command will be used to request reservation
 			connection.setRequestMethod("POST");
 			connection.setRequestProperty("User-Agent", TeamName);
 			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			
+			//create server request to reserve seat
 			String params = QueryFactory.reserveSeat(TeamName, xmlflights);
 			
-			//System.out.println("Parameters " + params);
+			//send request
 			connection.setDoOutput(true);
 			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
 			writer.writeBytes(params);
 			writer.flush();
 			writer.close();
 			
+			//get response 
 			int responseCode = connection.getResponseCode();
 			System.out.println("\nSending 'POST' to reserve ticket");
 			System.out.println(("\nResponse Code : " + responseCode));
 			
+			//if server responds with an error inform the user
 			if (responseCode >=300) {
 				if (responseCode == 304){
 					System.out.println("Your seat could not be reserved because there are no seats of that seat type left on at least one leg of the flight.");
@@ -435,16 +448,8 @@ public class ServerInterface {
 				}
 			}
 			
-			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line;
-			StringBuffer response = new StringBuffer();
-			
-			while ((line = in.readLine()) != null) {
-				response.append(line);
-			}
-			
+			//server responded with code between 200 and 300, ticket has been reserved
 			System.out.println("Your ticket has been reserved!");
-			in.close();
 			
 		}
 		catch (Exception ex) {
