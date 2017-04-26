@@ -16,6 +16,11 @@ import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.SearchParams;
 
+/**
+ * @author Team G
+ * Shows valid flight plans corresponding to user search criteria. Supports both
+ * incoming and outgoing flights, as well as sorting. 
+ */
 public class SearchResultsGui extends JFrame implements ActionListener, WindowListener{
 	private JSpinner flightPlanSpinner;
 	private FlightPlans fpList; 
@@ -32,10 +37,6 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	private static final int SORT_BY_TIME_DESCENDING = 3;
 	private static final int SORT_BY_TIME_ASCENDING = 4;
 
-	 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Constructor to setup GUI components and event handlers
@@ -146,7 +147,8 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 
 	/**
 	 * actionPerformed()
-	 * Fills out the user params object when search is clicked.
+	 * Submits user selection, for either outcoming or incoming flights. Also handles
+	 * the sorting button presses.
 	 * Calls handleSearch() with that object.
 	 */
 	@Override
@@ -191,6 +193,10 @@ public class SearchResultsGui extends JFrame implements ActionListener, WindowLi
 	@Override
 	public void windowClosed(WindowEvent arg0) {}
 
+	/**
+	 * The entire system is exited when the window close button is pressed.
+	 * @param arg0
+	 */
 	@Override
 	public void windowClosing(WindowEvent arg0) {
 		System.exit(0);  // Terminate the program

@@ -6,6 +6,10 @@ import java.util.Calendar;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
 
+/**
+ * Date formatting class from the following tutorial:
+ * @see <a href="http://www.codejava.net/java-se/swing/how-to-use-jdatepicker-to-display-calendar-component">http://www.codejava.net/java-se/swing/how-to-use-jdatepicker-to-display-calendar-component</a>
+ */
 public class DateLabelFormatter extends AbstractFormatter {
 	private static final long serialVersionUID = 1L;
 	

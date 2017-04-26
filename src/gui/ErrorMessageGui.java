@@ -13,6 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+/**
+ * @author Team G
+ * Displays an error message of choice, including a special page for returning the user 
+ * to the search page.
+ */
 public class ErrorMessageGui extends JFrame implements ActionListener, WindowListener{
 	private static final long serialVersionUID = 1L;
 
@@ -60,8 +65,7 @@ public class ErrorMessageGui extends JFrame implements ActionListener, WindowLis
 
 	/**
 	 * actionPerformed()
-	 * Fills out the user params object when search is clicked.
-	 * Calls handleSearch() with that object.
+	 * Sends the user back to the search page.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

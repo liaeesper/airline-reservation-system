@@ -20,6 +20,11 @@ import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.Reservation;
 
+/**
+ * @author Team G
+ * Displays a confirmation page for the user. Upon clicking submit, the system attempts to reserve the 
+ * selected flights, and sends them to the reservation page upon success. Failure leads to an error page.
+ */
 public class ConfirmationGui extends JFrame implements ActionListener, WindowListener{
 	
 	private ArrayList<FlightPlan> userChoices;

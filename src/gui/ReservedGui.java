@@ -17,6 +17,10 @@ import javax.swing.ScrollPaneConstants;
 
 import plans.FlightPlan;
 
+/**
+ * @author Team G
+ * Final page, displayed after successful reservation. Displays the reserved flight plans.
+ */
 public class ReservedGui extends JFrame implements ActionListener, WindowListener{
 	private static final long serialVersionUID = 1L;
 
@@ -28,8 +32,6 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 			flightPlansText += String.format("Flight plan %d:\n", i+1);
 			flightPlansText += userChoices.get(i).toString();
 		}
-		// TODO
-		// error message if either choice is no longer free, also lock
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -74,8 +76,8 @@ public class ReservedGui extends JFrame implements ActionListener, WindowListene
 	}
 
 	/**
-	 * actionPerformed()
-	 * Reserves user flight plans. Opens reserved page.
+	 * This is the end of a successful session.
+	 * @param arg0
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

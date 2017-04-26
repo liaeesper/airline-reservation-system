@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="utils.Price" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/utils/Price.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="142" width="183" x="4767" y="2181"/>    
+    <position height="-1" width="-1" x="4498" y="2200"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="flight.Flight" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/flight/Flight.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="646" width="442" x="4852" y="1495"/>    
+    <position height="-1" width="-1" x="5040" y="1791"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -255,7 +255,7 @@
   </class>  
   <class id="29" language="java" name="utils.DateTime" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/utils/DateTime.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="160" width="148" x="4990" y="2181"/>    
+    <position height="-1" width="-1" x="4477" y="1747"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

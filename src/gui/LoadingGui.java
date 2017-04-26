@@ -12,6 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+/**
+ * @author Team G
+ * Displays a loading page. Is not responsible for closing itself.
+ */
 public class LoadingGui extends JFrame implements ActionListener, WindowListener{
 	private static final long serialVersionUID = 1L;
 
