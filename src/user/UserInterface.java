@@ -3,6 +3,7 @@ package user;
 import flight.Flight;
 import flight.Flights;
 import dao.FlightPlansGenerator;
+import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.Reservation;
@@ -13,9 +14,25 @@ import gui.SearchResultsGui;
 
 import java.util.ArrayList;
 
+import airport.Airplanes;
+import airport.Airports;
+
 public class UserInterface {
 	public static UserInterface instance =  new UserInterface();
 
+	
+	public static void main(String[] args) {
+
+		//UserInterface userInt = UserInterface.instance;
+
+		ServerInterface resSys = ServerInterface.instance;
+		Airports.instance = resSys.PopulateAirports();
+		Airplanes.instance = resSys.PopulateAirplanes();
+
+
+		UserInterface.instance.DisplaySearch();
+	}
+	
 	public void DisplaySearch(){
 		new SearchGui();
 	}
