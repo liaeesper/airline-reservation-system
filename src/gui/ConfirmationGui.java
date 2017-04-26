@@ -39,8 +39,6 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 			flightPlansText += String.format("Flight plan %d:\n", i+1);
 			flightPlansText += userChoices.get(i).toString();
 		}
-		// TODO
-		// error message if either choice is no longer free, also lock
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -105,7 +103,18 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 		
 		Runnable handleReserve = new Runnable() {
 			public void run() {
-				ServerInterface.instance.lock();
+				boolean lockSuccessful = ServerInterface.instance.lock();
+				
+				// wait until the lock is free
+				ErrorMessageGui errorCase;
+				if(!lockSuccessful){
+					errorCase = new ErrorMessageGui("Lock could not be obtained, please wait.", false);
+					while(!lockSuccessful){
+						lockSuccessful = ServerInterface.instance.lock();
+					}
+					errorCase.dispose();
+				}
+				
 				boolean reservationSuccessful = ServerInterface.instance.ReserveTicket(userPlan);
 				ServerInterface.instance.unlock();
 				if(reservationSuccessful){
