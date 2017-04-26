@@ -105,14 +105,17 @@ public class ConfirmationGui extends JFrame implements ActionListener, WindowLis
 			public void run() {
 				boolean lockSuccessful = ServerInterface.instance.lock();
 				
-				// wait until the lock is free
-				ErrorMessageGui errorCase;
+				// wait until the lock is free, with a poll every 2 seconds
+				// does not allow a time-out
+				
 				if(!lockSuccessful){
-					errorCase = new ErrorMessageGui("Lock could not be obtained, please wait.", false);
+					long currentTime = System.currentTimeMillis();
 					while(!lockSuccessful){
-						lockSuccessful = ServerInterface.instance.lock();
+						if(System.currentTimeMillis() - currentTime > 2000){
+							lockSuccessful = ServerInterface.instance.lock();
+							currentTime = System.currentTimeMillis();
+						}
 					}
-					errorCase.dispose();
 				}
 				
 				boolean reservationSuccessful = ServerInterface.instance.ReserveTicket(userPlan);

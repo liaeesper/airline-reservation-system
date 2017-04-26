@@ -29,7 +29,6 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	private UtilDateModel modelDate;
 	private ButtonGroup dOrAButtonGroup, seatButtonGroup, roundTripButtonGroup;
 	private JSpinner timeSpinnerS, timeSpinnerE;
-	private LoadingGui loadingPage;
 	 
 	private static final long serialVersionUID = 1L;
 
@@ -251,7 +250,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	 * @param params
 	 */
 	private void displayProcessingMessage(SearchParams params) {
-		loadingPage = new LoadingGui();
+		LoadingGui loadingPage = new LoadingGui();
 		
 		Runnable handleSearch = new Runnable() {
 		     public void run() {
