@@ -121,40 +121,6 @@ public class FlightPlansGenerator {
 		return getTimeBetween(flight.getDepartureTime(), flight.getArrivalTime());
 	}
 	
-	/**
-	 * Checks that a "previous" flight has already landed by the time the next departure occurs
-	 * Assumes the DateTimes are within the same month and year
-	 * @prevArrival DateTime of the previous flight leg's arrival time
-	 * @nextDeparture DateTime of the next flight leg's departure time
-	 * @return true if prevArrival occurred before nextDeparture, false if not
-	 */
-	public boolean HappenedAfter(DateTime prevArrival, DateTime nextDeparture){
-		
-		if(nextDeparture.getDate().getDay() > prevArrival.getDate().getDay()){
-			return true;
-		}
-		else if(nextDeparture.getDate().getDay() < prevArrival.getDate().getDay()){
-			return false;
-		}
-		else{
-			if(nextDeparture.getTime().getHours() > prevArrival.getTime().getHours()){
-				return true;
-			}
-			else if(nextDeparture.getTime().getHours() < prevArrival.getTime().getHours()){
-				return false;
-			}
-			else{
-				if(nextDeparture.getTime().getMinutes() > prevArrival.getTime().getMinutes()){
-					return true;
-				}
-				else if(nextDeparture.getTime().getMinutes() < prevArrival.getTime().getMinutes()){
-					return false;
-				}
-			}
-		}
-		return true;//dates are equal
-	}
-	
 	
 	/**
 	 * Filters the a given flight list so it gets a valid list of flight legs
@@ -207,7 +173,7 @@ public class FlightPlansGenerator {
 			
 			
 			//checks is valid by checking that the potential leg is occuring in order, has a valid layover time, enough seats, and doesn't backtrack
-			if(HappenedAfter(arrival, departure) && getLayoverTime(arrival, departure) != -1 && EnoughSeats(newF, originPlan.getLegs().get(0).getSeatType()) && !dAirport.equals(aAirport)){
+			if(arrival.HappenedAfter(departure) && getLayoverTime(arrival, departure) != -1 && EnoughSeats(newF, originPlan.getLegs().get(0).getSeatType()) && !dAirport.equals(aAirport)){
 				
 				//adds it to the filtered list if passes
 				filtered.add(new Flight(newF));				
