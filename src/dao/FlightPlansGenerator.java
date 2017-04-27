@@ -171,8 +171,6 @@ public class FlightPlansGenerator {
 		DateTime arrival = null, departure = null;
 		String dAirport = null, aAirport = null;
 		
-		//comment out if not testing ~
-		//ArrayList<Flight> failed = new ArrayList<Flight>();
 		
 		//if searching by departure date
 		if (searchType == 'd'){
@@ -214,16 +212,9 @@ public class FlightPlansGenerator {
 				//adds it to the filtered list if passes
 				filtered.add(new Flight(newF));				
 			}
-			//comment out if not testing ~
-			/*
-			else{
-				failed.add(new Flight(newF));
-			}
-			*/
+
 		}
 		
-		//comment out if not testing ~
-		//TestStringFilter(originPlan, filtered, failed, searchType, level, unfiltered.size());
 		
 		//returns filtered list
 		return filtered;
@@ -248,8 +239,6 @@ public class FlightPlansGenerator {
 		char[] tempAirportCode, testingAirportCode;
 		boolean firstDayLegal = false, secondDayLegal = false;
 		
-		//comment out when not testing ~
-		//ArrayList <Flight> failed = new ArrayList<Flight>();
 		
 		//if searching by departure date
 		if(searchType == 'd'){
@@ -355,17 +344,10 @@ public class FlightPlansGenerator {
 					}		
 				}
 			}
-			//comment out when not testing ~
-			/*
-			else{
-				failed.add(possibleLeg1);
-			}
-			*/
+
 		}
 		
-		//comment out when not testing ~
-		//TestStringInitial(userParams, unconcludedList, failed, concludedList, searchType, searchResults.getFlightList().size());
-		
+
 		//returns two lists
 		ArrayList<ArrayList<FlightPlan>> List = new ArrayList<ArrayList<FlightPlan>>();
 		List.add(concludedList);
@@ -389,8 +371,6 @@ public class FlightPlansGenerator {
 		ArrayList<Flight> filteredListLeg = new ArrayList<Flight>();
 		char[] tempAirportCode, nAirportCode = null;
 		
-		//for testing ~
-		//ArrayList<Flight> concluded = new ArrayList<Flight>();
 		
 		//gets search results for the unconcluded flight plan's last added leg
 		searchResults = LegSearchResults(unconcluded, searchParams, nextParams, level, searchType);
@@ -417,8 +397,7 @@ public class FlightPlansGenerator {
 
 			//checks if the plan is concluded
 			if(nAirportCode[0] == tempAirportCode[0] && nAirportCode[1] == tempAirportCode[1] && nAirportCode[2] == tempAirportCode[2]){
-				//comment out if not testing ~
-				//concluded.add(possibleLeg);
+
 				
 				concludedList.add(tempNewFlightPlan);	
 				
@@ -430,15 +409,6 @@ public class FlightPlansGenerator {
 
 		}
 		
-		//comment out if not testing ~
-		/*
-		StringBuilder sb = new StringBuilder();
-		if(!concluded.isEmpty()){
-			sb.append("\n\nConcluded (out of the passed):\n");
-			sb.append(DisplayTestFList(concluded, searchType, nextParams.getSeatType()));
-			System.out.println(sb.toString());
-		}
-		*/
 		
 		return concludedList;
 		
