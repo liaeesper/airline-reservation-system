@@ -3,6 +3,7 @@ package user;
 import flight.Flight;
 import flight.Flights;
 import dao.FlightPlansGenerator;
+import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
 import plans.Reservation;
@@ -13,47 +14,27 @@ import gui.SearchResultsGui;
 
 import java.util.ArrayList;
 
+import airport.Airplanes;
+import airport.Airports;
+
 public class UserInterface {
 	public static UserInterface instance =  new UserInterface();
 
+	
+	public static void main(String[] args) {
+		ServerInterface resSys = ServerInterface.instance;
+		Airports.instance = resSys.PopulateAirports();
+		Airplanes.instance = resSys.PopulateAirplanes();
+
+		UserInterface.instance.DisplaySearch();
+	}
+	
 	public void DisplaySearch(){
 		new SearchGui();
 	}
 	
 	public void DisplaySearchResults(ArrayList<FlightPlans> flightList, SearchParams userParams){
 		new SearchResultsGui(flightList, new ArrayList<FlightPlan>(),false, 0, userParams);
-	}
-	
-	public void DisplaySearchResultsProto(Flights flightList){
-		System.out.print("\n");
-		if(flightList.getFlightList().size() == 0){
-			System.out.print("No results :(\n");
-		}
-		int count = 1;
-		for(Flight flight: flightList.getFlightList()){
-			System.out.print(String.valueOf(count) + ".\n");
-			count++;
-			System.out.print(flight.toString());
-			System.out.print("\n");
-		}
-		
-		
-	}
-	
-	public void DisplayAlternativeSeating(FlightPlan flight){
-		
-	}
-	
-	public void DisplayNoFlights(){
-		
-	}
-	
-	public void DisplayConfirmation(Reservation reservation){
-		
-	}
-	
-	public void DisplayFinalConfirmation(){
-		
 	}
 	
 	/**
@@ -72,21 +53,5 @@ public class UserInterface {
 		
 		DisplaySearchResults(flightList, userParams);
 		return;
-	}
-	
-	public FlightPlan HandleSelection(){
-		return null;
-	}
-	
-	public void HandleConfirmation(Reservation reservation){
-		
-	}
-	
-	public void HandleSortByTime(FlightPlans flightList){
-		
-	}
-	
-	public void HandleSortByPrice(FlightPlans flightList){
-		
 	}
 }

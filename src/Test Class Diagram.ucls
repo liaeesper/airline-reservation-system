@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="utils.Price" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/utils/Price.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="4498" y="2200"/>    
+    <position height="-1" width="-1" x="4156" y="1599"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="utils.Time" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/utils/Time.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="322" width="242" x="5294" y="2921"/>    
+    <position height="-1" width="-1" x="4686" y="2657"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="flight.Flight" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/flight/Flight.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="5040" y="1791"/>    
+    <position height="-1" width="-1" x="4585" y="1880"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="gui.LoadingGui" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/gui/LoadingGui.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="250" width="247" x="480" y="553"/>    
+    <position height="-1" width="-1" x="607" y="754"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="plans.FlightPlans" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/plans/FlightPlans.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="214" width="290" x="4852" y="553"/>    
+    <position height="-1" width="-1" x="4993" y="1091"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="airport.Airport" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/airport/Airport.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="538" width="220" x="5178" y="2181"/>    
+    <position height="-1" width="-1" x="5003" y="1994"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -111,7 +111,7 @@
   </class>  
   <class id="13" language="java" name="airport.Airplane" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/airport/Airplane.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="322" width="189" x="5762" y="553"/>    
+    <position height="-1" width="-1" x="5892" y="481"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -120,7 +120,7 @@
   </class>  
   <class id="14" language="java" name="plans.Ticket" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/plans/Ticket.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="196" width="161" x="4852" y="1241"/>    
+    <position height="-1" width="-1" x="4547" y="1419"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -138,7 +138,7 @@
   </class>  
   <class id="16" language="java" name="gui.RoundTripSearchGui" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/gui/RoundTripSearchGui.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="322" width="247" x="5478" y="1495"/>    
+    <position height="-1" width="-1" x="6091" y="2078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -156,7 +156,7 @@
   </class>  
   <class id="18" language="java" name="plans.SearchParams" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/plans/SearchParams.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="700" width="552" x="5438" y="2181"/>    
+    <position height="-1" width="-1" x="5942" y="2690"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -174,7 +174,7 @@
   </class>  
   <class id="20" language="java" name="gui.ConfirmationGui" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/gui/ConfirmationGui.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="250" width="252" x="4201" y="553"/>    
+    <position height="-1" width="-1" x="4143" y="1092"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -183,7 +183,7 @@
   </class>  
   <class id="21" language="java" name="utils.Date" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/utils/Date.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="322" width="155" x="5576" y="2921"/>    
+    <position height="-1" width="-1" x="4876" y="2647"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -192,7 +192,7 @@
   </class>  
   <class id="22" language="java" name="gui.SearchResultsGui" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/gui/SearchResultsGui.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="5444" y="338"/>    
+    <position height="-1" width="-1" x="5844" y="990"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -210,7 +210,7 @@
   </class>  
   <class id="24" language="java" name="flight.Flights" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/flight/Flights.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="214" width="246" x="5171" y="1241"/>    
+    <position height="-1" width="-1" x="4990" y="1580"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -219,23 +219,14 @@
   </class>  
   <class id="25" language="java" name="plans.Reservation" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/plans/Reservation.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="268" width="319" x="4493" y="553"/>    
+    <position height="-1" width="-1" x="4557" y="815"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="driver.Driver" project="AirlineReservationSystem" 
-    file="/AirlineReservationSystem/src/driver/Driver.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="106" width="130" x="4147" y="119"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="27" language="java" name="dao.FlightPlansGenerator" project="AirlineReservationSystem" 
+  <class id="26" language="java" name="dao.FlightPlansGenerator" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/dao/FlightPlansGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="394" width="644" x="4479" y="119"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -244,360 +235,512 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="28" language="java" name="plans.FlightPlan" project="AirlineReservationSystem" 
+  <class id="27" language="java" name="plans.FlightPlan" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/plans/FlightPlan.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="286" width="265" x="4852" y="915"/>    
+    <position height="-1" width="-1" x="4547" y="1146"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="29" language="java" name="utils.DateTime" project="AirlineReservationSystem" 
+  <class id="28" language="java" name="utils.DateTime" project="AirlineReservationSystem" 
     file="/AirlineReservationSystem/src/utils/DateTime.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="4477" y="1747"/>    
+    <position height="-1" width="-1" x="4488" y="2547"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="30">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="31" name="ArrivalTime"/>      
-      <multiplicity id="32" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="33">    
-    <end type="SOURCE" refId="29" navigable="false">      
-      <attribute id="34" name="date"/>      
-      <multiplicity id="35" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="36">    
-    <bendpoint x="6020" y="1495"/>    
-    <bendpoint x="6020" y="2181"/>    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="37" name="DepartureDate"/>      
-      <multiplicity id="38" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="39">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="40" name="RArrivalTime"/>      
-      <multiplicity id="41" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="42">    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="43" name="fpList"/>      
-      <multiplicity id="44" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="45">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="46" name="instance"/>      
-      <multiplicity id="47" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="48">    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="49" name="fpListArr"/>      
-      <multiplicity id="50" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="51">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="52" name="RDepartureTime"/>      
-      <multiplicity id="53" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="54">    
-    <bendpoint x="5324" y="1495"/>    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="55" name="DepartureAirport"/>      
-      <multiplicity id="56" minimum="0" maximum="1"/>    
+  <association id="29">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="30" name="DepartureAirport">        
+        <position height="0" width="0" x="-285" y="-456"/>      
+      </attribute>      
+      <multiplicity id="31" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-285" y="-456"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="57">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="58" name="OutgoingFlight"/>      
-      <multiplicity id="59" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="60">    
-    <end type="SOURCE" refId="29" navigable="false">      
-      <attribute id="61" name="time"/>      
-      <multiplicity id="62" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="63">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="64" name="ForFlight"/>      
-      <multiplicity id="65" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="66">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="67" name="RDepartureDate"/>      
-      <multiplicity id="68" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="69">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="70" name="instance"/>      
-      <multiplicity id="71" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="72">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="73" name="PriceC"/>      
-      <multiplicity id="74" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="75">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="76" name="DepartureDate"/>      
-      <multiplicity id="77" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="78">    
-    <end type="SOURCE" refId="24" navigable="false">      
-      <attribute id="79" name="FlightList"/>      
-      <multiplicity id="80" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="81">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="82" name="RArrivalDate"/>      
-      <multiplicity id="83" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="84">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="85" name="ReturningFlight"/>      
-      <multiplicity id="86" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="87">    
+  <association id="32">    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="88" name="FlightPlansListSortedTMost"/>      
-      <multiplicity id="89" minimum="0" maximum="2147483647"/>    
+      <attribute id="33" name="FlightPlansListSortedTMost">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="34" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
+    <end type="TARGET" refId="27" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="90">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="91" name="loadingPage"/>      
-      <multiplicity id="92" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="93">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="94" name="ArrivalAirport"/>      
-      <multiplicity id="95" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="96">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="97" name="FlightPlansList"/>      
-      <multiplicity id="98" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="99">    
-    <bendpoint x="5172" y="553"/>    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="100" name="userChoices"/>      
-      <multiplicity id="101" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="102">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="103" name="DepartureAirport"/>      
-      <multiplicity id="104" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="105">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="106" name="instance"/>      
-      <multiplicity id="107" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="108">    
-    <end type="SOURCE" refId="16" navigable="false">      
-      <attribute id="109" name="knownParams"/>      
-      <multiplicity id="110" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="111">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="112" name="ArrivalDate"/>      
-      <multiplicity id="113" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="114">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="115" name="AirplaneList"/>      
-      <multiplicity id="116" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="13" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="117">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="118" name="ArrivalTime"/>      
-      <multiplicity id="119" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="29" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="120">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="121" name="FlightPlansListSortedPMost"/>      
-      <multiplicity id="122" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="123">    
-    <end type="SOURCE" refId="28" navigable="false">      
-      <attribute id="124" name="Legs"/>      
-      <multiplicity id="125" minimum="0" maximum="2147483647"/>    
+  <association id="35">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="36" name="Legs">        
+        <position height="0" width="0" x="-385" y="80"/>      
+      </attribute>      
+      <multiplicity id="37" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-385" y="80"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="126">    
+  <association id="38">    
+    <bendpoint x="5172" y="553"/>    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="39" name="userChoices">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="40" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="41">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="42" name="fpList">        
+        <position height="0" width="0" x="-4" y="431"/>      
+      </attribute>      
+      <multiplicity id="43" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-4" y="431"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="44">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="45" name="date">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </attribute>      
+      <multiplicity id="46" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="47">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="48" name="ArrivalAirport">        
+        <position height="0" width="0" x="-285" y="-456"/>      
+      </attribute>      
+      <multiplicity id="49" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-285" y="-456"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="50">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="51" name="DepartureTime">        
+        <position height="0" width="0" x="11" y="800"/>      
+      </attribute>      
+      <multiplicity id="52" minimum="0" maximum="1">        
+        <position height="0" width="0" x="11" y="800"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="53">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="54" name="fpListArr">        
+        <position height="0" width="0" x="-4" y="431"/>      
+      </attribute>      
+      <multiplicity id="55" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-4" y="431"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="56">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="57" name="PriceC">        
+        <position height="0" width="0" x="-342" y="-601"/>      
+      </attribute>      
+      <multiplicity id="58" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-342" y="-601"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="59">    
     <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="127" name="DepartureTime"/>      
-      <multiplicity id="128" minimum="0" maximum="2147483647"/>    
+      <attribute id="60" name="DepartureTime">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </attribute>      
+      <multiplicity id="61" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="129">    
-    <bendpoint x="4819" y="1241"/>    
-    <bendpoint x="4819" y="1495"/>    
+  <association id="62">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="63" name="DepartureDate">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="66" name="knownParams">        
+        <position height="0" width="0" x="228" y="159"/>      
+      </attribute>      
+      <multiplicity id="67" minimum="0" maximum="1">        
+        <position height="0" width="0" x="228" y="159"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="68">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="69" name="RArrivalDate">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </attribute>      
+      <multiplicity id="70" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="71">    
     <end type="SOURCE" refId="28" navigable="false">      
-      <attribute id="130" name="TotalPrice"/>      
-      <multiplicity id="131" minimum="0" maximum="1"/>    
+      <attribute id="72" name="time">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </attribute>      
+      <multiplicity id="73" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="132">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="133" name="FlightPlansListSortedPLeast"/>      
-      <multiplicity id="134" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="135">    
-    <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="136" name="userChoices"/>      
-      <multiplicity id="137" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="138">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="139" name="PriceFc"/>      
-      <multiplicity id="140" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="141">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="142" name="DepartureTime"/>      
-      <multiplicity id="143" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="29" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="144">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="145" name="FlightPlansListSortedTLeast"/>      
-      <multiplicity id="146" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="28" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="147">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="148" name="instance"/>      
-      <multiplicity id="149" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="150">    
+  <association id="74">    
     <bendpoint x="5447" y="553"/>    
     <bendpoint x="5447" y="915"/>    
     <bendpoint x="5447" y="1241"/>    
     <bendpoint x="5447" y="1495"/>    
     <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="151" name="userParams"/>      
-      <multiplicity id="152" minimum="0" maximum="1"/>    
+      <attribute id="75" name="userParams">        
+        <position height="0" width="0" x="228" y="159"/>      
+      </attribute>      
+      <multiplicity id="76" minimum="0" maximum="1">        
+        <position height="0" width="0" x="228" y="159"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="77">    
+    <bendpoint x="4819" y="1241"/>    
+    <bendpoint x="4819" y="1495"/>    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="78" name="TotalPrice">        
+        <position height="0" width="0" x="-342" y="-601"/>      
+      </attribute>      
+      <multiplicity id="79" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-342" y="-601"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="80">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="81" name="ArrivalTime">        
+        <position height="0" width="0" x="11" y="800"/>      
+      </attribute>      
+      <multiplicity id="82" minimum="0" maximum="1">        
+        <position height="0" width="0" x="11" y="800"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="83">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="84" name="FlightPlansListSortedPLeast">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="85" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="86">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="87" name="FlightPlansListSortedTLeast">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="88" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="89">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="90" name="FlightPlansList">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="91" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="92">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="93" name="FlightPlansListSortedPMost">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="94" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="95">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="96" name="ArrivalTime">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </attribute>      
+      <multiplicity id="97" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="98">    
+    <bendpoint x="6020" y="1495"/>    
+    <bendpoint x="6020" y="2181"/>    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="99" name="DepartureDate">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </attribute>      
+      <multiplicity id="100" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="101">    
+    <end type="SOURCE" refId="25" navigable="false">      
+      <attribute id="102" name="OutgoingFlight">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="103" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="104">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="105" name="instance">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="106" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="107">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="108" name="PriceFc">        
+        <position height="0" width="0" x="-342" y="-601"/>      
+      </attribute>      
+      <multiplicity id="109" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-342" y="-601"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="110">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="111" name="RArrivalTime">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </attribute>      
+      <multiplicity id="112" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="113">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="114" name="FlightList">        
+        <position height="0" width="0" x="-455" y="89"/>      
+      </attribute>      
+      <multiplicity id="115" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-455" y="89"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="116">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="117" name="instance">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="118" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="119">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="120" name="AirplaneList">        
+        <position height="0" width="0" x="36" y="-233"/>      
+      </attribute>      
+      <multiplicity id="121" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="36" y="-233"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="122">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="123" name="ForFlight">        
+        <position height="0" width="0" x="-455" y="89"/>      
+      </attribute>      
+      <multiplicity id="124" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-455" y="89"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="125">    
+    <end type="SOURCE" refId="25" navigable="false">      
+      <attribute id="126" name="ReturningFlight">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="127" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="128">    
+    <bendpoint x="5324" y="1495"/>    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="129" name="DepartureAirport">        
+        <position height="0" width="0" x="-285" y="-456"/>      
+      </attribute>      
+      <multiplicity id="130" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-285" y="-456"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="131">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="132" name="instance">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="133" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="134">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="135" name="RDepartureTime">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </attribute>      
+      <multiplicity id="136" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-729" y="-425"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="137">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="138" name="RDepartureDate">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </attribute>      
+      <multiplicity id="139" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="140">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="141" name="instance">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="142" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="23" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="143">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="144" name="ArrivalDate">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </attribute>      
+      <multiplicity id="145" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-777" y="-435"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="146">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="147" name="userChoices">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </attribute>      
+      <multiplicity id="148" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-437" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

@@ -45,8 +45,6 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		gbc.weightx = 0.5;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		//gbc.fill = GridBagConstraints.HORIZONTAL;
-		//gbc.ipady = 40; 
 		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
@@ -65,7 +63,6 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		add(new JLabel("Time Window End:"), gbc);
 		
 		// add radio button to choose departure or arrival date/time
-
 		JRadioButton departureButton = new JRadioButton("Departure");
 		departureButton.setMnemonic(0);
 		departureButton.setSelected(true);
