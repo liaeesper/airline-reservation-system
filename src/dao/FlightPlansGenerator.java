@@ -120,10 +120,7 @@ public class FlightPlansGenerator {
 	 */
 	public int getFlightDuration(Flight flight){
 		return getTimeBetween(flight.getDepartureTime(), flight.getArrivalTime());
-	}
-	
-	
-	
+	}	
 	
 	/**
 	 * Filters the a given flight list so it gets a valid list of flight legs
@@ -614,25 +611,25 @@ public class FlightPlansGenerator {
 	 */
 	public ArrayList<FlightPlans> GeneratorManager(SearchParams userParams){
 		
-		/*
+		
 		//Lia's test parameters comment out if not testing ~
-		searchParams.setArrivalAirportCode("TPA".toCharArray());
-		searchParams.setDepartureAirportCode("BOS".toCharArray());
-		Time timed[] = {new Time(0, 00), new Time(4, 40)};
-		
-		searchParams.setArrivalTime(timed);
-		searchParams.setDepartureDate(null);
-		searchParams.setArrivalDate(new Date(9,5,2017));
-		
+		userParams.setDepartureAirportCode("BOS".toCharArray());
+		userParams.setArrivalAirportCode("DFW".toCharArray());
+		Time timed[] = {new Time(9, 00), new Time(2, 00)};
 		/*
-		searchParams.setDepartureTime(timed);
-		searchParams.setArrivalDate(null);
-		searchParams.setDepartureDate(new Date(5,5,2017));
+		userParams.setArrivalTime(timed);
+		userParams.setDepartureDate(null);
+		userParams.setArrivalDate(new Date(9,5,2017));
 		*/
-		/*
-		searchParams.setIsRoundTrip(false);
-		searchParams.setSeatType('c');
-		*/
+		
+		userParams.setDepartureTime(timed);
+		userParams.setArrivalDate(null);
+		userParams.setDepartureDate(new Date(5,5,2017));
+		
+		
+		userParams.setIsRoundTrip(false);
+		userParams.setSeatType('c');
+		
 		
 		
 		ArrayList<FlightPlans> Lists = new ArrayList<FlightPlans>();
