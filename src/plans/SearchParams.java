@@ -298,11 +298,9 @@ public class SearchParams {
 			day = specifiedDate.getDay();
 			
 			//Handle case where time conversion causes day change
-			if (Time1LocalHours < 0 || Time2LocalHours < 0){
-				day--;
-			}
 			if (Time1LocalHours < 0){
 				Time1LocalHours = 24 + Time1LocalHours;
+				day--;
 			}
 			
 			if (Time2LocalHours < 0){
