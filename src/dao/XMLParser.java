@@ -145,7 +145,7 @@ public class XMLParser {
 			flightlist.add(flight);
 		}
 		if (flightlist.size() > 0){
-			Airport DepartureAirport = flightlist.get(1).getDepartureAirport();
+			Airport DepartureAirport = flightlist.get(0).getDepartureAirport();
 			return new Flights(DepartureAirport, null, flightlist);
 		}
 		else return new Flights(null, null, new ArrayList<Flight>());
