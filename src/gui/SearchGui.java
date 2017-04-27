@@ -215,10 +215,8 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		params.setArrivalAirportCode(arrivalAirport.toCharArray());
 
 		setTimeWindow(tripTime);
-
-		if(!utils.Time.validTimeWindow(tripTime)){
-			dispose();
-			new ErrorMessageGui("Second time must be after first time in window.", false);
+		
+		if(!checkValidity(params, tripTime, tripDate)){
 			return;
 		}
 
@@ -234,6 +232,40 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		
 		displayProcessingMessage(params);
 		
+	}
+
+	
+	/**
+	 * Make sure that airports are different, that the date is within the valid range,
+	 * and that time windows are set in the right order.
+	 * @param userParams
+	 * @param tripTime
+	 */
+	private boolean checkValidity(SearchParams userParams, utils.Time[] tripTime, utils.Date tripDate) {
+		String departureAirport = String.valueOf(userParams.getDepartureAirportCode());
+		String arrivalAirport = String.valueOf(userParams.getArrivalAirportCode());
+		int month = tripDate.getMonth();
+		int day = tripDate.getDay();
+		
+		if(departureAirport.equals(arrivalAirport)){
+			dispose();
+			new ErrorMessageGui("Departure airport must be different than arrival airport.", false);
+			return false;
+		}
+		
+		if(month != 5 || (day < 5 || day > 21)){
+			dispose();
+			new ErrorMessageGui("Date outside of valid date range.", false);
+			return false;
+		}
+		
+		if(!utils.Time.validTimeWindow(tripTime)){
+			dispose();
+			new ErrorMessageGui("Second time must be after first time in window.", false);
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**
