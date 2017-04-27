@@ -121,40 +121,6 @@ public class FlightPlansGenerator {
 		return getTimeBetween(flight.getDepartureTime(), flight.getArrivalTime());
 	}
 	
-	/**
-	 * Checks that a "previous" flight has already landed by the time the next departure occurs
-	 * Assumes the DateTimes are within the same month and year
-	 * @prevArrival DateTime of the previous flight leg's arrival time
-	 * @nextDeparture DateTime of the next flight leg's departure time
-	 * @return true if prevArrival occurred before nextDeparture, false if not
-	 */
-	public boolean HappenedAfter(DateTime prevArrival, DateTime nextDeparture){
-		
-		if(nextDeparture.getDate().getDay() > prevArrival.getDate().getDay()){
-			return true;
-		}
-		else if(nextDeparture.getDate().getDay() < prevArrival.getDate().getDay()){
-			return false;
-		}
-		else{
-			if(nextDeparture.getTime().getHours() > prevArrival.getTime().getHours()){
-				return true;
-			}
-			else if(nextDeparture.getTime().getHours() < prevArrival.getTime().getHours()){
-				return false;
-			}
-			else{
-				if(nextDeparture.getTime().getMinutes() > prevArrival.getTime().getMinutes()){
-					return true;
-				}
-				else if(nextDeparture.getTime().getMinutes() < prevArrival.getTime().getMinutes()){
-					return false;
-				}
-			}
-		}
-		return true;//dates are equal
-	}
-	
 	
 	/**
 	 * Filters the a given flight list so it gets a valid list of flight legs
@@ -171,8 +137,6 @@ public class FlightPlansGenerator {
 		DateTime arrival = null, departure = null;
 		String dAirport = null, aAirport = null;
 		
-		//comment out if not testing ~
-		//ArrayList<Flight> failed = new ArrayList<Flight>();
 		
 		//if searching by departure date
 		if (searchType == 'd'){
@@ -209,21 +173,14 @@ public class FlightPlansGenerator {
 			
 			
 			//checks is valid by checking that the potential leg is occuring in order, has a valid layover time, enough seats, and doesn't backtrack
-			if(HappenedAfter(arrival, departure) && getLayoverTime(arrival, departure) != -1 && EnoughSeats(newF, originPlan.getLegs().get(0).getSeatType()) && !dAirport.equals(aAirport)){
+			if(arrival.HappenedAfter(departure) && getLayoverTime(arrival, departure) != -1 && EnoughSeats(newF, originPlan.getLegs().get(0).getSeatType()) && !dAirport.equals(aAirport)){
 				
 				//adds it to the filtered list if passes
 				filtered.add(new Flight(newF));				
 			}
-			//comment out if not testing ~
-			/*
-			else{
-				failed.add(new Flight(newF));
-			}
-			*/
+
 		}
 		
-		//comment out if not testing ~
-		//TestStringFilter(originPlan, filtered, failed, searchType, level, unfiltered.size());
 		
 		//returns filtered list
 		return filtered;
@@ -248,8 +205,6 @@ public class FlightPlansGenerator {
 		char[] tempAirportCode, testingAirportCode;
 		boolean firstDayLegal = false, secondDayLegal = false;
 		
-		//comment out when not testing ~
-		//ArrayList <Flight> failed = new ArrayList<Flight>();
 		
 		//if searching by departure date
 		if(searchType == 'd'){
@@ -355,17 +310,10 @@ public class FlightPlansGenerator {
 					}		
 				}
 			}
-			//comment out when not testing ~
-			/*
-			else{
-				failed.add(possibleLeg1);
-			}
-			*/
+
 		}
 		
-		//comment out when not testing ~
-		//TestStringInitial(userParams, unconcludedList, failed, concludedList, searchType, searchResults.getFlightList().size());
-		
+
 		//returns two lists
 		ArrayList<ArrayList<FlightPlan>> List = new ArrayList<ArrayList<FlightPlan>>();
 		List.add(concludedList);
@@ -389,8 +337,6 @@ public class FlightPlansGenerator {
 		ArrayList<Flight> filteredListLeg = new ArrayList<Flight>();
 		char[] tempAirportCode, nAirportCode = null;
 		
-		//for testing ~
-		//ArrayList<Flight> concluded = new ArrayList<Flight>();
 		
 		//gets search results for the unconcluded flight plan's last added leg
 		searchResults = LegSearchResults(unconcluded, searchParams, nextParams, level, searchType);
@@ -417,8 +363,7 @@ public class FlightPlansGenerator {
 
 			//checks if the plan is concluded
 			if(nAirportCode[0] == tempAirportCode[0] && nAirportCode[1] == tempAirportCode[1] && nAirportCode[2] == tempAirportCode[2]){
-				//comment out if not testing ~
-				//concluded.add(possibleLeg);
+
 				
 				concludedList.add(tempNewFlightPlan);	
 				
@@ -430,15 +375,6 @@ public class FlightPlansGenerator {
 
 		}
 		
-		//comment out if not testing ~
-		/*
-		StringBuilder sb = new StringBuilder();
-		if(!concluded.isEmpty()){
-			sb.append("\n\nConcluded (out of the passed):\n");
-			sb.append(DisplayTestFList(concluded, searchType, nextParams.getSeatType()));
-			System.out.println(sb.toString());
-		}
-		*/
 		
 		return concludedList;
 		
@@ -687,266 +623,5 @@ public class FlightPlansGenerator {
 		return Lists;
 	}
 
-	void TestStringFilter(FlightPlan origin, ArrayList<Flight> passedLegs, ArrayList<Flight> failedLegs, char searchType, int level, int numberFiltered){
-		StringBuffer sb = new StringBuffer();
-		Flight originfl;
-		Date date = new Date();
-		int time1, time2;
-		
-		for(int i = 0; i < 10; i++){
-		sb.append("\n");
-		}
-		
-		char tempType;
-		
-		if(searchType == 'd'){
-			sb.append("Search by Departure:\n");
-			originfl = origin.getLegs().get(level - 1).getForFlight();
-			date = originfl.getArrivalTime().getDate();
-			time1 = originfl.getArrivalTime().getTime().getTimeInMinutes();
-			time2 = time1 + 4*60;
-			time1 = time1 + 30;
-			tempType = 'a';
-		}
-		else{
-			sb.append("Search by Arrival:\n");
-			originfl = origin.getLegs().get(0).getForFlight();
-			date = originfl.getDepartureTime().getDate();
-			time2 = originfl.getDepartureTime().getTime().getTimeInMinutes();
-			time1 = time2 - 4*60;
-			time2 = time2 - 30;
-			tempType = 'd';
-		}
-		
-		
-		sb.append("Need flights for this flight leg with proper credentials:\n");
-		ArrayList<Flight> temp = new ArrayList<Flight>();
-		temp.add(originfl);
-		sb.append(DisplayTestFList(temp, tempType, origin.getLegs().get(0).getSeatType()));
-		
-		sb.append("\nProper layover time allows flights between these times in minutes:\n");
-		
-		if(searchType == 'd'){
-			if(time1 >= 24*60 && time2 >= 24*60){
-				time1 = time1 - 24*60;
-				time2 = time2 - 24*60;
-				date = date.IncrementDate();
-				sb.append(String.valueOf(date.getMonth()) + "/" + String.valueOf(date.getDay()) + "/" + String.valueOf(date.getYear()));
-				sb.append(" " + String.valueOf(time1) + " to " + String.valueOf(time2) + "\n");
-			}
-			else if(time2 >= 24*60){
-				time2 = time2 - 24*60;
-				sb.append(String.valueOf(date.getMonth()) + "/" + String.valueOf(date.getDay()) + "/" + String.valueOf(date.getYear()));
-				sb.append(" " + String.valueOf(time1) + " to " + String.valueOf(time2) + " of the next day\n");
-			}
-			else{
-				sb.append(String.valueOf(date.getMonth()) + "/" + String.valueOf(date.getDay()) + "/" + String.valueOf(date.getYear()));
-				sb.append(" " + String.valueOf(time1) + " to " + String.valueOf(time2) + "\n");
-			}
-		}
-		else if(searchType == 'a'){
-			if(time2 < 0){
-				time2 = time2 + 24*60;
-			}
-			if(time1 < 0){
-				date = date.DecrementDate();
-				time1 = time1 + 24*60;
-				sb.append(String.valueOf(date.getMonth()) + "/" + String.valueOf(date.getDay()) + "/" + String.valueOf(date.getYear()));
-				sb.append(" " + String.valueOf(time1) + " to " + String.valueOf(time2) + " of the next day\n");
-			}
-			else{
-				sb.append(String.valueOf(date.getMonth()) + "/" + String.valueOf(date.getDay()) + "/" + String.valueOf(date.getYear()));
-				sb.append(" " + String.valueOf(time1) + " to " + String.valueOf(time2) + "\n");
-			}
-		}
-		
-		
-		sb.append("\nNumber Legs Looked At: " + String.valueOf(numberFiltered));
 
-		
-		if(!passedLegs.isEmpty()){
-			sb.append("\n\nPassed (and to be searched further):\n");
-			sb.append(DisplayTestFList(passedLegs, searchType, origin.getLegs().get(0).getSeatType()));
-		}
-		
-		if(!failedLegs.isEmpty()){
-			sb.append("\n\nFailed (failed validation):\n");
-			sb.append(DisplayTestFList(failedLegs, searchType, origin.getLegs().get(0).getSeatType()));
-		}
-		
-		
-		System.out.print(sb.toString());
-		
-		
-		
-	}
-	
-	void TestStringInitial(SearchParams sp, ArrayList<FlightPlan> passed, ArrayList<Flight> failed, ArrayList<FlightPlan> direct, char searchType, int numberFiltered){
-		StringBuffer sb = new StringBuffer();
-		StringBuffer dA = new StringBuffer();
-		StringBuffer aA = new StringBuffer();
-		
-		dA.append( sp.getDepartureAirportCode());
-		aA.append( sp.getArrivalAirportCode());
-		
-		sb.append("Search Params:\n" + dA.toString() + "->" + aA.toString());
-		
-		int minutesT1, minutesT2;
-		Date dt, nd;
-		
-		if(searchType == 'd'){
-			dt = new Date(sp.getDepartureDate().getDay(), sp.getDepartureDate().getMonth(), sp.getDepartureDate().getYear());
-			nd = dt.IncrementDate();
-			minutesT1 = sp.getDepartureTime()[0].getTimeInMinutes();
-			minutesT2 = sp.getDepartureTime()[1].getTimeInMinutes();
-			sb.append("\nSearching by Departure Date " + String.valueOf(sp.getDepartureDate().getMonth()) + "/" + String.valueOf(sp.getDepartureDate().getDay()) + "/" + String.valueOf(sp.getDepartureDate().getYear()));
-			sb.append(" " + String.valueOf(sp.getDepartureTime()[0].getHours()) + ":" + String.valueOf(sp.getDepartureTime()[0].getMinutes())+ " GMT to ");
-			if(minutesT1 >= minutesT2){
-				sb.append(String.valueOf(nd.getMonth()) + "/" + String.valueOf(nd.getDay()) + "/" + String.valueOf(nd.getYear()) + " ");
-			}
-			sb.append(String.valueOf(sp.getDepartureTime()[1].getHours()) + ":" + String.valueOf(sp.getDepartureTime()[1].getMinutes()));
-		}
-		else{
-			dt = new Date(sp.getArrivalDate().getDay(), sp.getArrivalDate().getMonth(), sp.getArrivalDate().getYear());
-			nd = dt.IncrementDate();
-			minutesT1 = sp.getArrivalTime()[0].getTimeInMinutes();
-			minutesT2 = sp.getArrivalTime()[1].getTimeInMinutes();
-			sb.append("\nSearching by Arrival Date " + String.valueOf(sp.getArrivalDate().getMonth()) + "/" + String.valueOf(sp.getArrivalDate().getDay()) + "/" + String.valueOf(sp.getArrivalDate().getYear()));
-			sb.append(" " + String.valueOf(sp.getArrivalTime()[0].getHours()) + ":" + String.valueOf(sp.getArrivalTime()[0].getMinutes()) + " GMT to ");
-			if(minutesT1 >= minutesT2){
-				sb.append(String.valueOf(nd.getMonth()) + "/" + String.valueOf(nd.getDay()) + "/" + String.valueOf(nd.getYear()) + " ");
-			}
-			sb.append(String.valueOf(sp.getArrivalTime()[1].getHours()) + ":" + String.valueOf(sp.getArrivalTime()[1].getMinutes()));
-		}
-		
-		sb.append(" GMT\nNeed minutes in range of: " + String.valueOf(minutesT1) + " to ");
-		
-		if(minutesT1 >= minutesT2){
-			sb.append("1439, 0 to ");
-		}
-		
-		sb.append(String.valueOf(minutesT2));
-		
-		if(minutesT1 >= minutesT2){
-			sb.append(" of the next day");
-		}
-		
-		sb.append("\nSeat Type: " + sp.getSeatType() + "\n");
-		
-		sb.append("\nNumber Legs Looked At: " + String.valueOf(numberFiltered));
-		
-		if(!direct.isEmpty()){
-			sb.append("\n\nConcluded:\n");
-			sb.append(DisplayTestFPList(direct, searchType, 0));
-			
-		}
-		
-		if(!passed.isEmpty()){
-			sb.append("\n\nPassed (and to be searched further):\n");
-			sb.append(DisplayTestFPList(passed, searchType, 0));
-		}
-		
-		if(!failed.isEmpty()){
-			sb.append("\n\nFailed (failed validation):\n");
-			sb.append(DisplayTestFList(failed, searchType, sp.getSeatType()));
-		}
-		
-		
-		System.out.print(sb.toString());
-		
-		
-	}
-	
-	String DisplayTestFPList(ArrayList<FlightPlan> list, char searchType, int level){
-		StringBuilder sb = new StringBuilder();
-		Date tDate;
-		int count = 0;
-		Flight tempFlight;
-		for(FlightPlan fp : list){
-			count = count + 1;
-			//for(int i = 0; i < level+1; i++){
-				//tempFlight = fp.getLegs().get(level).getForFlight();
-
-				tempFlight = fp.getLegs().get(0).getForFlight();
-				sb.append(String.valueOf(count) + ". " + String.valueOf(tempFlight.getFlightNumber()) + " " + tempFlight.getDepartureAirport().getCode() + "->" + tempFlight.getArrivalAirport().getCode());
-				
-				
-				if(searchType == 'd'){
-					tDate = tempFlight.getDepartureTime().getDate();	
-					sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
-					sb.append(" " + String.valueOf(tempFlight.getDepartureTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getDepartureTime().getTime().getMinutes()) + " GMT");
-					sb.append(" | Departure Time mins: " + String.valueOf(tempFlight.getDepartureTime().getTime().getTimeInMinutes()));
-				}
-				else{
-					tDate = tempFlight.getArrivalTime().getDate();
-					sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
-					sb.append(" " + String.valueOf(tempFlight.getArrivalTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getArrivalTime().getTime().getMinutes()) + " GMT");
-					sb.append(" | Arrival Time mins: " + String.valueOf(tempFlight.getArrivalTime().getTime().getTimeInMinutes()));
-				}
-				
-				sb.append("\nSeats Left for ");
-				
-				if(fp.getLegs().get(0).getSeatType() == 'c'){
-					sb.append("Coach: " + String.valueOf(tempFlight.getSeatC()));
-				}
-				else{
-					sb.append("First Class: " + String.valueOf(tempFlight.getSeatFc()));
-				}
-				/*
-				
-				if(level > 0){
-					sb.append("\nLayover Time: " + String.valueOf(getLayoverTime(fp.getLegs().get(i).getForFlight().getArrivalTime(), fp.getLegs().get(i+1).getForFlight().getDepartureTime())));
-				}
-				*/
-				
-			//}
-			sb.append("\n-----------------------\n");
-		}
-		
-		return sb.toString();
-	}
-	
-	String DisplayTestFList(ArrayList<Flight> list, char searchType, char seatType){
-		
-		StringBuilder sb = new StringBuilder();
-		Date tDate;
-		int count = 0;
-		for(Flight tempFlight : list){
-			count = count + 1;
-			sb.append(String.valueOf(count) + ". " + String.valueOf(tempFlight.getFlightNumber()) + " " + tempFlight.getDepartureAirport().getCode() + "->" + tempFlight.getArrivalAirport().getCode());
-			
-			
-			if(searchType == 'd'){
-				tDate = tempFlight.getDepartureTime().getDate();	
-				sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
-				sb.append(" " + String.valueOf(tempFlight.getDepartureTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getDepartureTime().getTime().getMinutes()) + " GMT");
-				sb.append(" | Departure Time mins: " + String.valueOf(tempFlight.getDepartureTime().getTime().getTimeInMinutes()));
-			}
-			else{
-				tDate = tempFlight.getArrivalTime().getDate();
-				sb.append("\n" + String.valueOf(tDate.getMonth()) + "/" + String.valueOf(tDate.getDay()) + "/" + String.valueOf(tDate.getYear()));
-				sb.append(" " + String.valueOf(tempFlight.getArrivalTime().getTime().getHours()) + ":" +String.valueOf(tempFlight.getArrivalTime().getTime().getMinutes()) + " GMT");
-				sb.append(" | Arrival Time mins: " + String.valueOf(tempFlight.getArrivalTime().getTime().getTimeInMinutes()));
-			}
-			
-			sb.append("\nSeats Left for ");
-			
-			if(seatType == 'c'){
-				sb.append("Coach: " + String.valueOf(tempFlight.getSeatC()));
-			}
-			else{
-				sb.append("First Class: " + String.valueOf(tempFlight.getSeatFc()));
-			}
-			
-
-			sb.append("\n-----------------------\n");
-				
-			
-		}
-		
-		return sb.toString();
-	
-	}
-	
-	
 }
