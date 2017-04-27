@@ -147,9 +147,7 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		
 		setTimeWindow(tripTime);
 		
-		if(!utils.Time.validTimeWindow(tripTime)){
-			dispose();
-			new ErrorMessageGui("Second time must be after first time in window.", false);
+		if(!checkValidity(tripTime, tripDate)){
 			return;
 		}
 
@@ -159,6 +157,39 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 		
 		displayProcessingMessage();
 		
+	}
+	
+	/**
+	 * Make sure that airports are different, that the date is within the valid range,
+	 * and that time windows are set in the right order.
+	 * @param tripTime
+	 * @param tripDate
+	 */
+	private boolean checkValidity(utils.Time[] tripTime, utils.Date tripDate) {
+		String departureAirport = String.valueOf(knownParams.getDepartureAirportCode());
+		String arrivalAirport = String.valueOf(knownParams.getArrivalAirportCode());
+		int month = tripDate.getMonth();
+		int day = tripDate.getDay();
+		
+		if(departureAirport.equals(arrivalAirport)){
+			dispose();
+			new ErrorMessageGui("Departure airport must be different than arrival airport.", false);
+			return false;
+		}
+		
+		if(month != 5 || (day < 5 || day > 21)){
+			dispose();
+			new ErrorMessageGui("Date outside of valid date range.", false);
+			return false;
+		}
+		
+		if(!utils.Time.validTimeWindow(tripTime)){
+			dispose();
+			new ErrorMessageGui("Second time must be after first time in window.", false);
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**

@@ -240,6 +240,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 	 * and that time windows are set in the right order.
 	 * @param userParams
 	 * @param tripTime
+	 * @param tripDate
 	 */
 	private boolean checkValidity(SearchParams userParams, utils.Time[] tripTime, utils.Date tripDate) {
 		String departureAirport = String.valueOf(userParams.getDepartureAirportCode());
