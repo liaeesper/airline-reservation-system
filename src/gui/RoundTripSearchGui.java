@@ -166,16 +166,8 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	 * @param tripDate
 	 */
 	private boolean checkValidity(utils.Time[] tripTime, utils.Date tripDate) {
-		String departureAirport = String.valueOf(knownParams.getDepartureAirportCode());
-		String arrivalAirport = String.valueOf(knownParams.getArrivalAirportCode());
 		int month = tripDate.getMonth();
 		int day = tripDate.getDay();
-		
-		if(departureAirport.equals(arrivalAirport)){
-			dispose();
-			new ErrorMessageGui("Departure airport must be different than arrival airport.", false);
-			return false;
-		}
 		
 		if(month != 5 || (day < 5 || day > 21)){
 			dispose();
