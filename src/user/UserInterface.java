@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import airport.Airplanes;
 import airport.Airports;
 
+/**
+ * @author Team G
+ * Handles initiation of the system and some control of the GUIs.
+ * Also handles calling the flight plan generator.
+ */
 public class UserInterface {
 	public static UserInterface instance =  new UserInterface();
 
