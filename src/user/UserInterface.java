@@ -6,7 +6,6 @@ import dao.FlightPlansGenerator;
 import dao.ServerInterface;
 import plans.FlightPlan;
 import plans.FlightPlans;
-import plans.Reservation;
 import plans.SearchParams;
 import gui.LoadingGui;
 import gui.SearchGui;
