@@ -168,8 +168,9 @@ public class RoundTripSearchGui extends JFrame implements ActionListener, Window
 	private boolean checkValidity(utils.Time[] tripTime, utils.Date tripDate) {
 		int month = tripDate.getMonth();
 		int day = tripDate.getDay();
+		int year = tripDate.getYear();
 		
-		if(month != 5 || (day < 5 || day > 21)){
+		if(month != 5 || year != 2017 || (day < 5 || day > 21)){
 			dispose();
 			new ErrorMessageGui("Date outside of valid date range.", false);
 			return false;

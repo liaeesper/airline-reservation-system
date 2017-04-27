@@ -247,6 +247,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 		String arrivalAirport = String.valueOf(userParams.getArrivalAirportCode());
 		int month = tripDate.getMonth();
 		int day = tripDate.getDay();
+		int year = tripDate.getYear();
 		
 		if(departureAirport.equals(arrivalAirport)){
 			dispose();
@@ -254,7 +255,7 @@ public class SearchGui extends JFrame implements ActionListener, WindowListener{
 			return false;
 		}
 		
-		if(month != 5 || (day < 5 || day > 21)){
+		if(month != 5 || year != 2017 || (day < 5 || day > 21)){
 			dispose();
 			new ErrorMessageGui("Date outside of valid date range.", false);
 			return false;
